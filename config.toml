@@ -1,0 +1,17 @@
+# This assumes zola 0.21.1
+base_url = "https://www.alicecaml.org"
+title = "Alice the Caml"
+author = "Stephen Sherratt"
+compile_sass = true
+generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
+taxonomies = [
+    { name = "tags" },
+]
+generate_robots_txt = true
+
+[markdown]
+highlight_code = true
+highlight_theme = "inspired-github"
+smart_punctuation = true
+extra_syntaxes_and_themes = ["syntaxes"]
