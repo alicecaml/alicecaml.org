@@ -11,4 +11,4 @@ jobs:
         uses: shalzz/zola-deploy-action@v0.21.0
         env:
           BUILD_FLAGS: --base-url https://alicecaml.github.io/alicecaml.org --drafts
-          TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
