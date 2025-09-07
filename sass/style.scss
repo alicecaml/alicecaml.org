@@ -211,3 +211,9 @@ blockquote {
   margin-left: 0;
   padding-left: 2rem;
 }
+
+@media screen and (max-width: 600px) {
+  .hide-on-mobile {
+    visibility: hidden;
+  }
+}
