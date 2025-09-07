@@ -170,8 +170,7 @@ article p {
   line-height: 150%;
 }
 
-// Additional styling for inline code in articles
-article code {
+code {
   font-size: 11pt;
   font-family: Menlo, Monaco, Consolas, Courier New, monospace;
   background-color: $inline-code-background-color;
@@ -182,11 +181,11 @@ article code {
   border-radius: 4px;
 }
 
-article a:hover code {
+a:hover code {
   background-color: transparent;
 }
 
-article pre code {
+pre code {
   line-height: 120%;
   background-color: $inline-code-background-color;
   display: block;
