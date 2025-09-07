@@ -1,0 +1,213 @@
+@charset "utf-8";
+
+$underline-color: #dddddd;
+$inline-code-background-color: #eeeeee;
+$content-max-width: 800px;
+$content-horizontal-padding: 40px;
+$link-color: steelblue;
+$link-color-visited: rebeccapurple;
+$text-color: black;
+$quote-text-color: #444444;
+$quote-line-color: #444444;
+$post-meta-text-color: dimgrey;
+$link-color-disabled: dimgrey;
+$nav-link-space: 1rem;
+
+body {
+  color: $text-color;
+  max-width: $content-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// Display content with a different background colour
+div#content {
+  padding-left: $content-horizontal-padding;
+  padding-right: $content-horizontal-padding;
+}
+
+// Use sans-serif font for headings
+h1, h2, h3, h4, h5, h6 {
+  font-family: Sans-Serif;
+}
+
+// Customize colours for links. This is mostly so that visited nav
+// links can be made to be the same colour as unvisited links without
+// having to guess the style for unvisited links.
+a {
+  color: $link-color;
+  &:visited {
+    color: $link-color-visited;
+  }
+}
+
+// For links in headings and navigation elements, don't change the
+// colour if the link has been visited.
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, nav a {
+  color: $link-color;
+  &:visited {
+    color: $link-color;
+  }
+}
+
+// This is used for places where there would normally be a navigation
+// link for the next or previous page, but this is the first or last
+// post in a sequence so there is no next or previous post.
+.disabled-link {
+  color: $link-color-disabled;
+}
+
+// Prevent images in articles appearing wider than the article body.
+article img {
+  max-width: 100%;
+}
+
+// Date and tags subheading of posts
+p.post-meta {
+  color: $post-meta-text-color;
+}
+
+// Dates in lists of posts
+span.post-link-date {
+  color: $post-meta-text-color;
+}
+
+// Links at the top of each page
+div.header-nav-container ul {
+  padding: 0;
+  margin: 0;
+  padding-top: 20px;
+  list-style: none;
+  display: flex;
+  align-items: end;
+  border-bottom: 2px solid $underline-color;
+  height: 64px; // makes room for the logo before the logo loads
+
+  li {
+    padding-bottom: 2px;
+    display: flex;
+    align-items: end;
+    height: 100%;
+  }
+
+  li.logo {
+    padding-bottom: 0;
+  }
+
+  li.first-rhs {
+    margin-left: auto;
+  }
+
+  li.rhs {
+    margin-right: $nav-link-space;
+  }
+
+  a {
+    font-family: sans-serif;
+    text-decoration: none;
+    display: flex;
+    align-items: end;
+    height: 100%;
+    &:hover {
+      text-decoration: underline;
+  }
+  }
+}
+
+// Next and previous post links
+div.next-prev-nav-container ul {
+  padding: 0;
+  margin: 0;
+  padding-top: 20px;
+  list-style: none;
+  display: flex;
+
+  li.nav-prev {
+    padding-right: 40px;
+  }
+
+  li.nav-next {
+    padding-left: 40px;
+    margin-left: auto;
+  }
+}
+
+// Copyright information at the bottom of each page
+ul.copyright {
+  list-style: none;
+  text-align: center;
+
+  li {
+    display: block;
+  }
+}
+
+footer {
+  border-top: 2px solid $underline-color;
+}
+
+// Lists of links at the bottom of each page
+div.footer-nav-container {
+  border-top: 2px solid $underline-color;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+
+  ul {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+
+    li {
+      display: block;
+    }
+  }
+}
+
+article p {
+  line-height: 150%;
+}
+
+// Additional styling for inline code in articles
+article code {
+  font-size: 11pt;
+  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+  background-color: $inline-code-background-color;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  border-radius: 4px;
+}
+
+article a:hover code {
+  background-color: transparent;
+}
+
+article pre code {
+  line-height: 120%;
+  background-color: $inline-code-background-color;
+  display: block;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+// Anchor headings are rendered like regular headings rather than
+// links.
+a.zola-anchor {
+  color: $text-color;
+  text-decoration: none;
+
+  &:visited {
+    color: $text-color;
+  }
+}
+
+blockquote {
+  color: $quote-text-color;
+  border-left: 4px solid $quote-line-color;
+  margin-left: 0;
+  padding-left: 2rem;
+}
