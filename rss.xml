@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>Alice the Caml</title>
+      <link>https://alicecaml.github.io/alicecaml.org</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://alicecaml.github.io/alicecaml.org/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Sun, 07 Sep 2025 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Introducing Alice</title>
+          <pubDate>Sun, 07 Sep 2025 00:00:00 +0000</pubDate>
+          <author>Stephen Sherratt</author>
+          <link>https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/</link>
+          <guid>https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/</guid>
+          <description xml:base="https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/">&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&quot;&gt;Alice&lt;&#x2F;a&gt; is an experimental OCaml build
+system and package manager. I’m starting this blog to document progress on its
+development. Here’s a quick tour of Alice’s features at the time of writing.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;installing-ocaml-tools&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#installing-ocaml-tools&quot; aria-label=&quot;Anchor link for: installing-ocaml-tools&quot;&gt;Installing OCaml tools&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;One point of difference between OCaml’s packaging ecosystem and that of most other
+languages is that the OCaml compiler itself is considered to be a package. This
+avoids the need for language version management tools like
+&lt;a href=&quot;https:&#x2F;&#x2F;rustup.rs&#x2F;&quot;&gt;rustup&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;nvm-sh&#x2F;nvm&quot;&gt;nvm&lt;&#x2F;a&gt;, and
+&lt;a href=&quot;https:&#x2F;&#x2F;rvm.io&#x2F;&quot;&gt;rvm&lt;&#x2F;a&gt;, and it allows projects to declare a minimum or maximum
+version of the compiler which they support. However installing the OCaml
+compiler as a package means building it from source and this can take a long
+time. For various technical reasons, using Opam means recompiling the OCaml
+compiler at least once for each new project that you work on which, given the
+time it takes to compile, is not ideal.&lt;&#x2F;p&gt;
+&lt;p&gt;Since you obviously need a compiler before you can compile any code, it’s
+probably the first thing that a new user of the OCaml ecosystem will try to do, so I
+would like for it to be fast. When I eventually add package management to Alice
+I’ll develop a packaging ecosystem where the OCaml compiler is &lt;em&gt;not&lt;&#x2F;em&gt; a package.
+This is one of the big differences between the packaging philosophies of
+Opam and Alice.&lt;&#x2F;p&gt;
+&lt;p&gt;Since the compiler is not a package, it’s up to the user to make sure it’s installed
+before compiling any code. To help with this, Alice can act like a language
+version manager. I’ve pre-compiled a relocatable version of the OCaml compiler,
+and Alice can install it automatically:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice tools get
+&lt;&#x2F;span&gt;&lt;span&gt;  Fetching ocaml.5.3.1+relocatable...
+&lt;&#x2F;span&gt;&lt;span&gt; Unpacking ocaml.5.3.1+relocatable...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocaml.5.3.1+relocatable!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  Fetching ocamllsp.1.22.0...
+&lt;&#x2F;span&gt;&lt;span&gt; Unpacking ocamllsp.1.22.0...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocamllsp.1.22.0!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  Fetching ocamlformat.0.27.0...
+&lt;&#x2F;span&gt;&lt;span&gt; Unpacking ocamlformat.0.27.0...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocamlformat.0.27.0!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Where did it put the tools?&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ ls ~&#x2F;.alice&#x2F; -l
+&lt;&#x2F;span&gt;&lt;span&gt;lrwxrwxrwx - s  7 Jul 14:57 current -&amp;gt; &#x2F;home&#x2F;s&#x2F;.alice&#x2F;roots&#x2F;5.3.1
+&lt;&#x2F;span&gt;&lt;span&gt;drwxr-xr-x - s  7 Sep 18:37 roots
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ ls ~&#x2F;.alice&#x2F;roots&#x2F;5.3.1
+&lt;&#x2F;span&gt;&lt;span&gt;bin  doc  lib  man  share
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ ls ~&#x2F;.alice&#x2F;roots&#x2F;5.3.1&#x2F;bin
+&lt;&#x2F;span&gt;&lt;span&gt;ocaml          ocamldoc.opt       ocamlobjinfo.opt  ocamlrund-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlc         ocamlformat        ocamlopt          ocamlruni
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlc.byte    ocamlformat-rpc    ocamlopt.byte     ocamlruni-00d6
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlc.opt     ocamllex           ocamlopt.opt      ocamlruni-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlcmt       ocamllex.byte      ocamloptp         ocamlyacc
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlcp        ocamllex.opt       ocamlprof         x86_64-pc-linux-musl-ocamlrun-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldebug     ocamllsp           ocamlrun          x86_64-pc-linux-musl-ocamlrund-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldep       ocamlmklib         ocamlrun-00d6     x86_64-pc-linux-musl-ocamlruni-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldep.byte  ocamlmktop         ocamlrun-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldep.opt   ocamlobjinfo       ocamlrund
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldoc       ocamlobjinfo.byte  ocamlrund-00d6
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The &lt;code&gt;~&#x2F;.alice&#x2F;current&lt;&#x2F;code&gt; symlink can be easily changed to a different “root” (what
+I’m calling a filesystem containing installations of the compiler and several
+tools) with &lt;code&gt;alice tools change&lt;&#x2F;code&gt; however currently the only available version is
+&lt;code&gt;5.3.1&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;You’ll note that &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; and &lt;code&gt;ocamlformat&lt;&#x2F;code&gt; are also installed. This pair of
+tools is used by most OCaml developers so to improve the experience of using
+Alice for the first time I’ve pre-compiled binary versions of these packages
+too. The &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; tool needs to be compiled with the same compiler as the code
+it’s analyzing. When I built the &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; binary package installed by Alice I
+used the same compiler as the one that Alice installs, so it’s guaranteed that
+the copy of &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; will be compatible with the compiler if you install both
+through Alice.&lt;&#x2F;p&gt;
+&lt;p&gt;When Alice runs the compiler it just looks it up in the &lt;code&gt;PATH&lt;&#x2F;code&gt; variable, so you
+can still install a different version of the complier (e.g. with Opam) and have
+Alice run that for you. If no OCaml compiler is found in &lt;code&gt;PATH&lt;&#x2F;code&gt; then Alice will
+fall back to running the one from &lt;code&gt;~&#x2F;.alice&#x2F;current&#x2F;bin&lt;&#x2F;code&gt;. If you want to guarantee
+that Alice’s OCaml compiler will be run by Alice, add &lt;code&gt;~&#x2F;.alice&#x2F;current&#x2F;bin&lt;&#x2F;code&gt; to
+the beginning of your &lt;code&gt;PATH&lt;&#x2F;code&gt; variable.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hello-world&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#hello-world&quot; aria-label=&quot;Anchor link for: hello-world&quot;&gt;Hello, World!&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Alice can set up a new project containing an executable or library package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice new --help
+&lt;&#x2F;span&gt;&lt;span&gt;Create a new alice project.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Usage: alice new [OPTION]… &amp;lt;NAME&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Arguments:
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;NAME&amp;gt;  Name of the project
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Options:
+&lt;&#x2F;span&gt;&lt;span&gt;  -v, --verbose      Enable verbose output (-vv for extra verbosity).
+&lt;&#x2F;span&gt;&lt;span&gt;  -q, --quiet        Supress printing of progress messages.
+&lt;&#x2F;span&gt;&lt;span&gt;  -p, --path &amp;lt;FILE&amp;gt;  Initialize the new project in this directory (must not already exist)
+&lt;&#x2F;span&gt;&lt;span&gt;      --exe          Create a project containing an executable package (default)
+&lt;&#x2F;span&gt;&lt;span&gt;      --lib          Create a project containing a library package
+&lt;&#x2F;span&gt;&lt;span&gt;  -h, --help         Show this help message.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Let’s make a new executable package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice new hello
+&lt;&#x2F;span&gt;&lt;span&gt;  Creating new executable package &amp;quot;hello&amp;quot; in &#x2F;tmp&#x2F;alicedemo&#x2F;hello
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ cd hello
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Take a look at the project:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ tree
+&lt;&#x2F;span&gt;&lt;span&gt;.
+&lt;&#x2F;span&gt;&lt;span&gt;├── Alice.toml
+&lt;&#x2F;span&gt;&lt;span&gt;└── src
+&lt;&#x2F;span&gt;&lt;span&gt;    └── main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;2 directories, 2 files
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ cat Alice.toml
+&lt;&#x2F;span&gt;&lt;span&gt;[package]
+&lt;&#x2F;span&gt;&lt;span&gt;name = &amp;quot;hello&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;version = &amp;quot;0.1.0&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ cat src&#x2F;main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;let () = print_endline &amp;quot;Hello, World!&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Alice has a command &lt;code&gt;alice run&lt;&#x2F;code&gt; that builds and runs the current package if it’s
+an executable package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice run
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;   Running &#x2F;tmp&#x2F;alicedemo&#x2F;hello&#x2F;build&#x2F;hello
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, World!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;What did that build?&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ ls build&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;hello  main.cmi  main.cmx  main.ml  main.o
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The &lt;code&gt;build&lt;&#x2F;code&gt; directory was generated when building the project and contains all
+built artifacts. To remove it, run:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice clean
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;multi-file-projects&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#multi-file-projects&quot; aria-label=&quot;Anchor link for: multi-file-projects&quot;&gt;Multi-file projects&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Add a new file &lt;code&gt;src&#x2F;foo.ml&lt;&#x2F;code&gt; with contents:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;message &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Hello, Alice!&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And make an interface file &lt;code&gt;src&#x2F;foo.mli&lt;&#x2F;code&gt; with contents:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;message : &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;string
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Finally modify &lt;code&gt;src&#x2F;main.ml&lt;&#x2F;code&gt; so that it contains:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; print_endline Foo.message
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now run &lt;code&gt;alice run&lt;&#x2F;code&gt; again.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;   Running &#x2F;tmp&#x2F;alicedemo&#x2F;hello&#x2F;build&#x2F;hello
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, Alice!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;incremental-compilation&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#incremental-compilation&quot; aria-label=&quot;Anchor link for: incremental-compilation&quot;&gt;Incremental Compilation&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;To build a project without running it we can run &lt;code&gt;alice build&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice build --help
+&lt;&#x2F;span&gt;&lt;span&gt;Build a project.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Usage: alice build [OPTION]…
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Options:
+&lt;&#x2F;span&gt;&lt;span&gt;  -v, --verbose               Enable verbose output (-vv for extra verbosity).
+&lt;&#x2F;span&gt;&lt;span&gt;  -q, --quiet                 Supress printing of progress messages.
+&lt;&#x2F;span&gt;&lt;span&gt;      --manifest-path &amp;lt;FILE&amp;gt;  Read project metadata from this file instead of Alice.toml.
+&lt;&#x2F;span&gt;&lt;span&gt;      --release               Build with optimizations.
+&lt;&#x2F;span&gt;&lt;span&gt;  -h, --help                  Show this help message.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Let’s turn up the verbosity to see what’s happening under the hood. Clean the
+project and then run &lt;code&gt;alice build -vv&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice clean
+&lt;&#x2F;span&gt;&lt;span&gt;$ alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets foo.cmi
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets foo.cmx, foo.o
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets main.cmx, main.o
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets hello
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -o hello foo.cmx main.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Running &lt;code&gt;alice build -vv&lt;&#x2F;code&gt; a second time shows that most of the work is now
+skipped.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The project is already built so there’s nothing to do the second time around.
+Those calls of &lt;code&gt;ocamldep.opt&lt;&#x2F;code&gt; can probably be skipped to with some extra work!&lt;&#x2F;p&gt;
+&lt;p&gt;Now change &lt;code&gt;src&#x2F;main.ml&lt;&#x2F;code&gt; without changing any other source files.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; print_endline (String.cat Foo.message &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Yay!&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Rebuilding yet again:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets main.cmx, main.o
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets hello
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -o hello foo.cmx main.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It rebuilt some of the artifacts but not all of the artifacts (e.g. it did not
+rebuild &lt;code&gt;foo.cmx&lt;&#x2F;code&gt; or &lt;code&gt;foo.o&lt;&#x2F;code&gt;) since those would be unchanged. Alice knows that
+if &lt;code&gt;src&#x2F;foo.ml&lt;&#x2F;code&gt; did not change since the last time &lt;code&gt;foo.cmx&lt;&#x2F;code&gt; was generated,
+there is no need to generate &lt;code&gt;foo.cmx&lt;&#x2F;code&gt; again.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dependency-graphs&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#dependency-graphs&quot; aria-label=&quot;Anchor link for: dependency-graphs&quot;&gt;Dependency Graphs&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Build targets depend on source files, and possibly on other build targets. Alice
+needs to know which targets depend on which other files&#x2F;targets. To help users
+understand their projects’ build dependencies and to help me debug issues with
+Alice, there is a command &lt;code&gt;alice dot&lt;&#x2F;code&gt; which generates a Graphviz dot file
+containing the project’s build graph.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice dot
+&lt;&#x2F;span&gt;&lt;span&gt;digraph {
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo.cmi&amp;quot; -&amp;gt; {&amp;quot;foo.mli&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo.cmx&amp;quot; -&amp;gt; {&amp;quot;foo.cmi&amp;quot;, &amp;quot;foo.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo.o&amp;quot; -&amp;gt; {&amp;quot;foo.cmi&amp;quot;, &amp;quot;foo.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;hello&amp;quot; -&amp;gt; {&amp;quot;foo.cmx&amp;quot;, &amp;quot;foo.o&amp;quot;, &amp;quot;main.cmx&amp;quot;, &amp;quot;main.o&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.cmx&amp;quot; -&amp;gt; {&amp;quot;foo.cmx&amp;quot;, &amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.o&amp;quot; -&amp;gt; {&amp;quot;foo.cmx&amp;quot;, &amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We can use Graphviz to visualize this:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice dot | dot -Tsvg &amp;gt; graph.svg
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;introducing-alice&#x2F;graph.svg&quot; alt=&quot;A dependency graph visualized&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;what-s-next&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-s-next&quot; aria-label=&quot;Anchor link for: what-s-next&quot;&gt;What’s next?&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;My most recent big push on Alice was
+&lt;a href=&quot;https:&#x2F;&#x2F;www.gridbugs.org&#x2F;porting-my-toy-ocaml-build-system-to-windows&#x2F;&quot;&gt;getting it running on Windows&lt;&#x2F;a&gt;.
+My next focus will be allowing packages to depend on each other, which will be
+the first step on the long journey to supporting package management -
+one of my long-term goals for this project. The first big milestone along that
+path will be bootstrapping, where Alice has enough build-system and
+package-management features to &lt;em&gt;build itself&lt;&#x2F;em&gt;, and all of its dependencies have
+been ported to Alice’s nascent package ecosystem.&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>
