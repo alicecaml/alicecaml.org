@@ -33,11 +33,3 @@ building projects than those chosen by [Dune](https://github.com/ocaml/dune).
 Compatibility with Opam packages is not a priority of Alice though I consider
 limited Opam compatibility to be a nice-to-have feature if it can be achieved
 without complicating Alice's mental model.
-
-I’m one of the core developers of the Dune build system for my day job. Dune is
-a mature and widely used OCaml build system and package manager which makes it
-difficult to affect large structural changes to its UI and packaging philosophy.
-Alice is an experiment exploring the design space of OCaml build systems when
-these constraints are lifted.
-
-The name Alice comes from an [Australian children's song](https://www.youtube.com/watch?v=XM7Jnetdf0I).
