@@ -12,7 +12,7 @@
 
 		{% if page %}
 		<meta property="og:type" content="article">
-		<meta property="og:title" content="{{ page.title }}">
+		<meta property="og:title" content="{% block title %}{% endblock title %}">
 		<link rel="canonical" href="{{ page.permalink | safe }}">
 		<meta property="og:url" content="{{ page.permalink | safe }}">
 
@@ -36,7 +36,7 @@
 			<meta property="og:image" content="{{ config.base_url | safe }}/logo512x256.png">
 		{% endif %}
 		{% elif section %}
-			<meta property="og:title" content="{{ section.title }}">
+			<meta property="og:title" content="{% block title %}{% endblock title %}">
 		{% endif %}
 
 		<meta property="og:image" content="{{ config.base_url | safe }}/logo512x256.png">
