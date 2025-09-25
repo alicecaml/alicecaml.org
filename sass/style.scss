@@ -245,7 +245,7 @@ blockquote {
     }
   }
   .code-copy-button {
-    border: 2px solid grey;
+    border: 2px solid darkgrey;
     border-radius: $code-border-radius;
     position: absolute;
     top: 5px;
@@ -259,6 +259,7 @@ blockquote {
     transition: 0.2s;
     &:hover {
       background-color: darkgrey;
+      border: 2px solid $flair;
     }
     &:active {
       transition: 0.0s;
