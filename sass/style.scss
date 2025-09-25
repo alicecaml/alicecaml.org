@@ -175,7 +175,6 @@ article p {
 code {
   font-size: $code-font-size; 
   font-family: Menlo, Monaco, Consolas, Courier New, monospace;
-  color: $flair;
   background-color: $code-background-color;
   padding-left: 4px;
   padding-right: 4px;
@@ -189,7 +188,6 @@ a:hover code {
 }
 
 pre code {
-  color: black;
   line-height: 120%;
   background-color: $code-background-color;
   display: block;
