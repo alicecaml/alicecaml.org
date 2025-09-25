@@ -27,13 +27,13 @@
 		{% if page.extra.og_image %}
 				<meta property="og:image" content="{{ page.permalink | safe }}{{ page.extra.og_image }}">
 		{% else %}
-				<meta property="og:image" content="{{ config.base_url | safe }}/logo256x256.png">
+				<meta property="og:image" content="{{ config.base_url | safe }}/logo512x256.png">
 		{% endif %}
 		{% elif section %}
 				<meta property="og:title" content="{{ section.title }}">
 		{% endif %}
 
-		<meta property="og:image" content="{{ config.base_url | safe }}/logo256x256.png">
+		<meta property="og:image" content="{{ config.base_url | safe }}/logo512x256.png">
 
 		{% if section.description %}
 				<meta name="description" content="{{ section.description }}">
