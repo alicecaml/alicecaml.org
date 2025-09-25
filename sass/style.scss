@@ -190,6 +190,7 @@ a:hover code {
 pre {
   border: 2px solid $flair;
   border-radius: 4px;
+  white-space: pre-wrap;
   overflow: auto;
 }
 
