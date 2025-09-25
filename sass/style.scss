@@ -2,6 +2,8 @@
 
 $underline-color: #dddddd;
 $inline-code-background-color: #eeeeee;
+$code-border-radius: 4px;
+$code-font-size: 11pt;
 $content-max-width: 800px;
 $content-horizontal-padding: 40px;
 $link-color: steelblue;
@@ -171,14 +173,14 @@ article p {
 }
 
 code {
-  font-size: 11pt;
+  font-size: $code-font-size; 
   font-family: Menlo, Monaco, Consolas, Courier New, monospace;
   background-color: $inline-code-background-color;
   padding-left: 4px;
   padding-right: 4px;
   padding-top: 1px;
   padding-bottom: 2px;
-  border-radius: 4px;
+  border-radius: $code-border-radius;
 }
 
 a:hover code {
@@ -191,6 +193,7 @@ pre code {
   display: block;
   border-radius: 4px;
   padding: 10px;
+  border: 2px solid $underline-color;
 }
 
 // Anchor headings are rendered like regular headings rather than
@@ -214,5 +217,53 @@ blockquote {
 @media screen and (max-width: 600px) {
   .hide-on-mobile {
     visibility: hidden;
+  }
+}
+
+.code-with-copy-button {
+  $copy-button-size: 30px;
+  position: relative;
+  margin: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  background-color: $inline-code-background-color;
+  border-radius: $code-border-radius;
+
+  & > pre {
+    position: relative;
+    width:100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  code {
+    &:before {
+      content: "$";
+      margin-left: 1ch;
+      margin-right: 1ch;
+    }
+  }
+  .code-copy-button {
+    border: 2px solid dimgrey;
+    border-radius: $code-border-radius;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: $copy-button-size;
+    width: $copy-button-size;
+    background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2252%22%20height%3D%2252%22%20viewBox%3D%220%200%2052%2052%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20%20stroke%3D%22black%22%20strokeWidth%3D%221.5%22%20strokeLinecap%3D%22round%22%20strokeLinejoin%3D%22round%22%20d%3D%22M29.6364%2030.9231V34.7308C29.6364%2035.4314%2029.1476%2036%2028.5455%2036H19.0909C18.8016%2036%2018.5241%2035.8663%2018.3195%2035.6283C18.1149%2035.3902%2018%2035.0674%2018%2034.7308V20.3462C18%2019.6455%2018.4887%2019.0769%2019.0909%2019.0769H20.9091C21.3964%2019.0765%2021.883%2019.1233%2022.3636%2019.2168M29.6364%2030.9231H32.9091C33.5113%2030.9231%2034%2030.3545%2034%2029.6538V24.1538C34%2019.1221%2030.8553%2014.9466%2026.7273%2014.1399C26.2466%2014.0464%2025.7601%2013.9996%2025.2727%2014H23.4545C22.8524%2014%2022.3636%2014.5686%2022.3636%2015.2692V19.2168M29.6364%2030.9231H23.4545C23.1652%2030.9231%2022.8877%2030.7894%2022.6832%2030.5513C22.4786%2030.3133%2022.3636%2029.9905%2022.3636%2029.6538V19.2168M34%2026.6923V24.5769C34%2023.5671%2033.6552%2022.5986%2033.0414%2021.8845C32.4277%2021.1704%2031.5953%2020.7692%2030.7273%2020.7692H29.2727C28.9834%2020.7692%2028.7059%2020.6355%2028.5013%2020.3975C28.2968%2020.1595%2028.1818%2019.8366%2028.1818%2019.5V17.8077C28.1818%2017.3077%2028.0972%2016.8125%2027.9327%2016.3506C27.7682%2015.8886%2027.5272%2015.4688%2027.2233%2015.1152C26.9194%2014.7617%2026.5586%2014.4812%2026.1615%2014.2898C25.7644%2014.0985%2025.3389%2014%2024.9091%2014H23.8182%22%20%2F%3E%3C%2Fsvg%3E');
+    background-position: top -7px left -7px;
+    background-size: 150%;
+    background-color: lightgrey;
+    transition: 0.2s;
+    &:hover {
+      background-color: darkgrey;
+    }
+    &:active {
+      transition: 0.0s;
+      background-color: $link-color;
+      background-position: top -6px left -6px;
+    }
   }
 }
