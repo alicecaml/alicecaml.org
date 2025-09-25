@@ -245,7 +245,7 @@ blockquote {
   code {
     &:before {
       content: "$";
-      margin-left: 1ch;
+      margin-left: 0ch;
       margin-right: 1ch;
     }
   }
