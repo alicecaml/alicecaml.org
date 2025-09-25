@@ -1,7 +1,6 @@
 @charset "utf-8";
 
-$underline-color: #dddddd;
-$inline-code-background-color: #eeeeee;
+$code-background-color: seashell;
 $code-border-radius: 4px;
 $code-font-size: 11pt;
 $content-max-width: 800px;
@@ -14,6 +13,7 @@ $quote-line-color: #444444;
 $post-meta-text-color: dimgrey;
 $link-color-disabled: dimgrey;
 $nav-link-space: 1rem;
+$flair: rebeccapurple;
 
 body {
   color: $text-color;
@@ -84,7 +84,7 @@ div.header-nav-container ul {
   list-style: none;
   display: flex;
   align-items: end;
-  border-bottom: 2px solid $underline-color;
+  border-bottom: 2px solid $flair;
   height: 64px; // makes room for the logo before the logo loads
 
   li {
@@ -147,12 +147,12 @@ ul.copyright {
 }
 
 footer {
-  border-top: 2px solid $underline-color;
+  border-top: 2px solid $flair;
 }
 
 // Lists of links at the bottom of each page
 div.footer-nav-container {
-  border-top: 2px solid $underline-color;
+  border-top: 2px solid $flair;
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
@@ -175,7 +175,8 @@ article p {
 code {
   font-size: $code-font-size; 
   font-family: Menlo, Monaco, Consolas, Courier New, monospace;
-  background-color: $inline-code-background-color;
+  color: $flair;
+  background-color: $code-background-color;
   padding-left: 4px;
   padding-right: 4px;
   padding-top: 1px;
@@ -188,12 +189,13 @@ a:hover code {
 }
 
 pre code {
+  color: black;
   line-height: 120%;
-  background-color: $inline-code-background-color;
+  background-color: $code-background-color;
   display: block;
   border-radius: 4px;
   padding: 10px;
-  border: 2px solid $underline-color;
+  border: 2px solid $flair;
 }
 
 // Anchor headings are rendered like regular headings rather than
@@ -227,7 +229,7 @@ blockquote {
   margin-left: 0;
   margin-right: 0;
   padding: 0;
-  background-color: $inline-code-background-color;
+  background-color: $code-background-color;
   border-radius: $code-border-radius;
 
   & > pre {
@@ -245,7 +247,7 @@ blockquote {
     }
   }
   .code-copy-button {
-    border: 2px solid dimgrey;
+    border: 2px solid grey;
     border-radius: $code-border-radius;
     position: absolute;
     top: 5px;
@@ -262,7 +264,7 @@ blockquote {
     }
     &:active {
       transition: 0.0s;
-      background-color: $link-color;
+      background-color: $flair;
       background-position: top -6px left -6px;
     }
   }
