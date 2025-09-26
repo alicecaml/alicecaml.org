@@ -242,13 +242,6 @@ blockquote {
     margin: 0;
   }
 
-  code {
-    &:before {
-      content: "$";
-      margin-left: 0ch;
-      margin-right: 1ch;
-    }
-  }
   .code-copy-button {
     background-color: color-mix(in srgb, lightgrey 40%, transparent);
     border: 2px solid color-mix(in srgb, darkgrey 40%, transparent);
@@ -270,6 +263,16 @@ blockquote {
       transition: 0.0s;
       background-color: $flair;
       background-position: top -6px left -6px;
+    }
+  }
+}
+
+.code-with-prompt {
+  code {
+    &:before {
+      content: "$";
+      margin-left: 0ch;
+      margin-right: 1ch;
     }
   }
 }

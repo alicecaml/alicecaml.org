@@ -9,8 +9,11 @@ package manager for Windows, MacOS, and Linux. Its goal is to allow anyone to
 program in OCaml with as little friction as possible.
 
 Install Alice by running the following command:
-<div class="code-with-copy-button">
-<pre><code>curl -fsSL https://alicecaml.org/install.sh | sh</code></pre>
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+curl -fsSL https://alicecaml.org/install.sh | sh
+```
 </div>
 
 Here's how to run your first OCaml program on a computer with no pre-installed
