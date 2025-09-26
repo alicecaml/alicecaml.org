@@ -318,7 +318,8 @@ To use the new dependency, add `climate` to the `libraries` field in
 ```
 </div>
 
-Now use the new dependency to implement a CLI in `bin/main.ml`:
+The `climate` package is a library to help implement command-line interfaces.
+Use it to make a little CLI in `bin/main.ml`:
 <div class="code-with-copy-button">
 
 ```ocaml
