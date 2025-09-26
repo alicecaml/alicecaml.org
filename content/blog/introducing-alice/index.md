@@ -302,7 +302,7 @@ $ alice dot | dot -Tsvg > graph.svg
 ## What's next?
 
 My most recent big push on Alice was
-[getting it running on Windows](https://www.gridbugs.org/porting-my-toy-ocaml-build-system-to-windows/).
+[getting it running on Windows](@/blog/porting-alice-to-windows/index.md).
 My next focus will be allowing packages to depend on each other, which will be
 the first step on the long journey to supporting package management -
 one of my long-term goals for this project. The first big milestone along that
