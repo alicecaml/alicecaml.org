@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="Alice: Install">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/install/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/install/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<script defer src="https://alicecaml.github.io/alicecaml.org/copy_code.js"></script>
+		<title>Alice: Install</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+<h1 id="install"><a class="zola-anchor" href="#install" aria-label="Anchor link for: install">Install</a></h1>
+<p>Install Alice by running the following command:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh
+</span></code></pre>
+</div>
+<p>You’ll need <code>curl</code> and <code>git</code> to be installed in order to run the script.
+After completing the installation the <code>alice</code> command will be available in
+new terminal sessions. Currently this works on macOS and x86_64 Linux.
+Window users can still install Alice <a href="https://alicecaml.github.io/alicecaml.org/install/#manual-installation">manually</a>.</p>
+<p>For most users this should be sufficient for install
+Alice. Read on to learn more about different options for installing Alice.</p>
+<p>The installer will create a <code>~/.alice</code> directory containing the <code>alice</code>
+executable, environment scripts which can be sourced in your shell config file
+to allow running <code>alice</code> as a command, and a shell completion script (currently
+just for bash). The installer will offer to automatically modify your shell
+config to add <code>alice</code> to your <code>$PATH</code> variable and install its shell
+completions. If you’d rather load Alice into your shell manually,
+source the script from <code>~/.alice/env</code> appropriate to your shell.</p>
+<h2 id="installation-options"><a class="zola-anchor" href="#installation-options" aria-label="Anchor link for: installation-options">Installation Options</a></h2>
+<p>By default the installer is interactive, however all the interactions can be
+skipped by passing command-line arguments. Command-line arguments can be passed
+to the installer like:</p>
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>$ curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> --</span><span> arg1 arg2 ...
+</span></code></pre>
+<p>To see a list of accepted arguments, run:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> --</span><span> --help
+</span></code></pre>
+</div>
+<p>An example command which installs Alice non-interactively is:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> -- </span><span>\
+</span><span>    --no-prompt --install-tools --no-update-shell-config
+</span></code></pre>
+</div>
+<p>This might be handy when installing Alice in an environment where interactivity
+is not an option, such as when building a docker image.</p>
+<p>Here’s a minimal example <code>Dockerfile</code> which makes Alice and a set of OCaml
+development tools globally available (all the executables end up in
+<code>/usr/bin</code>):</p>
+<div class="code-with-copy-button">
+<pre data-lang="dockerfile" style="background-color:#ffffff;color:#323232;" class="language-dockerfile "><code class="language-dockerfile" data-lang="dockerfile"><span style="font-weight:bold;color:#a71d5d;">FROM</span><span> alpine
+</span><span style="font-weight:bold;color:#a71d5d;">RUN </span><span>apk add curl git build-base
+</span><span style="font-weight:bold;color:#a71d5d;">RUN </span><span>curl -fsSL https://alicecaml.org/install.sh | sh -s -- \
+</span><span>  --global /usr --no-prompt --install-tools --no-update-shell-config
+</span></code></pre>
+</div>
+<p>Read more about the <code>--global</code> argument <a href="https://alicecaml.github.io/alicecaml.org/install/#global-installation">below</a>.</p>
+<h2 id="manual-installation"><a class="zola-anchor" href="#manual-installation" aria-label="Anchor link for: manual-installation">Manual Installation</a></h2>
+<p>Pre-compiled executables of Alice can be found on its <a href="https://github.com/alicecaml/alice/releases">Github release
+page</a>. Download and extract the
+archive appropriate to your system, and copy the file <code>bin/alice</code> to one of the directories
+in your <code>PATH</code> variable.</p>
+<p>To manually install <a href="https://alicecaml.github.io/alicecaml.org/install/#development-tools">OCaml development tools</a> to a specific location such as <code>/usr/local</code>, run:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice tools install --global</span><span style="font-weight:bold;color:#a71d5d;">=</span><span>/usr/local
+</span></code></pre>
+</div>
+<p>Executables will be placed in a <code>bin</code> directory under the path passed to
+<code>--global</code>, so make sure not to include the <code>bin</code> directory in that path.
+Read more about the <code>--global</code> argument <a href="https://alicecaml.github.io/alicecaml.org/install/#global-installation">below</a>.</p>
+<h2 id="env-and-completion-script"><a class="zola-anchor" href="#env-and-completion-script" aria-label="Anchor link for: env-and-completion-script">Env and Completion Script</a></h2>
+<p>The <code>~/.alice/env</code> directory is created by the installer by invoking the <code>alice</code>
+executable. If you installed Alice by other means than the install script, you
+can create <code>~/.alice/env</code> and install shell completions by running:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice internal setup
+</span></code></pre>
+</div>
+<p>If you want extra control over the shell completion script, <code>alice</code> has a
+command which generates prints the completion script allowing for some customization:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice internal completions bash
+</span></code></pre>
+</div>
+<p>That command accepts a variety of arguments to customize the script such as
+minification. To see the available options check out its help message:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice internal completions bash --help
+</span></code></pre>
+</div>
+<h2 id="development-tools"><a class="zola-anchor" href="#development-tools" aria-label="Anchor link for: development-tools">Development Tools</a></h2>
+<p>Alice can play the role of a language version manager similar to
+<a href="https://rustup.rs/">rustup</a>, <a href="https://github.com/nvm-sh/nvm">nvm</a>, and
+<a href="https://rvm.io/">rvm</a>. By default the installer prompts to install an OCaml compiler,
+ocamllsp and ocamlformat from Alice’s repository of pre-compiled development
+tools. These tools can also be installed by running the command:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice tools install
+</span></code></pre>
+</div>
+<p>If you just want to install the compiler and not other tools (e.g. when setting
+up an OCaml environment in a github action), run:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice tools install --compiler-only
+</span></code></pre>
+</div>
+<p>All development tools are installed to <code>~/.alice/current/bin</code>. The
+<code>~/.alice/current</code> directory is actually a symlink to a directory like
+<code>~/.alice/roots/5.3.1+relocatable</code>. Alice organizes tools into what it calls
+“roots” which are directory structures resembling a Unix root file-system (with a
+“/bin” and “/share” directory for example) containing a set of
+mutually-compatible OCaml development tools.</p>
+<p>When installing development tools you can specify which version you’d like to
+install with the <code>--root</code> argument, e.g.:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice tools install --root</span><span style="font-weight:bold;color:#a71d5d;">=</span><span>5.3.1+relocatable
+</span></code></pre>
+</div>
+<p>Roots are named after the version of the OCaml compiler they contain. Each root
+contains a single version of ocamllsp and ocamlformat (often the latest version
+of each which is compatible with that compiler version). There is no way to
+change the version of ocamllsp and ocamlformat in a particular root.</p>
+<p>You can theoretically have multiple different roots installed at the same time
+(though at the time of writing only one is available). The “active” root is the
+one symlinked to <code>~/.env/current</code>. Change the active root with the <code>alice tools change</code> command, e.g.:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice tools change 5.3.1+relocatable
+</span></code></pre>
+</div>
+<p>Each root contains a set of OCaml tools which are mutually compatible.
+Compatibility is particularly important because ocamllsp needs to have been
+compiled with the same compiler as will be used to compile the code which it
+analyses.</p>
+<p>Sourcing the script in <code>~/.alice/env</code> appropriate for your shell will add a pair
+of directories to your <code>$PATH</code> variable: <code>~/.alice/alice/bin</code> which contains the
+<code>alice</code> executable, and <code>~/.alice/current/bin</code> which contains all the
+development tools in your current root.</p>
+<h2 id="global-installation"><a class="zola-anchor" href="#global-installation" aria-label="Anchor link for: global-installation">Global Installation</a></h2>
+<p>By default Alice and all the tools it manages are installed inside the
+<code>~/.alice</code> directory. This allows Alice to be installed as a regular (non-root) user
+and makes it easy to uninstall (just delete <code>~/.alice</code>) however a drawback is
+that you need to add <code>~/.alice/alice/bin</code> and <code>~/.alice/current/bin</code> to your
+<code>PATH</code> variable in order to run <code>alice</code> or its tools as commands. It also
+clutters up your home directory which some folks quite reasonably find annoying.</p>
+<p>Alice’s install script and the <code>alice tools install</code> command both accept an
+argument <code>--global PATH</code> which installs files under a given directory. For
+example if you run:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> --</span><span> --global /usr/local
+</span></code></pre>
+</div>
+<p>…then the <code>alice</code> executable will be
+installed to <code>/usr/local/bin/alice</code> and the OCaml compiler will be installed to
+<code>/usr/local/bin/ocamlopt.opt</code>. That command will probably need to be run as root
+since <code>/usr/local</code> is not always writeable by regular users. The benefit of
+installing Alice and OCaml tools globally is that you can install the
+executables to a location already in your <code>PATH</code> variable, so commands work
+without needing to modify shell configs to prepend additional directories to
+<code>PATH</code>.</p>
+<p>A drawback of the global installation is that Alice can’t manage multiple
+different versions of the compiler and development tools anymore.</p>
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+	</body>
+</html>
