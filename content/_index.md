@@ -16,7 +16,7 @@ Install Alice by running the following command:
 Here's how to run your first OCaml program on a computer with no pre-installed
 OCaml tools (you will need a C compiler though!):
 ```bash
-$ alice tools get
+$ alice tools install
 $ alice new hello
 $ cd hello
 $ alice run
@@ -29,7 +29,7 @@ development tools (`ocamllsp` and `ocamlformat`). Skip it if you already have an
 existing installation of OCaml. Alice runs the OCaml compiler (`ocamlopt.opt`)
 and a few other programs from the compiler toolchain by searching the
 directories in your `PATH` variable and only uses its own installation of the
-tools (installed by `alice tools get`) as a fallback.
+tools (installed by `alice tools install`) as a fallback.
 
 This project is exploring alternative approaches to OCaml packaging than those
 chosen by [Opam](https://github.com/ocaml/opam) and alternative approaches to

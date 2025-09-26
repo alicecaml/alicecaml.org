@@ -88,13 +88,13 @@ ocamllsp and ocamlformat from Alice's repository of pre-compiled development
 tools. These tools can also be installed by running the command:
 
 <div class="code-with-copy-button">
-<pre><code>alice tools get</code></pre>
+<pre><code>alice tools install</code></pre>
 </div>
 
 If you just want to install the compiler and not other tools (e.g. when setting
 up an OCaml environment in a github action), run:
 <div class="code-with-copy-button">
-<pre><code>alice tools get --compiler-only</code></pre>
+<pre><code>alice tools install --compiler-only</code></pre>
 </div>
 
 All development tools are installed to `~/.alice/current/bin`. The
@@ -108,7 +108,7 @@ When installing development tools you can specify which version you'd like to
 install with the `--root` argument, e.g.:
 
 <div class="code-with-copy-button">
-<pre><code>alice tools get --root=5.3.1+relocatable</code></pre>
+<pre><code>alice tools install --root=5.3.1+relocatable</code></pre>
 </div>
 
 Roots are named after the version of the OCaml compiler they contain. Each root

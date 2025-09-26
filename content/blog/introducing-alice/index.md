@@ -36,7 +36,7 @@ before compiling any code. To help with this, Alice can act like a language
 version manager. I've pre-compiled a relocatable version of the OCaml compiler,
 and Alice can install it automatically:
 ```
-$ alice tools get
+$ alice tools install
   Fetching ocaml.5.3.1+relocatable...
  Unpacking ocaml.5.3.1+relocatable...
 
