@@ -15,7 +15,7 @@ curl -fsSL https://alicecaml.org/install.sh | sh
 
 You'll need `curl` and `git` to be installed in order to run the script.
 After completing the installation the `alice` command will be available in
-new terminal sessions. Currently this works on macOS and x86_64 Linux.
+new terminal sessions. Currently this works on macOS and Linux.
 Window users can still install Alice [manually](#manual-installation).
 
 For most users this should be sufficient for install
