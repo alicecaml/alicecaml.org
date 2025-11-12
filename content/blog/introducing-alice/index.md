@@ -278,10 +278,10 @@ Build targets depend on source files, and possibly on other build targets. Alice
 needs to know which targets depend on which other files/targets. To help users
 understand their projects' build dependencies and to help me debug issues with
 Alice, there is a command `alice dot` which generates a Graphviz dot file
-containing the project's build graph.
+containing the project's build or dependency graph.
 
 ```
-$ alice dot
+$ alice dot artifacts
 digraph {
   "foo.cmi" -> {"foo.mli"}
   "foo.cmx" -> {"foo.cmi", "foo.ml"}
@@ -294,7 +294,7 @@ digraph {
 
 We can use Graphviz to visualize this:
 ```
-$ alice dot | dot -Tsvg > graph.svg
+$ alice dot artifacts | dot -Tsvg > graph.svg
 ```
 
 ![A dependency graph visualized](graph.svg)

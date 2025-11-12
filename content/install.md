@@ -5,7 +5,25 @@ template = "page.html"
 
 # Install
 
-Install Alice by running the following command:
+Alice can be installed from its Opam package:
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+opam install alice
+```
+
+</div>
+
+It has a Nix flake `github:alicecaml/alice` which can be used like:
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+nix shell github:alicecaml/alice
+```
+
+</div>
+
+Alternatively you can run the interactive install script:
 <div class="code-with-copy-button code-with-prompt">
 
 ```bash
@@ -16,10 +34,7 @@ curl -fsSL https://alicecaml.org/install.sh | sh
 You'll need `curl` and `git` to be installed in order to run the script.
 After completing the installation the `alice` command will be available in
 new terminal sessions. Currently this works on macOS and Linux.
-Window users can still install Alice [manually](#manual-installation).
-
-For most users this should be sufficient for install
-Alice. Read on to learn more about different options for installing Alice.
+Window users can still install the binary distribution of Alice [manually](#manual-installation).
 
 The installer will create a `~/.alice` directory containing the `alice`
 executable, environment scripts which can be sourced in your shell config file
@@ -28,6 +43,9 @@ just for bash). The installer will offer to automatically modify your shell
 config to add `alice` to your `$PATH` variable and install its shell
 completions. If you'd rather load Alice into your shell manually,
 source the script from `~/.alice/env` appropriate to your shell.
+
+For most users this should be sufficient to install
+Alice. Read on to learn more about different installation options.
 
 ## Installation Options
 
