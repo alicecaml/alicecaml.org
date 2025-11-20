@@ -326,7 +326,7 @@ generated file by continuing the example above:
    among the modules packed into the "Internal_modules_of_<package>"
    module. Client code must be able to refer to the package by the
    package's name, so define a module alias here named after the package,
-   referring to the "Lib" module defined in the package. This will allow
+   aliasing the "Lib" module defined in the package. This will allow
    client code to refer to the public interface of the package with a
    module named after the package. *)
 module Foo = Internal_modules_of_foo.Lib
@@ -383,22 +383,24 @@ is opened before `Public_interface_to_qux`, then due to module name shadowing,
 true public interface to the package `qux`.
 
 To avoid this problem, it's necessary to sort the `-open` arguments to
-the compiler such that if one package depends on another, the
+the compiler such that if one dependency depends on another dependency, the
 depended upon package comes before the depending package (`qux` must
 come before `bar` in the example).
 
 Once the `public_interface_to_open_of_<package>.ml` file is generated,
 compile it, storing the result in the package's public output
-directory.
+directory. The package's public output directory must be passed with `-I` since
+the generated code refers to `Internal_modules_of_<package>`.
 
 ```
 ocamlopt.opt path/to/foo/generated/public_interface_to_open_of_foo.ml -c \
+  -I path/to/foo/public
   -o path/to/foo/public/public_interface_to_open_of_foo.cmx
 ```
 
 And that's it! All the necessary files are now in the package's public
-output directory for any packages depending on this package to be
-built.
+output directory where they can be consumed while building any additional
+packages which depend on the current one.
 
 One final note:
 In order to link an executable that depends on packages, library
@@ -411,3 +413,9 @@ ocamlopt.opt \
   path/to/foo/public/internal_modules_of_foo.cmx \
   -a -o path/to/foo/public/lib.cmxa
 ```
+
+To learn more, try compiling some interdependent Alice packages. See
+[here](https://github.com/alicecaml/alice?tab=readme-ov-file#tutorial) for
+a brief tutorial on building packages with Alice. Run `alice build -vv` to see a
+list of all the commands run by Alice, and inspect the contents of the `build`
+directory to see the different output files created when building each package.

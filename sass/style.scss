@@ -169,8 +169,16 @@ div.footer-nav-container {
   }
 }
 
-article p {
-  line-height: 150%;
+article {
+  p {
+    line-height: 150%;
+  }
+  ul li {
+    line-height: 150%;
+  }
+  ol li {
+    line-height: 150%;
+  }
 }
 
 code {
