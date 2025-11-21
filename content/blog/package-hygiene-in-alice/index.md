@@ -89,7 +89,7 @@ invariants.
 
 ## Package Hygiene in Dune?
 
-It may come as a surprise to learn that Dune violates both of the above
+It may come as a surprise to learn that Dune lacks both of the above
 hygiene
 properties. This can be demonstrated succinctly with a small project depending
 on the [core](https://github.com/janestreet/core) package:
