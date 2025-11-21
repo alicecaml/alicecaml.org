@@ -2,6 +2,7 @@
 title = "Package Hygiene in Alice"
 date = 2025-11-20
 slug = "package-hygiene-in-alice"
+description = "This post describes Alice's packaging protocol, and how it enforces hygiene while building packages."
 
 [taxonomies]
 tags = ["implementation"]
@@ -357,8 +358,8 @@ module Internal_modules_of_foo = struct end
 [@@deprecated "This module is for internal use only."]
 
 (* Shadow the internal modules of the packages in the dependency
-   closure of this package. The public output directory of each package in
-   the dependency closure of this package is passed with -I when
+   closure of this package. The public output directory of each package
+   in the dependency closure of this package is passed with -I when
    compiling files from packages that depend on this package. Shadowing
    the names of the packed internal modules of those packages prevents
    access to their internals by clients of this package. *)
