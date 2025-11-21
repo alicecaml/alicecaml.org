@@ -89,7 +89,7 @@ invariants.
 
 ## Package Hygiene in Dune?
 
-It may come as a surprise to learn that in Dune violates both of the above
+It may come as a surprise to learn that Dune violates both of the above
 hygiene
 properties. This can be demonstrated succinctly with a small project depending
 on the [core](https://github.com/janestreet/core) package:
@@ -125,7 +125,7 @@ let () =
 This code has access to a module `Sexplib0__Sexp_conv_labeled_tuple` which
 corresponds to the `sexp_conv_labeled_tuple.ml` file from the package `sexplib0`,
 which is a dependency of the package `sexplib`, which is a dependency of `core`.
-Opam packages (which Dune uses) follow a convention of putting their public code
+Opam packages follow a convention of putting their public code
 in a module named after the package, and under this convention the
 `Sexp_conv_labeled_tuple` module referred to above isn't part of the public interface
 to `sexplib0`.
@@ -138,8 +138,13 @@ package hygiene can do so.
 
 Note that Dune might be about to get true package hygiene in an upcoming release
 thanks to [this PR](https://github.com/ocaml/dune/pull/12666). This uses a
-newish option to the OCaml compiler, `-H`, which had I been aware of while doing
-the work described below, may have simplified things greatly! Still, I've come
+newish option to the OCaml compiler, `-H`:
+```
+ -H <dir>  Add <dir> to the list of "hidden" include directories
+     (Like -I, but the program can not directly reference these dependencies)
+```
+Had I been aware of `-H` while doing
+the work described below adding package hygiene to Alice, it would have simplified things greatly! Still, I've come
 up with a solution that will work with older compilers lacking this feature, and
 employs what I think are some interesting techniques to work around the fact
 that until the recent addition of `-H`, for reasons I'll explain below, the
@@ -159,7 +164,7 @@ files. When compiling a file which refers to a module that isn't in scope, the
 compiler will try to find an object file whose name indicates that it contains the
 module in question. The compiler searches for this object file in the same
 directory as the file it's currently compiling, and also in each directory
-passed to the compiler with the `-I` flag.
+passed to the compiler with the `-I` option.
 
 Let's see how we might implement the first of my two hygiene properties,
 that only the immediate dependencies of a package may be referred to by that
@@ -175,7 +180,7 @@ Since packages in the dependency closure but which aren't immediate dependencies
 are excluded in step 2 above, hygiene is achieved since the package code being
 compiled doesn't have access to them.
 
-This gives us the desired hygiene property, however certain correct programs
+This gives us the desired hygiene property, however some correct programs
 won't compile with this policy due to _module aliases_. In OCaml a module
 defined in one file may be aliased by another file, but when compiling code
 that refers to the aliased module, even indirectly, the directory containing the
@@ -190,7 +195,7 @@ the path to the directory containing `c`'s object files with `-I`.
 However passing `c`'s object files with `-I` would make it possible for `a` to
 refer to `c` _directly_, which violates the first hygiene property.
 
-This is where `-H` comes in handy. That option acts similarly to `-I`, in that
+This is where the new `-H` option comes in handy. That option acts similarly to `-I`, in that
 it lets the compiler use modules defined in a directory when compiling code that
 refers to them, however unlike `-I` it doesn't allow code to refer to these
 modules _directly_. So a hygienic approach to building a package using `-H`
@@ -204,17 +209,18 @@ On its own it's not sufficient to enforce the second hygiene property, to
 prevent packages from accessing private code from its immediate dependencies.
 
 As I said earlier, I wasn't aware of `-H` when implementing hygienic packages in
-Alice. Instead I've come up with a packaging protocol that gives both hygiene
+Alice. Instead I've come up with a packaging protocol that enforces both hygiene
 properties using some other compiler features and a small amount of generated
 code.
 
 ## Package Hygiene in Alice
 
-In order to correctly resolve module aliases, each package in the dependency
-closure of the package being compiled must be accessible by including a
-directory containing its compiled object files with `-I`. Alice does this in a
-hygienic way by generating modules which shadow the modules that should be
-inaccessible.
+In order to resolve module aliases, the object files from each package in the
+dependency closure of the package being built must be made known to the compiler
+by passing their containing directories with `-I`. Alice does this in a hygienic
+way by generating modules which
+[shadow](https://en.wikipedia.org/wiki/Variable_shadowing)
+the modules that should be inaccessible.
 
 ### Compiler Features
 
@@ -224,8 +230,10 @@ encountered:
 
 The `-open Some_module` option takes a module name `Some_module`, and when
 compiling a file, acts as though the file began with a new line `open
-Some_module`. This option can be passed multiple times, resulting in the effect
-of `open <module>` lines being at the start of the compiled file, in the same
+Some_module`. (Read [this](https://ocaml.org/docs/modules#naming-and-scoping) to
+learn more about what it means to open a module in OCaml.)
+The `-open` option can be passed multiple times, resulting in the effect
+of multiple `open <module>` lines being at the start of the compiled file, in the same
 order as their corresponding `-open` options.
 
 The `-pack` option creates an object file combining a given set of existing
@@ -248,7 +256,8 @@ of the module that the file will eventually be packed into as a sub-module.
 ### The Packaging Protocol
 
 To build a package, first recursively apply the process I'm about to describe
-to build the immediate dependencies of the package.
+to build the immediate dependencies of the package, which will result in the
+package's dependency closure being built.
 
 The result of building a package is stored across several different directories:
 - The package's _private_ output directory contains the compiled artifacts
@@ -257,7 +266,7 @@ The result of building a package is stored across several different directories:
   in this private output directory.
 - The package's _public_ output directory contains a file named
   `internal_modules_of_<package>.cmx` (replacing `<package>` with the name of
-  the package), which is the output of running `ocamlopt.opt -pack` on all the
+  the package), which is the output of running `ocamlopt.opt -pack ...` on all the
   object files in the package's private directory. All top-level modules of the
   package, corresponding to source files, are accessible as sub-modules of the
   `Internal_modules_of_<package>` module. There's a second file in the public
@@ -394,7 +403,7 @@ the generated code refers to `Internal_modules_of_<package>`.
 
 ```
 ocamlopt.opt path/to/foo/generated/public_interface_to_open_of_foo.ml -c \
-  -I path/to/foo/public
+  -I path/to/foo/public \
   -o path/to/foo/public/public_interface_to_open_of_foo.cmx
 ```
 
