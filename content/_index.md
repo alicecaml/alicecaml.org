@@ -5,7 +5,7 @@ title = "Alice the Caml"
 # Alice the Caml
 
 Alice is a radical, experimental [OCaml](https://ocaml.org/) build system and
-package manager for Windows, macOS, and Linux. Its goal is to allow anyone to
+package manager. Its goal is to allow anyone to
 program in OCaml with as little friction as possible.
 
 Install Alice by running the following command:
