@@ -27,7 +27,8 @@ package`s package module.
 
 Packages can depend on other packages, which themselves depend on more packages,
 forming a [Directed Acyclic
-Graph (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
+Graph (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph) where the nodes
+are packages and edges represent the dependency relationship between two packages.
 
 A package's _immediate dependencies_ are those packages which it directly
 depends on; exactly those packages listed in the `[dependencies]` section of the
@@ -37,9 +38,8 @@ The _dependency closure_ of a package is that package's immediate
 dependencies, plus the immediate dependencies of all of its immediate
 dependencies, and so on.
 
-In the two graphs below, the one on the left highlights in cyan the immediate
-dependencies of `a`, whereas the one on the right highlights in cyan the
-dependency closure of `a`.
+The first graph below highlights in cyan the immediate dependencies of `a` and
+the second graph highlights `a`'s dependency closure.
 
 <div style="display:flex">
 
@@ -51,8 +51,8 @@ dependency closure of `a`.
 
 ## Package Hygiene
 
-_Package hygiene_ refers to how much of the code from a package's
-dependency closure can be accessed by that package.
+I'll introduce the concept of _package hygiene_ which refers to how much of the code from a package's
+dependency closure is inaccessible by that package.
 Let's call a package management system _hygienic_ if code in one
 package only has access to code from the _public interfaces_ of its
 _immediate dependencies_.
@@ -69,8 +69,8 @@ Let's break this definition down into two properties:
 
 Package hygiene is a useful property for software maintenance and safety.
 
-The first property means that packages are forced to specify exactly the packages that
-they depend on, and are only given direct access to those packages.
+The first property means that packages are forced to specify as dependencies, exactly the packages that
+they need access to, and are only given direct access to those packages.
 Without this property, packages can break due to the removal of
 load-bearing transitive dependencies. If `a` depends on `b`, and `b`
 depends on `c`, and `a` starts referring to `c` directly without
@@ -85,11 +85,11 @@ the only way to interact with a package is through a specific
 interface. The public interface to a package can be designed to
 enforce invariants over the types defined in that package, and there's
 no way for client code to circumvent the interface to bypass those
-invariants.
+protections.
 
 ## Package Hygiene in Dune?
 
-It may come as a surprise to learn that Dune lacks both of the above
+Dune lacks both of the above
 hygiene
 properties. This can be demonstrated succinctly with a small project depending
 on the [core](https://github.com/janestreet/core) package:
@@ -136,7 +136,7 @@ what we might call "soft" hygiene since it renames modules so they are unlikely
 to be referred to by accident, but someone determined to intentionally violate
 package hygiene can do so.
 
-Note that Dune might be about to get true package hygiene in an upcoming release
+Fortunately Dune might be about to get true package hygiene in an upcoming release
 thanks to [this PR](https://github.com/ocaml/dune/pull/12666). This uses a
 newish option to the OCaml compiler, `-H`:
 ```
@@ -144,10 +144,13 @@ newish option to the OCaml compiler, `-H`:
      (Like -I, but the program can not directly reference these dependencies)
 ```
 Had I been aware of `-H` while doing
-the work described below adding package hygiene to Alice, it would have simplified things greatly! Still, I've come
+the work described below adding package hygiene to Alice, it would have simplified things greatly!
+I didn't notice it because it's not in the compiler's man page, though clearly
+I didn't look very hard because it is in the output of `-help`.
+Still, I've come
 up with a solution that will work with older compilers lacking this feature, and
 employs what I think are some interesting techniques to work around the fact
-that until the recent addition of `-H`, for reasons I'll explain below, the
+that until the relatively recent addition of `-H`, the
 OCaml compiler did not make it easy to implement hygienic package management.
 
 ## Why Hygienic Packages in OCaml is (was?) Hard
@@ -195,7 +198,7 @@ the path to the directory containing `c`'s object files with `-I`.
 However passing `c`'s object files with `-I` would make it possible for `a` to
 refer to `c` _directly_, which violates the first hygiene property.
 
-This is where the new `-H` option comes in handy. That option acts similarly to `-I`, in that
+This is where the new `-H` option might save us. That option acts similarly to `-I`, in that
 it lets the compiler use modules defined in a directory when compiling code that
 refers to them, however unlike `-I` it doesn't allow code to refer to these
 modules _directly_. So a hygienic approach to building a package using `-H`
