@@ -34,6 +34,16 @@ and running `dune pkg lock`.
 Pre-compiled binaries of Alice v0.1.1 can be downloaded from the its [release
 page](https://github.com/alicecaml/alice/releases/tag/0.1.1) on Github.
 
+
+The Opam package can be installed with:
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+opam install alice.0.1.1
+```
+</div>
+
+
 On Linux and macOS, Alice v0.1.1 can be installed by running its install script:
 <div class="code-with-copy-button code-with-prompt">
 
