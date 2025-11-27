@@ -139,9 +139,13 @@ in the appropriate locations with respect to how they were installed.
 Now you need to make it so that when your editor or LSP Client launches the
 `ocamllsp` executable, that it passes the argument `--fallback-read-dot-merlin`
 to it. That is, it runs the command:
+
+<div class="code-with-copy-button code-with-prompt">
+
 ```
-$ ocamllsp --fallback-read-dot-merlin
+ocamllsp --fallback-read-dot-merlin
 ```
+</div>
 
 The specific configuration depends on your editor:
 
@@ -157,6 +161,9 @@ pass to ocamllsp."
 ![The Ocaml > Server: Args setting from Visual Studio Code](../vscode-ocaml-server-args.png)
 
 Click "Edit in settings.json", and add the following:
+
+<div class="code-with-copy-button">
+
 ```json
 {
   "ocaml.server.args": [
@@ -164,17 +171,21 @@ Click "Edit in settings.json", and add the following:
   ]
 }
 ```
+</div>
 
 ### Neovim
 
 Using the [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) plugin,
 enable running the `ocamllsp` server and configure its startup command with:
+<div class="code-with-copy-button">
+
 ```lua
 vim.lsp.enable('ocamllsp')
 vim.lsp.config('ocamllsp', {
   cmd = { 'ocamllsp', '--fallback-read-dot-merlin' },
 })
 ```
+</div>
 
 ## Configure your Project
 
@@ -182,10 +193,14 @@ If you create Alice projects with the `alice new` command, no manual configurati
 should be necessary.
 Projects need a file named `.merlin` in their root directory (next to the
 `Alice.toml` file). It should contain the following:
+
+<div class="code-with-copy-button">
+
 ```
 S src/*
 B build/**
 ```
+</div>
 
 The syntax of this file is [Merlin project
 configuration](https://github.com/ocaml/merlin/wiki/project-configuration).
