@@ -5,7 +5,7 @@
 
 <div id="windows" class="os">
 
-Install on Windows with:
+Install on Windows with [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
 
 <div class="code-with-copy-button code-with-prompt-windows">
 
@@ -27,7 +27,16 @@ opam install alice
 
 <div id="macos" class="os">
 
-Install on macOS with the install script:
+Install on macOS with [Homebrew](https://brew.sh):
+
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+brew install alicecaml/homebrew-tap/alice
+```
+</div>
+
+...or run the install script:
 
 <div class="code-with-copy-button code-with-prompt">
 
