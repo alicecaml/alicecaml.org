@@ -11,7 +11,7 @@ Announcing the release of Alice v0.1.2. This is a patch release though it
 doesn't make any visible changes. The purpose of the release is to add a [zip
 archive containing the Windows
 executable](https://github.com/alicecaml/alice/releases/download/0.1.2/alice-0.1.2-x86_64-windows.zip).
-This is intended to make it possible to release Alice on the Winget package
+This is intended to make it possible to release Alice on the WinGet package
 manager.
 
 ## Release Notes
