@@ -287,6 +287,16 @@ blockquote {
   }
 }
 
+.code-with-prompt-windows {
+  code {
+    &:before {
+      content: ">";
+      margin-left: 0ch;
+      margin-right: 1ch;
+    }
+  }
+}
+
 .os-picker {
   margin: 0;
   ul {

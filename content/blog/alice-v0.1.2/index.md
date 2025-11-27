@@ -24,6 +24,13 @@ manager.
 Pre-compiled binaries of Alice v0.1.2 can be downloaded from the its [release
 page](https://github.com/alicecaml/alice/releases/tag/0.1.2) on Github.
 
+On Windows, install Alice v0.1.2 with WinGet:
+<div class="code-with-copy-button code-with-prompt-windows">
+
+```
+winget install OCaml.Alice --version 0.1.2
+```
+</div>
 
 On Linux and macOS, Alice v0.1.2 can be installed by running its install script:
 <div class="code-with-copy-button code-with-prompt">

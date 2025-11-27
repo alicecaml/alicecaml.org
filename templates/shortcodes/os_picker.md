@@ -7,7 +7,7 @@
 
 Install on Windows with:
 
-<div class="code-with-copy-button code-with-prompt">
+<div class="code-with-copy-button code-with-prompt-windows">
 
 ```bash
 winget install OCaml.Alice
@@ -17,7 +17,7 @@ winget install OCaml.Alice
 
 Alternatively you can install Alice from its <a href="https://opam.ocaml.org">opam</a> package:
 
-<div class="code-with-copy-button code-with-prompt">
+<div class="code-with-copy-button code-with-prompt-windows">
 
 ```bash
 opam install alice
