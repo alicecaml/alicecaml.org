@@ -14,6 +14,7 @@ $post-meta-text-color: dimgrey;
 $link-color-disabled: dimgrey;
 $nav-link-space: 1rem;
 $flair: rebeccapurple;
+$install-background: lighten($flair, 50%);
 
 body {
   color: $text-color;
@@ -283,5 +284,42 @@ blockquote {
       margin-left: 0ch;
       margin-right: 1ch;
     }
+  }
+}
+
+.os-picker {
+  margin: 0;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    li {
+      margin: 0;
+      button {
+        border-radius: $code-border-radius $code-border-radius 0 0;
+        font-size: 1rem;
+        margin: 0;
+        padding: 10px;
+        background: none;
+        border: none;
+        font-weight: bold;
+      }
+      button.selected {
+        background-color: $install-background;
+      }
+    }
+  }
+}
+
+.os {
+  position: relative;
+  top: -$code-border-radius;
+  margin: 0;
+  padding: 10px;
+  background-color: $install-background;
+  border-radius: $code-border-radius;
+  p {
+    margin-top: $code-border-radius;
   }
 }

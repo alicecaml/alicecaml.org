@@ -51,7 +51,6 @@
 		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="{{ config.base_url | safe }}/atom.xml">
 
 		<link rel="stylesheet" href="{{ config.base_url | safe }}/style.css">
-		<script defer src="{{ config.base_url | safe }}/copy_code.js"></script>
 		<title>{% block title %} {% endblock title %}</title>
 	</head>
 	<body>
@@ -60,5 +59,6 @@
 			{% block content %} {% endblock content %}
 			{% include "footer.html" %}
 		</div>
+		<script defer src="{{ config.base_url | safe }}/index.js"></script>
 	</body>
 </html>
