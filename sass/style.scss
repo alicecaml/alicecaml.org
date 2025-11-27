@@ -90,8 +90,6 @@ div.header-nav-container ul {
 
   li {
     padding-bottom: 2px;
-    display: flex;
-    align-items: end;
     height: 100%;
   }
 
@@ -104,7 +102,10 @@ div.header-nav-container ul {
   }
 
   li.rhs {
-    margin-right: $nav-link-space;
+    margin-left: $nav-link-space;
+    @media screen and (max-width: 480px) {
+      margin-left: $nav-link-space / 2;
+    }
   }
 
   a {
@@ -229,9 +230,9 @@ blockquote {
   padding-left: 2rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 480px) {
   .hide-on-mobile {
-    visibility: hidden;
+    display: none;
   }
 }
 
