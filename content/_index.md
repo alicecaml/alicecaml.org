@@ -8,58 +8,9 @@ Alice is a radical, experimental [OCaml](https://ocaml.org/) build system and
 package manager. Its goal is to allow anyone to
 program in OCaml with as little friction as possible.
 
-## Install
-
-<div id="install">
-
-<div class="os-picker">
-</div>
-
-<div id="windows" class="os">
-<p>Install on Windows with:</p>
-<div class="code-with-copy-button code-with-prompt">
-
-```bash
-winget install OCaml.Alice
-```
-</div>
-</div>
-
-<div id="macos" class="os">
-<p>Install on macOS with:</p>
-<div class="code-with-copy-button code-with-prompt">
-
-```bash
-curl -fsSL https://alicecaml.org/install.sh | sh
-```
-</div>
-</div>
-
-<div id="linux" class="os">
-<p>Install on Linux with:</p>
-<div class="code-with-copy-button code-with-prompt">
-
-```bash
-curl -fsSL https://alicecaml.org/install.sh | sh
-```
-</div>
-</div>
-
-<div id="other" class="os">
-<p>Install on any platform supported by <a href="https://opam.ocaml.org">opam</a> by installing Alice's opam package:</p>
-<div class="code-with-copy-button code-with-prompt">
-
-```bash
-opam install alice
-```
-</div>
-</div>
-
-</div>
+{{ os_picker() }}
 
 See more installation options [here](@/install.md).
-
-## First Steps
 
 Here's how to run your first OCaml program on a computer with no pre-installed
 OCaml tools (you will need a C compiler though!):

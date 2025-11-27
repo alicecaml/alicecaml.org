@@ -5,38 +5,11 @@ template = "page.html"
 
 # Install
 
-Alice can be installed from its Opam package:
-<div class="code-with-copy-button code-with-prompt">
+{{ os_picker() }}
 
-```bash
-opam install alice
-```
+## Install Script
 
-</div>
-
-It has a Nix flake `github:alicecaml/alice` which can be used like:
-<div class="code-with-copy-button code-with-prompt">
-
-```bash
-nix shell github:alicecaml/alice
-```
-
-</div>
-
-Alternatively you can run the interactive install script:
-<div class="code-with-copy-button code-with-prompt">
-
-```bash
-curl -fsSL https://alicecaml.org/install.sh | sh
-```
-</div>
-
-You'll need `curl` and `git` to be installed in order to run the script.
-After completing the installation the `alice` command will be available in
-new terminal sessions. Currently this works on macOS and Linux.
-Window users can still install the binary distribution of Alice [manually](#manual-installation).
-
-The installer will create a `~/.alice` directory containing the `alice`
+The install script will create a `~/.alice` directory containing the `alice`
 executable, environment scripts which can be sourced in your shell config file
 to allow running `alice` as a command, and a shell completion script (currently
 just for bash). The installer will offer to automatically modify your shell
@@ -47,7 +20,7 @@ source the script from `~/.alice/env` appropriate to your shell.
 For most users this should be sufficient to install
 Alice. Read on to learn more about different installation options.
 
-## Installation Options
+### Install Script Options
 
 By default the installer is interactive, however all the interactions can be
 skipped by passing command-line arguments. Command-line arguments can be passed
@@ -97,7 +70,7 @@ Read more about the `--global` argument [below](#global-installation).
 
 Pre-compiled executables of Alice can be found on its [Github release
 page](https://github.com/alicecaml/alice/releases). Download and extract the
-archive appropriate to your system, and copy the file `bin/alice` to one of the directories
+`.tar.gz` archive appropriate to your system, and copy the file `bin/alice` to one of the directories
 in your `PATH` variable.
 
 To manually install [OCaml development tools](#development-tools) to a specific location such as `/usr/local`, run:

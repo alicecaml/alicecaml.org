@@ -317,9 +317,9 @@ blockquote {
   top: -$code-border-radius;
   margin: 0;
   padding: 10px;
+  padding-top: $code-border-radius;
   background-color: $install-background;
   border-radius: $code-border-radius;
   p {
-    margin-top: $code-border-radius;
   }
 }
