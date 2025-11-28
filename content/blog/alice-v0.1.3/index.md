@@ -40,8 +40,8 @@ in Homebrew's repository gets updated.
 For all Alice's other dependencies
 (besides the compiler), Dune installs them with its internal package management
 mechanism. A potential alternative to this would be to rely entirely on Homebrew
-to install Alice's dependencies. This is how Alice's Opma and Nix packages work
-- rely on the foreign (i.e. non-Dune) package manager to do _all_ the package
+to install Alice's dependencies. This is how Alice's Opma and Nix packages work -
+rely on the foreign (i.e. non-Dune) package manager to do _all_ the package
 management. Currently this isn't an option for Homebrew because most of the
 OCaml libraries it uses aren't in Homebrew's repository.
 
