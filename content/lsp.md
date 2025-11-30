@@ -3,12 +3,7 @@ title = "LSP"
 template = "page.html"
 +++
 
-# Using the Language Server Protocol with Alice
-
-NOTE: This document applies to Alice v0.2.0 and later, which has not yet been
-released. Contrary to what's stated here, `alice tools install` doesn't yet
-install the `dot-merlin-reader` tool. Once this feature is added, I'll release
-Alice v0.2.0 and remove this disclaimer!
+# Alice and the Language Server Protocol
 
 The [Language Server Protocol
 (LSP)](https://microsoft.github.io/language-server-protocol/) allows editors to
@@ -28,18 +23,18 @@ v0.2.0 or later.
   - [Option 1: Use Alice](#option-1-use-alice)
   - [Option 2: Use Opam](#option-2-use-opam)
   - [Option 3: Use Nix](#option-3-use-nix)
+- [Confirm that the tools are installed correctly](#confirm-that-the-tools-are-installed-correctly)
 - [Configure your Editor](#configure-your-editor)
   - [Visual Studio Code](#visual-studio-code)
   - [Neovim](#neovim)
-- [Configure your Project](#configure-your-project)
 - [Formatting your code with OCamlFormat](#formatting-your-code-with-ocamlformat)
 
 ## Terminology
 
 An _editor_ is a program like Visual Studio Code, Neovim or Emacs that you use
 to edit code. An _LSP Client_ is part of an editor, either built into the editor
-directly or installed as a plugin and implements IDE features such as displaying
-documentation when hovering over a term or navigating a codebase without
+directly or installed as a plugin, and implements IDE features such as displaying
+documentation when hovering over a term or navigating a codebase, without
 knowledge of any specific language syntax or semantics. An _LSP Server_ is a program that runs in the
 background and analyzes
 code in a particular language, responding to queries made by the LSP Client such
@@ -59,19 +54,21 @@ order to use it for Alice projects. More on this
 
 In addition to the OCaml LSP Server you'll need a tool called
 `dot-merlin-reader` which will allow OCaml-LSP to parse a `.merlin` file which
-Alice will put at the root of your project. As explained above, OCaml-LSP only
-works for Dune projects with its default configuration, and non-Dune projects
+Alice will create and maintain at the root of your project. As explained above, OCaml-LSP only
+works for Dune projects in its default configuration, and non-Dune projects
 need to place a `.merlin` file at their root so OCaml-LSP can identify the
 project's boundary within the file system.
+Don't check this file into version control, as some paths might not be portable between different computers.
 [Merlin](https://github.com/ocaml/merlin) is the OCaml editor service used
 internally by OCaml-LSP, hence the name `.merlin`.
+Read more about the `.merlin` file [here](https://github.com/ocaml/merlin/wiki/project-configuration#the-merlin-file).
 
-You'll need to install the executables `ocamllsp` (the
-executable from the OCaml-LSP project) and `dot-merlin-reader`. There are several ways to
+You'll need to install the executables `ocamllsp`
+(from the OCaml-LSP project) and `dot-merlin-reader`. There are several ways to
 go about this. The main consideration is that the `ocamllsp` executable that your
 LSP Client launches needs to have been compiled with the same compiler that Alice
 will run when building your project (which is also the one that runs when you type
-`ocamlopt.opt` in your terminal - Alice respects your `PATH` variable!). As long as you get your OCaml-LSP and OCaml
+`ocamlopt.opt` in your terminal - Alice respects your `PATH` variable!). As long as you get OCaml-LSP and the OCaml
 compiler from the same place then everything should work.
 
 Here are some options for installing the necessary tools:
@@ -112,12 +109,11 @@ your compiler.
 
 Users of the [Nix](https://nixos.org) package manager can install the `ocaml`,
 `ocamlPackages.ocaml-lsp`, and `ocamlPackages.dot-merlin-reader` packages from
-the nixpkgs repo. Alternatively, install the `github:alicecaml/alice` flake
+the [nixpkgs](https://github.com/NixOS/nixpkgs) repo. Alternatively, install the `github:alicecaml/alice` flake
 which contains all 3 packages as well as Alice and `ocamlformat`, or
 `github:alicecaml/alice#tools` which is the same but lacks Alice itself.
 
-
-## Configure your Editor
+## Confirm that the tools are installed correctly
 
 First verify that you have all the requisite tools by running:
 ```
@@ -133,12 +129,11 @@ $ which dot-merlin-config
 ```
 ...on Windows (in PowerShell).
 
-All those executables must exist and be runnable as commands, and they must be
-in the appropriate locations with respect to how they were installed.
+## Configure your Editor
 
-Now you need to make it so that when your editor or LSP Client launches the
-`ocamllsp` executable, that it passes the argument `--fallback-read-dot-merlin`
-to it. That is, it runs the command:
+You need to make it so that when your editor or LSP Client launches the
+`ocamllsp` executable, that it passes the argument `--fallback-read-dot-merlin`.
+That is, it runs the command:
 
 <div class="code-with-copy-button code-with-prompt">
 
@@ -187,35 +182,14 @@ vim.lsp.config('ocamllsp', {
 ```
 </div>
 
-## Configure your Project
-
-If you create Alice projects with the `alice new` command, no manual configuration
-should be necessary.
-Projects need a file named `.merlin` in their root directory (next to the
-`Alice.toml` file). It should contain the following:
-
-<div class="code-with-copy-button">
-
-```
-S src/*
-B build/**
-```
-</div>
-
-The syntax of this file is [Merlin project
-configuration](https://github.com/ocaml/merlin/wiki/project-configuration).
-Alice will generate this file when creating new projects with `alice new`, and there should be no reason to
-ever change it. Check it into version control so LSP works out of the box when
-your project is cloned.
-
 ## Formatting your code with [OCamlFormat](https://github.com/ocaml-ppx/ocamlformat)
 
 If you have `ocamlformat` and `ocamlformat-rpc` installed, OCaml-LSP can use
 them to format your code from your editor (e.g. in Visual Studio Code,
 right-click inside the editing window and select "Format Document"). These tools are installed
-when you run `alice tools install`, and can alternatively be installed by opam
-from the package "ocamlformat". By default auto formatting is disabled for
-new projects, but a project can enable formatting by creating an empty file named
+when you run `alice tools install`, and can alternatively be installed with opam
+by installing the `ocamlformat` package. By default auto-formatting is disabled for
+new projects, but a project can enable auto-formatting by creating an empty file named
 `.ocamlformat` at their root (i.e. next to `Alice.toml`).  Check this file into
 version control so all collaborators on a project share the same code style.
 Read more about OCamlFormat in its
