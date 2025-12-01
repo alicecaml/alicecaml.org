@@ -16,6 +16,24 @@ this site with instructions for setting up your environment and editor to use LS
 
 ## Install Alice v0.2.0
 
+On all platforms that support [Opam](https://github.com/ocaml/opam), install Alice v0.2.0 with:
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+opam update && opam install alice.0.2.0
+```
+</div>
+
+
+On Windows, Alice v0.2.0 can be installed with [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
+<div class="code-with-copy-button code-with-prompt-windows">
+
+```bash
+winget install OCaml.Alice --version 0.2.0
+```
+</div>
+
+
 On macOS and Linux, the latest version of Alice can be installed with [Homebrew](https://brew.sh):
 <div class="code-with-copy-button code-with-prompt">
 
@@ -25,7 +43,7 @@ brew install alicecaml/homebrew-tap/alice
 </div>
 
 
-On macOS and Linux, Alice v0.2.0 can be installed by running the [install script](@/install.md#install-script):
+Alternatively, on macOS and Linux, Alice v0.2.0 can be installed by running the [install script](@/install.md#install-script):
 <div class="code-with-copy-button code-with-prompt">
 
 ```bash
