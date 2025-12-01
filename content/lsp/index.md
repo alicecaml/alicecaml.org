@@ -214,7 +214,7 @@ set "PATH=C:\msys64\mingw64\bin;%USERPROFILE%\.alice\current\bin;%PATH%" && $pro
 ```
 </div>
 
-Note that on Windows the template must use `CMD.EXE` syntax rather than PowerShell.
+Note that on Windows the template must use CMD.EXE syntax rather than PowerShell.
 The example above for Windows assumes you use `mingw64` as your C compiler,
 installed with [msys2](https://www.msys2.org) with its default install location. You'll need to change this to
 match your setup.
