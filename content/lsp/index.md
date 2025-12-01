@@ -180,10 +180,10 @@ That will display the following drop-down menu:
 
 ![VSCode UI drop-down menu for selecting a sandbox](sandbox-drop-down.png)
 
-The appropriate sandbox for Alice projects depends on how you install the OCaml
+The appropriate sandbox for Alice projects depends on how you installed the OCaml
 LSP Server and other development tools.
 
-If you install tools with Opam then select the sandbox which corresponds to the
+If you installed tools with Opam then select the sandbox which corresponds to the
 Opam Switch in which the tools were installed.
 
 Otherwise, select "Custom". You'll be prompted to enter a command template with
@@ -192,7 +192,7 @@ respectively):
 
 ![VSCode UI for writing a template for launching commands](custom-sandbox.png)
 
-Fill in the template appropriate so that the appropriate instance of the tools are run. For example when the OCaml Platform plugin wants
+Fill in the template with a command that launches the appropriate instance of each tool. For example when the OCaml Platform plugin wants
 to launch the OCaml LSP Server it will run this command with `$prog`
 substituted with `ocamllsp` and `$args` substituted with
 `--fallback-read-dot-merlin`. If you installed tools with the `alice tools install` command
@@ -219,6 +219,8 @@ The example above for Windows assumes you use `mingw64` as your C compiler,
 installed with [msys2](https://www.msys2.org) with its default install location. You'll need to change this to
 match your setup.
 
+Read more about OCaml Platform sandboxes [here](https://github.com/ocamllabs/vscode-ocaml-platform?tab=readme-ov-file#sandbox).
+
 ### Neovim
 
 Using the [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) plugin,
@@ -233,7 +235,7 @@ vim.lsp.config('ocamllsp', {
 ```
 </div>
 
-Make sure your PATH variable is set correctly such that the instances of the
+Make sure your `PATH` variable is set correctly such that the instances of the
 OCaml tools you installed above are launched by Neovim.
 
 On Unix-like systems it's recommended to use [direnv](https://direnv.net)
