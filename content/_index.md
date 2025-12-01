@@ -24,7 +24,7 @@ Hello, World!
 ```
 
 That first line downloads an OCaml compiler toolchain and a couple of
-development tools ([`ocamllsp`](@/lsp.md) and `ocamlformat`). Skip it if you already have
+development tools ([`ocamllsp`](@/lsp/index.md) and `ocamlformat`). Skip it if you already have
 an existing installation of OCaml. Alice runs the OCaml compiler
 (`ocamlopt.opt`) searching the directories in your `PATH` variable and only
 uses its own installation of the tools (installed by `alice tools install`) as

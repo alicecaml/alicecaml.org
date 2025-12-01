@@ -23,6 +23,27 @@ Alternatively you can install Alice from its <a href="https://opam.ocaml.org">op
 opam install alice
 ```
 </div>
+
+Additionally, you'll need a C compiler to use Alice on Windows. It's recommended to install [msys2](https://www.msys2.org)
+and add the path to the directory containing `cc.exe` to your `PATH` variable. For example assuming the default install
+location for msys2, in PowerShell run:
+
+<div class="code-with-copy-button code-with-prompt-windows">
+
+```powershell
+$env:PATH += ";C:\msys64\mingw64\bin"
+```
+</div>
+
+...or in CMD.EXE run:
+
+<div class="code-with-copy-button code-with-prompt-windows">
+
+```cmd
+set PATH=%PATH%;C:\msys64\mingw64\bin
+```
+</div>
+
 </div>
 
 <div id="macos" class="os">

@@ -9,7 +9,7 @@ template = "page.html"
 
 ## Setup LSP
 
-Refer to [this guide](@/lsp.md) for configuring your editor to support the
+Refer to [this guide](@/lsp/index.md) for configuring your editor to support the
 Language Server Protocol with [`ocamllsp`](https://github.com/ocaml/ocaml-lsp)
 in Alice projects.
 

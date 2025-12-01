@@ -153,7 +153,7 @@ OCaml project. On the settings page for the OCaml Platform plugin, find the
 section labeled "Ocaml > Server: Args", with description "Extra arguments to
 pass to ocamllsp."
 
-![The Ocaml > Server: Args setting from Visual Studio Code](../vscode-ocaml-server-args.png)
+![The Ocaml > Server: Args setting from Visual Studio Code](vscode-ocaml-server-args.png)
 
 Click "Edit in settings.json", and add the following:
 
@@ -168,6 +168,57 @@ Click "Edit in settings.json", and add the following:
 ```
 </div>
 
+Visual Studio Code also needs to be told how to launch `ocamllsp` and other tools.
+The OCaml Platform plugin has a concept of a "Sandbox" which is a collection of OCaml tools,
+and every project must be configured with a particular sandbox in order for the OCaml Platform plugin
+to provide editor support. To select the sandbox for a project, select the OCaml Platform plugin on the left side of the VSCode window
+and click on "Select a Sandbox" under "COMMANDS":
+
+![VSCode UI OCaml Platform COMMANDS list, with "Select a Sandbox" selected](select-a-sandbox.png)
+
+That will display the following drop-down menu:
+
+![VSCode UI drop-down menu for selecting a sandbox](sandbox-drop-down.png)
+
+The appropriate sandbox for Alice projects depends on how you install the OCaml
+LSP Server and other development tools.
+
+If you install tools with Opam then select the sandbox which corresponds to the
+Opam Switch in which the tools were installed.
+
+Otherwise, select "Custom". You'll be prompted to enter a command template with
+placeholder values for the program and its arguments (`$prog` and `$args`
+respectively):
+
+![VSCode UI for writing a template for launching commands](custom-sandbox.png)
+
+Fill in the template appropriate so that the appropriate instance of the tools are run. For example when the OCaml Platform plugin wants
+to launch the OCaml LSP Server it will run this command with `$prog`
+substituted with `ocamllsp` and `$args` substituted with
+`--fallback-read-dot-merlin`. If you installed tools with the `alice tools install` command
+then a suitable template for Unix-like systems is:
+
+<div class="code-with-copy-button">
+
+```sh
+PATH="$HOME/.alice/current/bin:$PATH" $prog $args
+```
+</div>
+
+On Windows a suitable template is:
+
+<div class="code-with-copy-button">
+
+```cmd
+set "PATH=C:\msys64\mingw64\bin;%USERPROFILE%\.alice\current\bin;%PATH%" && $prog $args
+```
+</div>
+
+Note that on Windows the template must use `CMD.EXE` syntax rather than PowerShell.
+The example above for Windows assumes you use `mingw64` as your C compiler,
+installed with [msys2](https://www.msys2.org) with its default install location. You'll need to change this to
+match your setup.
+
 ### Neovim
 
 Using the [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) plugin,
@@ -181,6 +232,32 @@ vim.lsp.config('ocamllsp', {
 })
 ```
 </div>
+
+Make sure your PATH variable is set correctly such that the instances of the
+OCaml tools you installed above are launched by Neovim.
+
+On Unix-like systems it's recommended to use [direnv](https://direnv.net)
+to manage project-specific environment variables.
+
+If you installed tools with `alice tools install` then your project's `.envrc` file should be:
+
+<div class="code-with-copy-button">
+
+```sh
+eval $(alice tools env)
+```
+</div>
+
+If you installed tools with Opam, use:
+
+<div class="code-with-copy-button">
+
+```sh
+eval $(opam env --switch=SWITCH)
+```
+</div>
+
+...replacing `SWITCH` with the name of the switch which you installed the tools into.
 
 ## Formatting your code with [OCamlFormat](https://github.com/ocaml-ppx/ocamlformat)
 
