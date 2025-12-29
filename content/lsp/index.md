@@ -14,7 +14,7 @@ ocaml-lsp-server). This page is a guide for using OCaml-LSP while editing OCaml 
 in Alice projects.
 
 Note that to use OCaml-LSP in an Alice project you'll need to be using Alice
-v0.2.0 or later.
+v0.3.0 or later.
 
 ## Table of Contents
 
@@ -201,7 +201,7 @@ then a suitable template for Unix-like systems is:
 <div class="code-with-copy-button">
 
 ```sh
-PATH="$HOME/.alice/current/bin:$PATH" $prog $args
+alice tools exec -- $prog $args
 ```
 </div>
 
@@ -210,7 +210,7 @@ On Windows a suitable template is:
 <div class="code-with-copy-button">
 
 ```cmd
-set "PATH=C:\msys64\mingw64\bin;%USERPROFILE%\.alice\current\bin;%PATH%" && $prog $args
+set "PATH=C:\msys64\mingw64\bin;%PATH%" && alice tools exec -- $prog $args
 ```
 </div>
 
