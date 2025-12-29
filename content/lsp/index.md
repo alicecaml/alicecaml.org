@@ -186,7 +186,7 @@ LSP Server and other development tools.
 If you installed tools with Opam then select the sandbox which corresponds to the
 Opam Switch in which the tools were installed.
 
-Otherwise, select "Custom". You'll be prompted to enter a command template with
+If you installed tools with Alice (by running `alice tools install`) then select "Custom". You'll be prompted to enter a command template with
 placeholder values for the program and its arguments (`$prog` and `$args`
 respectively):
 
@@ -260,6 +260,39 @@ eval $(opam env --switch=SWITCH)
 </div>
 
 ...replacing `SWITCH` with the name of the switch which you installed the tools into.
+
+### Emacs
+
+Use the [lsp-mode](https://emacs-lsp.github.io/lsp-mode/) package which contains an LSP client for Emacs.
+You'll need to make sure that Emacs can find the `ocamllsp` executable. One approach is to use [direnv](https://direnv.net)
+and to create a `.envrc` file as described above in the Neovim configuration, and then use the [envrc](https://github.com/purcell/envrc)
+package to have Emacs pick up the changes to the `PATH` variable.
+
+If you installed tools with `alice tools install` then your
+`.envrc` file will run `alice` to find out the location where tools were installed.
+You'll need to add the directory containing the `alice` executable (`~/.local/bin`) to both the `'exec-path` list and the `PATH` environment variable
+(even if you've already added `~/.local/bin` to `PATH` in your shell config file, in case Emacs is launched from an icon rather than the terminal).
+
+Finally, you'll need to override the `lsp-ocaml-lsp-server-command` variable to pass `--fallback-read-dot-merlin` to `ocamllsp`.
+
+Here's a snippet of an Emacs config file (`~/.emacs` or `~/.emacs.d/init.el`) that applies the above configuration.
+Not shown here is how to install the `lsp-mode` and `envrc` packages.
+These packages are in the [MELPA](https://melpa.org) repository.
+There are
+several ways to install MELPA packages in Emacs.
+[Here](https://melpa.org/#/getting-started)'s a guide for getting started.
+<div class="code-with-copy-button">
+
+```
+(add-to-list 'exec-path "~/.local/bin")
+(setenv "PATH" (concat (expand-file-name "~/.local/bin") ":" (getenv "PATH")))
+
+(envrc-global-mode)
+
+(require 'lsp-mode)
+(setq lsp-ocaml-lsp-server-command '("ocamllsp" "--fallback-read-dot-merlin"))
+```
+</div>
 
 ## Formatting your code with [OCamlFormat](https://github.com/ocaml-ppx/ocamlformat)
 
