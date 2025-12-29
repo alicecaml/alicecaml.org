@@ -27,6 +27,7 @@ v0.3.0 or later.
 - [Configure your Editor](#configure-your-editor)
   - [Visual Studio Code](#visual-studio-code)
   - [Neovim](#neovim)
+  - [Emacs](#emacs)
 - [Formatting your code with OCamlFormat](#formatting-your-code-with-ocamlformat)
 
 ## Terminology
