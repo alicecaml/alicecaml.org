@@ -86,8 +86,14 @@ alice tools install
 </div>
 
 This includes `ocamllsp`, `dot-merlin-reader`, and the OCaml compiler that was
-used to compile them both. All tools are installed to
-`$HOME/.alice/current/bin` so make sure that directory is in your `PATH`
+used to compile them both. The install location differs between OSes:
+
+- On Unix-like systems they are installed to `$HOME/.local/share/alice/current/bin`
+  (but the `$HOME/.local/share` prefix can be overriden by the value of the
+  `XDG_DATA_HOME` environment variable).
+- On Windows they are installed to `%USERPROFILE%\AppData\Local\alice\current\bin`.
+
+Make sure that the directory appropriate to your system is in your `PATH`
 variable and appears earlier than any other directory that might contain OCaml
 tools (e.g. the `bin` directory from an opam switch).
 
