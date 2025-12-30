@@ -23,6 +23,15 @@ which complies with the to the XDG spec.
 
 ## Install Alice v0.3.0
 
+On Windows, Alice v0.3.0 can be installed with [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
+<div class="code-with-copy-button code-with-prompt-windows">
+
+```bash
+winget install OCaml.Alice --version 0.3.0
+```
+</div>
+
+
 On macOS and Linux, the latest version of Alice can be installed with [Homebrew](https://brew.sh):
 <div class="code-with-copy-button code-with-prompt">
 

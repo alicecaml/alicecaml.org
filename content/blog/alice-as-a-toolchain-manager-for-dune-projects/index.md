@@ -62,9 +62,6 @@ curl -fsSL https://alicecaml.org/install.sh | sh
 ```
 </div>
 
-Read more about installing development tools
-[here](@/install.md#development-tools).
-
 The remainder of this post will go through a minimal example of setting up a fresh
 machine with Alice and its binary versions of development tools, and then
 developing a Dune project using these tools. For the sake of ease of following

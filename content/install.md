@@ -82,7 +82,7 @@ page](https://github.com/alicecaml/alice/releases). Download and extract the
 `.tar.gz` archive appropriate to your system, and copy the file `bin/alice` to one of the directories
 in your `PATH` variable.
 
-To manually install [OCaml development tools](#development-tools) to a specific location such as `/usr/local`, run:
+To manually install OCaml development tools to a specific location such as `/usr/local`, run:
 <div class="code-with-copy-button code-with-prompt">
 
 ```bash
