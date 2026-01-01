@@ -17,9 +17,12 @@ This is a breaking change.
 
 ## Migrating from earlier versions
 
-If you installed OCaml development tools with Alice, delete your `~/.alice`
-directory and run `alice tools install` to re-install tools to a new location
-which complies with the to the XDG spec.
+- Delete `~/.alice`.
+- If you have a block in your shell config starting with `# BEGIN configuration from Alice installer`, remove that block.
+- If you installed Alice with the installation script then run the script again.
+- If you used Alice to install OCaml tools, you'll need to reinstall those tools (run `alice tools install`).
+- If you've configured a custom sandbox template with Visual Studio Code for any Alice projects,
+  change the template based on the new LSP instructions for Visual Studio Code [here](@/lsp/index.md#visual-studio-code).
 
 ## Install Alice v0.3.0
 
