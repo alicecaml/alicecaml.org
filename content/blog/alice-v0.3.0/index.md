@@ -23,6 +23,15 @@ which complies with the to the XDG spec.
 
 ## Install Alice v0.3.0
 
+On all platforms that support [Opam](https://github.com/ocaml/opam), install Alice v0.3.0 with:
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+opam update && opam install alice.0.3.0
+```
+</div>
+
+
 On Windows, Alice v0.3.0 can be installed with [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
 <div class="code-with-copy-button code-with-prompt-windows">
 
