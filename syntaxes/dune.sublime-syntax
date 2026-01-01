@@ -1,3 +1,4 @@
+# vim: syntax=yaml
 # A subset of dune syntax
 
 name: dune

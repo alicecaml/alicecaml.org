@@ -1,0 +1,51 @@
+# vim: syntax=yaml
+# KDL syntax specialized for Alice.kdl files.
+# Ideally this would use something like
+# https://github.com/eugenesvk/sublime-KDL instead but it doesn't seem to work
+# with zola.
+
+name: alice-kdl
+scope: source.alice-kdl
+
+contexts:
+  main:
+    - match: package
+      scope: keyword.alice-kdl
+      push: package
+  package:
+    - match: '{'
+      scope: punctuation.section.braces.begin.alice-kdl
+      set: package-children
+  package-children:
+    - match: '}'
+      scope: punctuation.section.braces.end.alice-kdl
+      pop: 1
+    - match: (name|version)
+      scope: keyword.alice-kdl
+      push: string-value
+    - match: dependencies
+      scope: keyword.alice-kdl
+      push: dependencies
+  string-value:
+    - match: '[^ ]+'
+      scope: string.alice-kdl
+      pop: 1
+  dependencies:
+    - match: '{'
+      scope: punctuation.section.braces.begin.alice-kdl
+      set: dependencies-children
+  dependencies-children:
+    - match: '}' #######
+      scope: punctuation.section.braces.end.alice-kdl
+      pop: 1
+    - match: \w+
+      scope: keyword.alice-kdl
+      push: dependency
+  dependency:
+    - match: \w+
+      scope: variable.parameter.alice-kdl
+    - match: =
+      scope: punctuation.separator.alice-kdl
+      push: string-value
+    - match: $
+      pop: 1
