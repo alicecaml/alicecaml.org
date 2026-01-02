@@ -14,7 +14,7 @@ See more installation options [here](@/install.md).
 
 Here's how to run your first OCaml program on a computer with no pre-installed
 OCaml tools (you will need a C compiler though!):
-```bash
+```
 $ alice tools install
 $ alice new hello
 $ cd hello

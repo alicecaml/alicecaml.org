@@ -10,7 +10,7 @@ scope: source.alice-kdl
 contexts:
   main:
     - match: package
-      scope: keyword.alice-kdl
+      scope: entity.name.tag.alice-kdl
       push: package
   package:
     - match: '{'
@@ -21,10 +21,10 @@ contexts:
       scope: punctuation.section.braces.end.alice-kdl
       pop: 1
     - match: (name|version)
-      scope: keyword.alice-kdl
+      scope: entity.name.tag.alice-kdl
       push: string-value
     - match: dependencies
-      scope: keyword.alice-kdl
+      scope: entity.name.tag.alice-kdl
       push: dependencies
   string-value:
     - match: '[^ ]+'
@@ -39,7 +39,7 @@ contexts:
       scope: punctuation.section.braces.end.alice-kdl
       pop: 1
     - match: \w+
-      scope: keyword.alice-kdl
+      scope: entity.name.tag.alice-kdl
       push: dependency
   dependency:
     - match: \w+
