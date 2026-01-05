@@ -309,7 +309,7 @@ right-click inside the editing window and select "Format Document"). These tools
 when you run `alice tools install`, and can alternatively be installed with opam
 by installing the `ocamlformat` package. By default auto-formatting is disabled for
 new projects, but a project can enable auto-formatting by creating an empty file named
-`.ocamlformat` at their root (i.e. next to `Alice.toml`).  Check this file into
+`.ocamlformat` at their root (i.e. next to `Alice.kdl`).  Check this file into
 version control so all collaborators on a project share the same code style.
 Read more about OCamlFormat in its
 [manual](https://ocaml.org/p/ocamlformat/latest/doc/index.html).
