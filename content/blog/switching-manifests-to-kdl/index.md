@@ -65,7 +65,7 @@ metadata should be _inside_ the package instead of next to it.
 
 Considering alternative popular formats, I find that XML is too verbose, JSON
 requires quotes on keys and some versions don't support trailing commas or
-comments, and I always make typos when writing YAML. TOML was still the best
+comments, and I always make mistakes with indentation when writing YAML. TOML was still the best
 option I was aware of, especially considering I expect users to modify these
 files manually.
 
