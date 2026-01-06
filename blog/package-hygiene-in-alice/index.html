@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Package Hygiene in Alice
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/package-hygiene-in-alice/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/package-hygiene-in-alice/">
+
+			
+				<meta name="description" content="This post describes Alice&#x27;s packaging protocol, and how it enforces hygiene while building packages.">
+				<meta property="og:description" content="This post describes Alice&#x27;s packaging protocol, and how it enforces hygiene while building packages.">
+			
+
+			
+				<meta property="article:published_time" content="2025-11-20T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>
+Package Hygiene in Alice
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Package Hygiene in Alice</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2025-11-20T00:00:00+00:00">
+    November 20, 2025
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/implementation" aria-label="tag">implementation</a>
+  
+</p>
+
+
+  
+
+<p>Alice organizes code into packages. All the code for a package goes in OCaml
+source files in the package’s <code>src</code> directory. The presence of a <code>main.ml</code> file
+indicates that the package is <em>executable</em>, and will be linked into a program
+with the same name as the package. The presence of a <code>lib.ml</code> file indicates
+that the package is a <em>library</em>, and the contents of the <code>lib.ml</code> file (or
+<code>lib.mli</code> file if present) is the <em>public interface</em> to the package.
+A package can also be both an executable <em>and</em> a library if it has both a
+<code>main.ml</code> and a <code>lib.ml</code> file.</p>
+<p>If a package is a library then other packages can depend on it, and access the
+definitions from its public interface via a module named after the package (but
+with the first letter capitalized to comply with OCaml’s module naming rules).
+Alice packages must be named such that capitalizing the first letter of their
+name gives a valid OCaml module name.
+I’ll refer to this module as a <em>package module</em>. In Alice, the only way to refer to
+definitions from a package other than the current package is via the other
+package`s package module.</p>
+<p>Packages can depend on other packages, which themselves depend on more packages,
+forming a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">Directed Acyclic
+Graph (DAG)</a> where the nodes
+are packages and edges represent the dependency relationship between two packages.</p>
+<p>A package’s <em>immediate dependencies</em> are those packages which it directly
+depends on; exactly those packages listed in the <code>[dependencies]</code> section of the
+package’s manifest.</p>
+<p>The <em>dependency closure</em> of a package is that package’s immediate
+dependencies, plus the immediate dependencies of all of its immediate
+dependencies, and so on.</p>
+<p>The first graph below highlights in cyan the immediate dependencies of <code>a</code> and
+the second graph highlights <code>a</code>’s dependency closure.</p>
+<div style="display:flex">
+<p><img src="https://alicecaml.github.io/alicecaml.org/blog/package-hygiene-in-alice/immediate-dependencies.png" alt="A DAG where the immediate dependencies of node “a” are highlighted" /></p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/blog/package-hygiene-in-alice/dependency-closure.png" alt="A DAG where the dependency closure of node “a” are highlighted" /></p>
+</div>
+<h2 id="package-hygiene"><a class="zola-anchor" href="#package-hygiene" aria-label="Anchor link for: package-hygiene">Package Hygiene</a></h2>
+<p>I’ll introduce the concept of <em>package hygiene</em> which refers to how much of the code from a package’s
+dependency closure is inaccessible by that package.
+Let’s call a package management system <em>hygienic</em> if code in one
+package only has access to code from the <em>public interfaces</em> of its
+<em>immediate dependencies</em>.</p>
+<p>Let’s break this definition down into two properties:</p>
+<ol>
+<li>The only <em>package modules</em> that can be accessed by code in a package are those of its
+<em>immediate dependencies</em>. It is a compile error for a package to refer to a
+<em>package module</em> from packages in its <em>dependendcy closure</em> other than
+those of its <em>immediate dependencies</em>.</li>
+<li>The only definitions which can be accessed inside a <em>package module</em> are those
+from the package’s <em>public interface</em>. It’s a compile error for a package to
+refer to a definition from a dependency which is not exposed in its <em>public
+interface</em> (i.e. the package’s <code>lib.ml</code> file).</li>
+</ol>
+<p>Package hygiene is a useful property for software maintenance and safety.</p>
+<p>The first property means that packages are forced to specify as dependencies, exactly the packages that
+they need access to, and are only given direct access to those packages.
+Without this property, packages can break due to the removal of
+load-bearing transitive dependencies. If <code>a</code> depends on <code>b</code>, and <code>b</code>
+depends on <code>c</code>, and <code>a</code> starts referring to <code>c</code> directly without
+explicitly adding it as a dependency, then <code>a</code> could break if <code>b</code> ever
+removes its dependency on <code>c</code>, or changes the version of <code>c</code> that it
+depends on. The maintenance burden on a package ecosystem can be
+reduced if the package manager doesn’t let you get into this situation
+in the first place.</p>
+<p>The second property allows packages to make strong guarantees about correctness, since
+the only way to interact with a package is through a specific
+interface. The public interface to a package can be designed to
+enforce invariants over the types defined in that package, and there’s
+no way for client code to circumvent the interface to bypass those
+protections.</p>
+<h2 id="package-hygiene-in-dune"><a class="zola-anchor" href="#package-hygiene-in-dune" aria-label="Anchor link for: package-hygiene-in-dune">Package Hygiene in Dune?</a></h2>
+<p>Dune lacks both of the above
+hygiene
+properties. This can be demonstrated succinctly with a small project depending
+on the <a href="https://github.com/janestreet/core">core</a> package:</p>
+<pre data-lang="dune" style="background-color:#ffffff;color:#323232;" class="language-dune "><code class="language-dune" data-lang="dune"><span>(</span><span style="font-weight:bold;color:#a71d5d;">lang</span><span> dune </span><span style="color:#0086b3;">3</span><span>.</span><span style="color:#0086b3;">20</span><span>)
+</span><span style="font-style:italic;color:#969896;">; dune-project
+</span><span>
+</span><span>(</span><span style="font-weight:bold;color:#a71d5d;">package
+</span><span> (</span><span style="font-weight:bold;color:#a71d5d;">name</span><span> leak)
+</span><span> (</span><span style="font-weight:bold;color:#a71d5d;">depends
+</span><span>  ocaml
+</span><span>  (core
+</span><span>   (</span><span style="font-weight:bold;color:#a71d5d;">=</span><span> v0.</span><span style="color:#0086b3;">17</span><span>.</span><span style="color:#0086b3;">1</span><span>))))
+</span></code></pre>
+<pre data-lang="dune" style="background-color:#ffffff;color:#323232;" class="language-dune "><code class="language-dune" data-lang="dune"><span style="font-style:italic;color:#969896;">; dune
+</span><span>
+</span><span>(</span><span style="font-weight:bold;color:#a71d5d;">executable
+</span><span> (</span><span style="font-weight:bold;color:#a71d5d;">public_name</span><span> main)
+</span><span> (</span><span style="font-weight:bold;color:#a71d5d;">package</span><span> leak)
+</span><span> (</span><span style="font-weight:bold;color:#a71d5d;">libraries</span><span> core))
+</span></code></pre>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-style:italic;color:#969896;">(* leak.ml *)
+</span><span>
+</span><span style="font-weight:bold;color:#a71d5d;">let </span><span style="color:#0086b3;">() </span><span style="font-weight:bold;color:#a71d5d;">= 
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">let </span><span style="font-weight:bold;color:#795da3;">_ </span><span>: </span><span style="font-weight:bold;color:#a71d5d;">unit Sexplib0__Sexp_conv_labeled_tuple.Fields.t =
+</span><span>    Sexplib0__Sexp_conv_labeled_tuple.Fields.Empty
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">in
+</span><span>  </span><span style="color:#0086b3;">()
+</span></code></pre>
+<p>This code has access to a module <code>Sexplib0__Sexp_conv_labeled_tuple</code> which
+corresponds to the <code>sexp_conv_labeled_tuple.ml</code> file from the package <code>sexplib0</code>,
+which is a dependency of the package <code>sexplib</code>, which is a dependency of <code>core</code>.
+Opam packages follow a convention of putting their public code
+in a module named after the package, and under this convention the
+<code>Sexp_conv_labeled_tuple</code> module referred to above isn’t part of the public interface
+to <code>sexplib0</code>.</p>
+<p>So Dune allows code in a package to access private definitions from
+non-immediate dependencies, violating both hygiene properties. Dune does have
+what we might call “soft” hygiene since it renames modules so they are unlikely
+to be referred to by accident, but someone determined to intentionally violate
+package hygiene can do so.</p>
+<p>Fortunately Dune might be about to get true package hygiene in an upcoming release
+thanks to <a href="https://github.com/ocaml/dune/pull/12666">this PR</a>. This uses a
+newish option to the OCaml compiler, <code>-H</code>:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span> -H &lt;dir&gt;  Add &lt;dir&gt; to the list of &quot;hidden&quot; include directories
+</span><span>     (Like -I, but the program can not directly reference these dependencies)
+</span></code></pre>
+<p>Had I been aware of <code>-H</code> while doing
+the work described below adding package hygiene to Alice, it would have simplified things greatly!
+I didn’t notice it because it’s not in the compiler’s man page, though clearly
+I didn’t look very hard because it is in the output of <code>-help</code>.
+Still, I’ve come
+up with a solution that will work with older compilers lacking this feature, and
+employs what I think are some interesting techniques to work around the fact
+that until the relatively recent addition of <code>-H</code>, the
+OCaml compiler did not make it easy to implement hygienic package management.</p>
+<h2 id="why-hygienic-packages-in-ocaml-is-was-hard"><a class="zola-anchor" href="#why-hygienic-packages-in-ocaml-is-was-hard" aria-label="Anchor link for: why-hygienic-packages-in-ocaml-is-was-hard">Why Hygienic Packages in OCaml is (was?) Hard</a></h2>
+<p>The compiler has no concept of packages. The compiler compiles OCaml source
+files into object files, and links object files into executables or library
+archives. Package managers for OCaml must implement packaging policies (such as
+hygiene) on top of the primitives made available by the compiler.</p>
+<p>OCaml source files may depend on each other. Each file implicitly defines a
+module named after the file, and code in one file may refer to modules
+corresponding to other files, provided there are no dependency cycles between
+files. When compiling a file which refers to a module that isn’t in scope, the
+compiler will try to find an object file whose name indicates that it contains the
+module in question. The compiler searches for this object file in the same
+directory as the file it’s currently compiling, and also in each directory
+passed to the compiler with the <code>-I</code> option.</p>
+<p>Let’s see how we might implement the first of my two hygiene properties,
+that only the immediate dependencies of a package may be referred to by that
+package. A reasonable approach to build a package with the first hygiene
+property might be:</p>
+<ol>
+<li>Build all the packages in the <em>dependency closure</em> of the package (by
+recursively applying this strategy), storing the compiled object files in
+some directory corresponding to their package.</li>
+<li>Build the package, passing with <code>-I</code> the directory containing object files
+for each <em>immediate dependency</em> of the package only.</li>
+</ol>
+<p>Since packages in the dependency closure but which aren’t immediate dependencies
+are excluded in step 2 above, hygiene is achieved since the package code being
+compiled doesn’t have access to them.</p>
+<p>This gives us the desired hygiene property, however some correct programs
+won’t compile with this policy due to <em>module aliases</em>. In OCaml a module
+defined in one file may be aliased by another file, but when compiling code
+that refers to the aliased module, even indirectly, the directory containing the
+<em>original</em> module definition must be passed with  <code>-I</code>. Suppose we have packages
+<code>a</code>, <code>b</code>, and <code>c</code>, where <code>a</code> depends on <code>b</code> and <code>b</code> depends on <code>c</code>, and the
+public interface to <code>b</code> has:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">module </span><span>C_alias </span><span style="font-weight:bold;color:#a71d5d;">= </span><span>C
+</span></code></pre>
+<p>If package <code>a</code> refers to <code>B.C_alias</code>, then in order to build <code>a</code> we need to pass
+the path to the directory containing <code>c</code>’s object files with <code>-I</code>.
+However passing <code>c</code>’s object files with <code>-I</code> would make it possible for <code>a</code> to
+refer to <code>c</code> <em>directly</em>, which violates the first hygiene property.</p>
+<p>This is where the new <code>-H</code> option might save us. That option acts similarly to <code>-I</code>, in that
+it lets the compiler use modules defined in a directory when compiling code that
+refers to them, however unlike <code>-I</code> it doesn’t allow code to refer to these
+modules <em>directly</em>. So a hygienic approach to building a package using <code>-H</code>
+might be to pass the paths to directories containing compiled object files for
+immediate dependencies with <code>-I</code>, and for other packages in the dependency
+closure with <code>-H</code>, allowing their modules to be used during compilation but not
+referred to directly.</p>
+<p>Note that the approach above is only sufficient for the first hygiene property.
+On its own it’s not sufficient to enforce the second hygiene property, to
+prevent packages from accessing private code from its immediate dependencies.</p>
+<p>As I said earlier, I wasn’t aware of <code>-H</code> when implementing hygienic packages in
+Alice. Instead I’ve come up with a packaging protocol that enforces both hygiene
+properties using some other compiler features and a small amount of generated
+code.</p>
+<h2 id="package-hygiene-in-alice"><a class="zola-anchor" href="#package-hygiene-in-alice" aria-label="Anchor link for: package-hygiene-in-alice">Package Hygiene in Alice</a></h2>
+<p>In order to resolve module aliases, the object files from each package in the
+dependency closure of the package being built must be made known to the compiler
+by passing their containing directories with <code>-I</code>. Alice does this in a hygienic
+way by generating modules which
+<a href="https://en.wikipedia.org/wiki/Variable_shadowing">shadow</a>
+the modules that should be inaccessible.</p>
+<h3 id="compiler-features"><a class="zola-anchor" href="#compiler-features" aria-label="Anchor link for: compiler-features">Compiler Features</a></h3>
+<p>Alice’s packaging protocol depends on two compiler options I hadn’t previously
+encountered:
+<code>-open</code> and <code>-pack</code>.</p>
+<p>The <code>-open Some_module</code> option takes a module name <code>Some_module</code>, and when
+compiling a file, acts as though the file began with a new line <code>open Some_module</code>. (Read <a href="https://ocaml.org/docs/modules#naming-and-scoping">this</a> to
+learn more about what it means to open a module in OCaml.)
+The <code>-open</code> option can be passed multiple times, resulting in the effect
+of multiple <code>open &lt;module&gt;</code> lines being at the start of the compiled file, in the same
+order as their corresponding <code>-open</code> options.</p>
+<p>The <code>-pack</code> option creates an object file combining a given set of existing
+object files, making each of their corresponding modules accessible as
+sub-modules. For example:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>ocamlopt.opt -pack foo.cmx bar.cmx baz.cmx -o qux.cmx
+</span></code></pre>
+<p>This creates a new module <code>Qux</code> with the object file <code>qux.cmx</code>. The modules
+<code>Foo</code>, <code>Bar</code>, and <code>Baz</code> can now be accessed within <code>Qux</code> as <code>Qux.Foo</code>,
+<code>Qux.Bar</code>, and <code>Qux.Baz</code> respectively. Importantly these are <em>not</em> module
+aliases. Code accessing the modules via <code>qux.cmx</code> can be compiled
+<em>without</em> access to <code>foo.cmx</code>, <code>bar.cmx</code>, or <code>baz.cmx</code>.</p>
+<p>When compiling a file that will eventually be passed to
+<code>ocamlopt.opt -pack foo.cmx</code>,
+it’s necessary to pass an additional option <code>-for-pack Foo</code>, specifying the name
+of the module that the file will eventually be packed into as a sub-module.</p>
+<h3 id="the-packaging-protocol"><a class="zola-anchor" href="#the-packaging-protocol" aria-label="Anchor link for: the-packaging-protocol">The Packaging Protocol</a></h3>
+<p>To build a package, first recursively apply the process I’m about to describe
+to build the immediate dependencies of the package, which will result in the
+package’s dependency closure being built.</p>
+<p>The result of building a package is stored across several different directories:</p>
+<ul>
+<li>The package’s <em>private</em> output directory contains the compiled artifacts
+corresponding to each source file of the project. There’s a roughly one to one
+mapping between <code>.ml</code> source files and <code>.cmx</code> object files. All the object files go
+in this private output directory.</li>
+<li>The package’s <em>public</em> output directory contains a file named
+<code>internal_modules_of_&lt;package&gt;.cmx</code> (replacing <code>&lt;package&gt;</code> with the name of
+the package), which is the output of running <code>ocamlopt.opt -pack ...</code> on all the
+object files in the package’s private directory. All top-level modules of the
+package, corresponding to source files, are accessible as sub-modules of the
+<code>Internal_modules_of_&lt;package&gt;</code> module. There’s a second file in the public
+directory named <code>public_interface_to_open_of_&lt;package&gt;.cmx</code> which is the result of
+compiling a generated file. This file defines the module that will be
+<code>-open</code>ed when compiling code in packages depending on this package.</li>
+<li>The package’s <em>generated</em> output directory, containing the generated
+<code>public_interface_to_open_of_&lt;package&gt;.ml</code> file, that will be compiled to the
+<code>public_interface_to_open_of_&lt;package&gt;.cmx</code> file in the public directory.</li>
+</ul>
+<p>Once all the dependencies of the package have been built, compile each source
+file in the package. When compiling a source file, for each package in the
+package’s dependency closure, pass that package’s public output directory with
+<code>-I</code>. For each of the package’s immediate dependencies, pass <code>-open Public_interface_to_open_of_&lt;dependency&gt;</code>. The file needs to be compiled with the
+<code>-for-pack</code> option since it will eventually be packed into a file
+<code>internal_modules_of_&lt;package&gt;.cmx</code>. Store the output in the package’s private
+output directory.</p>
+<p>For example, to compile a source file <code>a.ml</code> from a package named <code>foo</code>, whose
+dependency closure is the packages <code>bar</code>, <code>baz</code>, and <code>qux</code>, and whose immediate
+dependencies are <code>bar</code> and <code>qux</code>, compile it with:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>ocamlopt.opt a.ml -c \
+</span><span>  -I path/to/bar/public \
+</span><span>  -I path/to/baz/public \
+</span><span>  -I path/to/qux/public \
+</span><span>  -open Public_interface_to_open_of_bar \
+</span><span>  -open Public_interface_to_open_of_qux \
+</span><span>  -for-pack Internal_modules_of_foo \
+</span><span>  -o path/to/foo/private/a.cmx
+</span></code></pre>
+<p>Once all the source files from the package have been compiled, create the
+<code>internal_modules_of_&lt;package&gt;.cmx</code> file by running the compiler with <code>-pack</code>,
+passing it all the object files from the package’s private directory.
+Store the result in the package’s public output directory.</p>
+<p>Continuing the example, assume the package has source files <code>a.ml</code>, <code>b.ml</code>,
+<code>c.ml</code>, and <code>lib.ml</code> (remember <code>lib.ml</code> defines the public interface to the
+package). Create the <code>internal_modules_of_foo.cmx</code> object file with the command:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>ocamlopt.opt -pack \
+</span><span>  path/to/foo/private/a.cmx \
+</span><span>  path/to/foo/private/b.cmx \
+</span><span>  path/to/foo/private/c.cmx \
+</span><span>  path/to/foo/private/lib.cmx \
+</span><span>  -o path/to/foo/public/internal_modules_of_foo.cmx
+</span></code></pre>
+<p>It might seem odd to store the internal modules of a package in its public
+output directory. This directory is public in the sense that all packages
+depending on this package will have access to the public directory with <code>-I</code>,
+however due to shadowing of the <code>Internal_modules_of_&lt;package&gt;</code> module name in
+the <code>-open</code>ed <code>Public_interface_to_open_of_&lt;package&gt;</code> module, client code won’t actually
+have access to the package’s internal modules.</p>
+<p>Now generate a file in the package’s generated output directory named
+<code>public_interface_to_open_of_&lt;package&gt;.ml</code>. I’ll illustrate this
+generated file by continuing the example above:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-style:italic;color:#969896;">(* public_interface_to_open_of_foo.ml *)
+</span><span>
+</span><span style="font-style:italic;color:#969896;">(* Recall that the public interface to a package is defined in a file
+</span><span style="font-style:italic;color:#969896;">   named &quot;lib.ml&quot; which corresponds to a module named &quot;Lib&quot;, which is
+</span><span style="font-style:italic;color:#969896;">   among the modules packed into the &quot;Internal_modules_of_&lt;package&gt;&quot;
+</span><span style="font-style:italic;color:#969896;">   module. Client code must be able to refer to the package by the
+</span><span style="font-style:italic;color:#969896;">   package&#39;s name, so define a module alias here named after the package,
+</span><span style="font-style:italic;color:#969896;">   aliasing the &quot;Lib&quot; module defined in the package. This will allow
+</span><span style="font-style:italic;color:#969896;">   client code to refer to the public interface of the package with a
+</span><span style="font-style:italic;color:#969896;">   module named after the package. *)
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Foo </span><span style="font-weight:bold;color:#a71d5d;">= </span><span>Internal_modules_of_foo.Lib
+</span><span>
+</span><span style="font-style:italic;color:#969896;">(* Shadow the internal modules of this package. Since the
+</span><span style="font-style:italic;color:#969896;">   &quot;Public_interface_to_open_of_&lt;package&gt;&quot; module will be opened by all
+</span><span style="font-style:italic;color:#969896;">   client code, defining a new module here named the same as the packed
+</span><span style="font-style:italic;color:#969896;">   module of internal modules will mean that if client code does try to
+</span><span style="font-style:italic;color:#969896;">   access the internals of this package, instead they get an empty
+</span><span style="font-style:italic;color:#969896;">   module. This enforces the second hygiene property, preventing client
+</span><span style="font-style:italic;color:#969896;">   code from accessing the private internals of its immediate
+</span><span style="font-style:italic;color:#969896;">   dependencies. If someone does try to refer to this shadowed module
+</span><span style="font-style:italic;color:#969896;">   anyway, the deprecated annotation will mean they see a compiler
+</span><span style="font-style:italic;color:#969896;">   warning. *)
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Internal_modules_of_foo </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span><span>[</span><span style="font-weight:bold;color:#a71d5d;">@@</span><span>deprecated </span><span style="color:#183691;">&quot;This module is for internal use only.&quot;</span><span>]
+</span><span>
+</span><span style="font-style:italic;color:#969896;">(* Shadow the internal modules of the packages in the dependency
+</span><span style="font-style:italic;color:#969896;">   closure of this package. The public output directory of each package
+</span><span style="font-style:italic;color:#969896;">   in the dependency closure of this package is passed with -I when
+</span><span style="font-style:italic;color:#969896;">   compiling files from packages that depend on this package. Shadowing
+</span><span style="font-style:italic;color:#969896;">   the names of the packed internal modules of those packages prevents
+</span><span style="font-style:italic;color:#969896;">   access to their internals by clients of this package. *)
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Internal_modules_of_bar </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span><span>[</span><span style="font-weight:bold;color:#a71d5d;">@@</span><span>deprecated </span><span style="color:#183691;">&quot;This module is for internal use only.&quot;</span><span>]
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Internal_modules_of_baz </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span><span>[</span><span style="font-weight:bold;color:#a71d5d;">@@</span><span>deprecated </span><span style="color:#183691;">&quot;This module is for internal use only.&quot;</span><span>]
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Internal_modules_of_qux </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span><span>[</span><span style="font-weight:bold;color:#a71d5d;">@@</span><span>deprecated </span><span style="color:#183691;">&quot;This module is for internal use only.&quot;</span><span>]
+</span><span>
+</span><span style="font-style:italic;color:#969896;">(* Shadow the public interface to each of the packages in the
+</span><span style="font-style:italic;color:#969896;">   dependency closure of this package, preventing client code from
+</span><span style="font-style:italic;color:#969896;">   referring to packages outside their immediate dependencies. This
+</span><span style="font-style:italic;color:#969896;">   enforces the first hygiene property. *)
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Public_interface_to_open_of_bar </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span><span>[</span><span style="font-weight:bold;color:#a71d5d;">@@</span><span>deprecated </span><span style="color:#183691;">&quot;This module is for internal use only.&quot;</span><span>]
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Public_interface_to_open_of_baz </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span><span>[</span><span style="font-weight:bold;color:#a71d5d;">@@</span><span>deprecated </span><span style="color:#183691;">&quot;This module is for internal use only.&quot;</span><span>]
+</span><span style="font-weight:bold;color:#a71d5d;">module </span><span>Public_interface_to_open_of_qux </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span><span>[</span><span style="font-weight:bold;color:#a71d5d;">@@</span><span>deprecated </span><span style="color:#183691;">&quot;This module is for internal use only.&quot;</span><span>]
+</span></code></pre>
+<p>That final batch of module shadowing requires some care.
+In the example, <code>foo</code> immediately depends on <code>bar</code> and <code>qux</code>.
+But if <code>bar</code> also depended on <code>qux</code>, then inside
+<code>Public_interface_to_open_of_bar</code>, we would find the line:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">module </span><span>Public_interface_to_open_of_qux </span><span style="font-weight:bold;color:#a71d5d;">= struct end
+</span></code></pre>
+<p>That is, <code>bar</code> would shadow the public interface to <code>qux</code>.
+When compiling files in <code>foo</code>, if <code>Public_interface_to_bar</code>
+is opened before <code>Public_interface_to_qux</code>, then due to module name shadowing,
+<code>Public_interface_to_qux</code> will be the empty shadow rather than the
+true public interface to the package <code>qux</code>.</p>
+<p>To avoid this problem, it’s necessary to sort the <code>-open</code> arguments to
+the compiler such that if one dependency depends on another dependency, the
+depended upon package comes before the depending package (<code>qux</code> must
+come before <code>bar</code> in the example).</p>
+<p>Once the <code>public_interface_to_open_of_&lt;package&gt;.ml</code> file is generated,
+compile it, storing the result in the package’s public output
+directory. The package’s public output directory must be passed with <code>-I</code> since
+the generated code refers to <code>Internal_modules_of_&lt;package&gt;</code>.</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>ocamlopt.opt path/to/foo/generated/public_interface_to_open_of_foo.ml -c \
+</span><span>  -I path/to/foo/public \
+</span><span>  -o path/to/foo/public/public_interface_to_open_of_foo.cmx
+</span></code></pre>
+<p>And that’s it! All the necessary files are now in the package’s public
+output directory where they can be consumed while building any additional
+packages which depend on the current one.</p>
+<p>One final note:
+In order to link an executable that depends on packages, library
+archives (<code>.cmxa</code> files) must be generated for those packages. To create a
+<code>.cmxa</code> file for a package, Alice links the <code>.cmx</code> files in the
+package’s public directory. E.g.:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>ocamlopt.opt \
+</span><span>  path/to/foo/public/public_interface_to_open_of_foo.cmx \
+</span><span>  path/to/foo/public/internal_modules_of_foo.cmx \
+</span><span>  -a -o path/to/foo/public/lib.cmxa
+</span></code></pre>
+<p>To learn more, try compiling some interdependent Alice packages. See
+<a href="https://github.com/alicecaml/alice?tab=readme-ov-file#tutorial">here</a> for
+a brief tutorial on building packages with Alice. Run <code>alice build -vv</code> to see a
+list of all the commands run by Alice, and inspect the contents of the <code>build</code>
+directory to see the different output files created when building each package.</p>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-1-1&#x2F;" aria-label="Previous">
+	  Previous: Alice v0.1.1
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-1-2&#x2F;" aria-label="Next">
+	  Next: Alice v0.1.2
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

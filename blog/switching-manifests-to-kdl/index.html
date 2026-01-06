@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Switching Manifests to KDL
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/switching-manifests-to-kdl/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/switching-manifests-to-kdl/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+				<meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>
+Switching Manifests to KDL
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Switching Manifests to KDL</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2026-01-01T00:00:00+00:00">
+    January 01, 2026
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/implementation" aria-label="tag">implementation</a>
+  
+</p>
+
+
+  
+
+<p>Starting with the upcoming release of Alice v0.4.0, package manifests will change from TOML to
+<a href="https://kdl.dev">KDL</a>. The main reason is to avoid issues with nesting tables.</p>
+<p>Manifests are currently very simple but as Alice gains more features the
+manifest format will need to be extended, and I don’t want the syntactic
+difficulty of nesting tables in TOML to get in the way. There’s already an
+example of this in the TOML manifest format:</p>
+<pre data-lang="toml" style="background-color:#ffffff;color:#323232;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[package]
+</span><span style="color:#63a35c;">name </span><span>= </span><span style="color:#183691;">&quot;foo&quot;
+</span><span style="color:#63a35c;">version </span><span>= </span><span style="color:#183691;">&quot;0.1.0&quot;
+</span><span>
+</span><span>[dependencies]
+</span><span style="color:#63a35c;">bar </span><span>= { </span><span style="color:#63a35c;">path </span><span>= </span><span style="color:#183691;">&quot;../bar&quot; </span><span>}
+</span><span style="color:#63a35c;">baz </span><span>= { </span><span style="color:#63a35c;">path </span><span>= </span><span style="color:#183691;">&quot;../baz&quot; </span><span>}
+</span></code></pre>
+<p>Note how the “dependencies” table isn’t actually inside the “package” table, but
+rather they are adjacent in the document hierarchy. I implemented it this way
+initially because I wanted to quickly get something working, and when in doubt
+about UX I just copied whatever cargo does because I generally like its UX.</p>
+<p>However this metadata format doesn’t capture the fact that dependencies are <em>part of</em> a package.</p>
+<p>This fact is reflected in Alice’s implementation of packages:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">type t </span><span>=
+</span><span>  { id : Package_id</span><span style="font-weight:bold;color:#a71d5d;">.t
+</span><span>    </span><span style="font-style:italic;color:#969896;">(** The name and version of the package. *)
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">; </span><span>dependencies : Dependencies</span><span style="font-weight:bold;color:#a71d5d;">.t option
+</span><span>    </span><span style="font-style:italic;color:#969896;">(** This is an [_ option] so that a manifest with an empty dependencies
+</span><span style="font-style:italic;color:#969896;">        list and a manifest with no dependencies list can both round trip via
+</span><span style="font-style:italic;color:#969896;">        this type. *)
+</span><span>  }
+</span></code></pre>
+<p>And ideally it would also be reflected in package metadata, which means writing
+something like:</p>
+<pre data-lang="toml" style="background-color:#ffffff;color:#323232;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[package]
+</span><span style="color:#63a35c;">name </span><span>= </span><span style="color:#183691;">&quot;foo&quot;
+</span><span style="color:#63a35c;">version </span><span>= </span><span style="color:#183691;">&quot;0.1.0&quot;
+</span><span>
+</span><span>[package.dependencies]
+</span><span style="color:#63a35c;">bar </span><span>= { </span><span style="color:#63a35c;">path </span><span>= </span><span style="color:#183691;">&quot;../bar&quot; </span><span>}
+</span><span style="color:#63a35c;">baz </span><span>= { </span><span style="color:#63a35c;">path </span><span>= </span><span style="color:#183691;">&quot;../baz&quot; </span><span>}
+</span></code></pre>
+<p>…but I don’t like that because it repeats the word “package”.</p>
+<p>I believe that a tool’s UI should teach users how to think about the tool,
+and so the representation of a package’s metadata in its manifest should
+reflect a working mental model of packages. A package <em>has</em> dependencies just
+like it <em>has</em> a name and version. The representation of dependencies in package
+metadata should be <em>inside</em> the package instead of next to it.</p>
+<p>Considering alternative popular formats, I find that XML is too verbose, JSON
+requires quotes on keys and some versions don’t support trailing commas or
+comments, and I always make mistakes with indentation when writing YAML. TOML was still the best
+option I was aware of, especially considering I expect users to modify these
+files manually.</p>
+<p>Then somebody on the OCaml forum suggested trying out KDL and I really like it.
+Package metadata would look like:</p>
+<pre data-lang="alice-kdl" style="background-color:#ffffff;color:#323232;" class="language-alice-kdl "><code class="language-alice-kdl" data-lang="alice-kdl"><span style="color:#63a35c;">package </span><span>{
+</span><span>  </span><span style="color:#63a35c;">name </span><span style="color:#183691;">foo
+</span><span>  </span><span style="color:#63a35c;">version </span><span style="color:#183691;">&quot;0.1.0&quot;
+</span><span>  </span><span style="color:#63a35c;">dependencies </span><span>{
+</span><span>    </span><span style="color:#63a35c;">bar </span><span>path=</span><span style="color:#183691;">&quot;../bar&quot;
+</span><span>    </span><span style="color:#63a35c;">baz </span><span>path=</span><span style="color:#183691;">&quot;../baz&quot;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>I like this because the structure of the metadata matches the intuition for what a package is; dependencies are <em>part of</em> a package.</p>
+<p>KDL also lets us avoid writing <code>bar = { path = "../bar" }</code> when describing a dependency, which I find a little
+awkward because of the two <code>=</code> appearing on that line. KDL distinguishes between <em>nodes</em> and <em>properties</em>.
+The entire dependency description <code>bar path="../bar"</code> is a node named “bar”, and <code>path="../bar"</code> is a
+property of that node. You only need to write <code>=</code> when assigning values to properties, and not when defining nodes.</p>
+<p>There are some other nice properties of KDL, such as “slashdash comments” which
+allow commenting-out entire nodes, which I expect to come in handy when
+manually editing package metadata during debugging and development.</p>
+<p>Fortunately Alice is still simple enough that migrating existing manifests from TOML to KDL is easy.
+The example manifest on this page showcases the entire manifest syntax so should serve as a migration guide.</p>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-3-0&#x2F;" aria-label="Previous">
+	  Previous: Alice v0.3.0
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-4-0&#x2F;" aria-label="Next">
+	  Next: Alice v0.4.0
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>
