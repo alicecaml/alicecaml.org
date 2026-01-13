@@ -82,7 +82,7 @@ On NixOS, Alice v0.4.0 can be installed via the flake
 <div class="code-with-copy-button code-with-prompt">
 
 ```bash
-nix shell github:alicecaml/alice/0.4.0
+nix shell github:alicecaml/alice#alice_0_4_0.default
 ```
 </div>
 
