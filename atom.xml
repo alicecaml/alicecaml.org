@@ -1,0 +1,1990 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Alice the Caml</title>
+    <link rel="self" type="application/atom+xml" href="https://alicecaml.github.io/alicecaml.org/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-05T00:00:00+00:00</updated>
+    <id>https://alicecaml.github.io/alicecaml.org/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Alice v0.4.0</title>
+        <published>2026-01-05T00:00:00+00:00</published>
+        <updated>2026-01-05T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-4-0/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-v0-4-0/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-4-0/">&lt;p&gt;Announcing the release of &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.4.0&quot;&gt;Alice v0.4.0&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
+&lt;p&gt;The main change in this version is switching the manifest format from TOML to &lt;a href=&quot;https:&#x2F;&#x2F;kdl.dev&#x2F;&quot;&gt;KDL&lt;&#x2F;a&gt;.
+Read &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;switching-manifests-to-kdl&#x2F;&quot;&gt;this page&lt;&#x2F;a&gt; for the reasoning
+behind this change.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;migrating-from-earlier-versions&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#migrating-from-earlier-versions&quot; aria-label=&quot;Anchor link for: migrating-from-earlier-versions&quot;&gt;Migrating from earlier versions&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;This example demonstrates how all the features of package manifests are
+represented in the old TOML format and the new KDL format.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;Alice.toml&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;toml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-toml &quot;&gt;&lt;code class=&quot;language-toml&quot; data-lang=&quot;toml&quot;&gt;&lt;span&gt;[package]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;name &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;foo&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;version &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;0.1.0&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[dependencies]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;bar &lt;&#x2F;span&gt;&lt;span&gt;= { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;path &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;bar&amp;quot; &lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;baz &lt;&#x2F;span&gt;&lt;span&gt;= { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;path &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;baz&amp;quot; &lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;Alice.kdl&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;alice-kdl&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-alice-kdl &quot;&gt;&lt;code class=&quot;language-alice-kdl&quot; data-lang=&quot;alice-kdl&quot;&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;package &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;name &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;foo
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;version &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;0.1.0&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;dependencies &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;bar &lt;&#x2F;span&gt;&lt;span&gt;path=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;bar&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;baz &lt;&#x2F;span&gt;&lt;span&gt;path=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;baz&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;install-alice-v0-4-0&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#install-alice-v0-4-0&quot; aria-label=&quot;Anchor link for: install-alice-v0-4-0&quot;&gt;Install Alice v0.4.0&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;On all platforms that support &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ocaml&#x2F;opam&quot;&gt;opam&lt;&#x2F;a&gt;, install Alice v0.4.0 with:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;opam update &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;&amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span&gt;opam install alice.0.4.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On Windows, Alice v0.4.0 can be installed with &lt;a href=&quot;https:&#x2F;&#x2F;learn.microsoft.com&#x2F;en-us&#x2F;windows&#x2F;package-manager&#x2F;winget&#x2F;&quot;&gt;WinGet&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt-windows&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;winget install OCaml.Alice --version 0.4.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On macOS and Linux, the latest version of Alice can be installed with &lt;a href=&quot;https:&#x2F;&#x2F;brew.sh&quot;&gt;Homebrew&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;brew install alicecaml&#x2F;homebrew-tap&#x2F;alice
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Alternatively, on macOS and Linux, Alice v0.4.0 can be installed by running the &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;install&#x2F;#install-script&quot;&gt;install script&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;sh -s&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt; --&lt;&#x2F;span&gt;&lt;span&gt; 0.4.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On NixOS, Alice v0.4.0 can be installed via the flake
+&lt;code&gt;github:alicecaml&#x2F;alice&#x2F;0.4.0&lt;&#x2F;code&gt;, e.g.:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;nix shell github:alicecaml&#x2F;alice#alice_0_4_0.default
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Read more about installing Alice &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;install&#x2F;&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;release-notes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#release-notes&quot; aria-label=&quot;Anchor link for: release-notes&quot;&gt;Release Notes&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;changed&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#changed&quot; aria-label=&quot;Anchor link for: changed&quot;&gt;Changed&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Use &lt;a href=&quot;https:&#x2F;&#x2F;kdl.dev&quot;&gt;kdl&lt;&#x2F;a&gt; rather than toml for manifests. More info &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;install&#x2F;&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;fixed&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#fixed&quot; aria-label=&quot;Anchor link for: fixed&quot;&gt;Fixed&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Replace panics with user exceptions in some cases&lt;&#x2F;li&gt;
+&lt;li&gt;Detect case when the name of a dependency doesn’t match the name of the specified package&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Switching Manifests to KDL</title>
+        <published>2026-01-01T00:00:00+00:00</published>
+        <updated>2026-01-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/switching-manifests-to-kdl/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/switching-manifests-to-kdl/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/switching-manifests-to-kdl/">&lt;p&gt;Starting with the upcoming release of Alice v0.4.0, package manifests will change from TOML to
+&lt;a href=&quot;https:&#x2F;&#x2F;kdl.dev&quot;&gt;KDL&lt;&#x2F;a&gt;. The main reason is to avoid issues with nesting tables.&lt;&#x2F;p&gt;
+&lt;p&gt;Manifests are currently very simple but as Alice gains more features the
+manifest format will need to be extended, and I don’t want the syntactic
+difficulty of nesting tables in TOML to get in the way. There’s already an
+example of this in the TOML manifest format:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;toml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-toml &quot;&gt;&lt;code class=&quot;language-toml&quot; data-lang=&quot;toml&quot;&gt;&lt;span&gt;[package]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;name &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;foo&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;version &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;0.1.0&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[dependencies]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;bar &lt;&#x2F;span&gt;&lt;span&gt;= { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;path &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;bar&amp;quot; &lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;baz &lt;&#x2F;span&gt;&lt;span&gt;= { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;path &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;baz&amp;quot; &lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Note how the “dependencies” table isn’t actually inside the “package” table, but
+rather they are adjacent in the document hierarchy. I implemented it this way
+initially because I wanted to quickly get something working, and when in doubt
+about UX I just copied whatever cargo does because I generally like its UX.&lt;&#x2F;p&gt;
+&lt;p&gt;However this metadata format doesn’t capture the fact that dependencies are &lt;em&gt;part of&lt;&#x2F;em&gt; a package.&lt;&#x2F;p&gt;
+&lt;p&gt;This fact is reflected in Alice’s implementation of packages:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;type t &lt;&#x2F;span&gt;&lt;span&gt;=
+&lt;&#x2F;span&gt;&lt;span&gt;  { id : Package_id&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.t
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(** The name and version of the package. *)
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;; &lt;&#x2F;span&gt;&lt;span&gt;dependencies : Dependencies&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.t option
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(** This is an [_ option] so that a manifest with an empty dependencies
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;        list and a manifest with no dependencies list can both round trip via
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;        this type. *)
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And ideally it would also be reflected in package metadata, which means writing
+something like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;toml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-toml &quot;&gt;&lt;code class=&quot;language-toml&quot; data-lang=&quot;toml&quot;&gt;&lt;span&gt;[package]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;name &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;foo&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;version &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;0.1.0&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[package.dependencies]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;bar &lt;&#x2F;span&gt;&lt;span&gt;= { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;path &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;bar&amp;quot; &lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;baz &lt;&#x2F;span&gt;&lt;span&gt;= { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;path &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;baz&amp;quot; &lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;…but I don’t like that because it repeats the word “package”.&lt;&#x2F;p&gt;
+&lt;p&gt;I believe that a tool’s UI should teach users how to think about the tool,
+and so the representation of a package’s metadata in its manifest should
+reflect a working mental model of packages. A package &lt;em&gt;has&lt;&#x2F;em&gt; dependencies just
+like it &lt;em&gt;has&lt;&#x2F;em&gt; a name and version. The representation of dependencies in package
+metadata should be &lt;em&gt;inside&lt;&#x2F;em&gt; the package instead of next to it.&lt;&#x2F;p&gt;
+&lt;p&gt;Considering alternative popular formats, I find that XML is too verbose, JSON
+requires quotes on keys and some versions don’t support trailing commas or
+comments, and I always make mistakes with indentation when writing YAML. TOML was still the best
+option I was aware of, especially considering I expect users to modify these
+files manually.&lt;&#x2F;p&gt;
+&lt;p&gt;Then somebody on the OCaml forum suggested trying out KDL and I really like it.
+Package metadata would look like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;alice-kdl&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-alice-kdl &quot;&gt;&lt;code class=&quot;language-alice-kdl&quot; data-lang=&quot;alice-kdl&quot;&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;package &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;name &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;foo
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;version &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;0.1.0&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;dependencies &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;bar &lt;&#x2F;span&gt;&lt;span&gt;path=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;bar&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;baz &lt;&#x2F;span&gt;&lt;span&gt;path=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;..&#x2F;baz&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I like this because the structure of the metadata matches the intuition for what a package is; dependencies are &lt;em&gt;part of&lt;&#x2F;em&gt; a package.&lt;&#x2F;p&gt;
+&lt;p&gt;KDL also lets us avoid writing &lt;code&gt;bar = { path = &quot;..&#x2F;bar&quot; }&lt;&#x2F;code&gt; when describing a dependency, which I find a little
+awkward because of the two &lt;code&gt;=&lt;&#x2F;code&gt; appearing on that line. KDL distinguishes between &lt;em&gt;nodes&lt;&#x2F;em&gt; and &lt;em&gt;properties&lt;&#x2F;em&gt;.
+The entire dependency description &lt;code&gt;bar path=&quot;..&#x2F;bar&quot;&lt;&#x2F;code&gt; is a node named “bar”, and &lt;code&gt;path=&quot;..&#x2F;bar&quot;&lt;&#x2F;code&gt; is a
+property of that node. You only need to write &lt;code&gt;=&lt;&#x2F;code&gt; when assigning values to properties, and not when defining nodes.&lt;&#x2F;p&gt;
+&lt;p&gt;There are some other nice properties of KDL, such as “slashdash comments” which
+allow commenting-out entire nodes, which I expect to come in handy when
+manually editing package metadata during debugging and development.&lt;&#x2F;p&gt;
+&lt;p&gt;Fortunately Alice is still simple enough that migrating existing manifests from TOML to KDL is easy.
+The example manifest on this page showcases the entire manifest syntax so should serve as a migration guide.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Alice v0.3.0</title>
+        <published>2025-12-30T00:00:00+00:00</published>
+        <updated>2025-12-30T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-3-0/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-v0-3-0/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-3-0/">&lt;p&gt;Announcing the release of &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.3.0&quot;&gt;Alice v0.3.0&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
+&lt;p&gt;This release starts following the &lt;a href=&quot;https:&#x2F;&#x2F;specifications.freedesktop.org&#x2F;basedir&#x2F;latest&#x2F;&quot;&gt;XDG Base Directory Specification&lt;&#x2F;a&gt;.
+This means there is no longer a &lt;code&gt;~&#x2F;.alice&lt;&#x2F;code&gt; directory. Tools are installed to &lt;code&gt;~&#x2F;.local&#x2F;share&#x2F;alice&#x2F;current&#x2F;bin&lt;&#x2F;code&gt;, and Alice’s executable
+is installed to &lt;code&gt;~&#x2F;.local&#x2F;bin&lt;&#x2F;code&gt; if using the install script.&lt;&#x2F;p&gt;
+&lt;p&gt;This is a breaking change.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;migrating-from-earlier-versions&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#migrating-from-earlier-versions&quot; aria-label=&quot;Anchor link for: migrating-from-earlier-versions&quot;&gt;Migrating from earlier versions&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Delete &lt;code&gt;~&#x2F;.alice&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;If you have a block in your shell config starting with &lt;code&gt;# BEGIN configuration from Alice installer&lt;&#x2F;code&gt;, remove that block.&lt;&#x2F;li&gt;
+&lt;li&gt;If you installed Alice with the installation script then run the script again.&lt;&#x2F;li&gt;
+&lt;li&gt;If you used Alice to install OCaml tools, you’ll need to reinstall those tools (run &lt;code&gt;alice tools install&lt;&#x2F;code&gt;).&lt;&#x2F;li&gt;
+&lt;li&gt;If you’ve configured a custom sandbox template with Visual Studio Code for any Alice projects,
+change the template based on the new LSP instructions for Visual Studio Code &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;lsp&#x2F;#visual-studio-code&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;install-alice-v0-3-0&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#install-alice-v0-3-0&quot; aria-label=&quot;Anchor link for: install-alice-v0-3-0&quot;&gt;Install Alice v0.3.0&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;On all platforms that support &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ocaml&#x2F;opam&quot;&gt;Opam&lt;&#x2F;a&gt;, install Alice v0.3.0 with:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;opam update &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;&amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span&gt;opam install alice.0.3.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On Windows, Alice v0.3.0 can be installed with &lt;a href=&quot;https:&#x2F;&#x2F;learn.microsoft.com&#x2F;en-us&#x2F;windows&#x2F;package-manager&#x2F;winget&#x2F;&quot;&gt;WinGet&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt-windows&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;winget install OCaml.Alice --version 0.3.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On macOS and Linux, the latest version of Alice can be installed with &lt;a href=&quot;https:&#x2F;&#x2F;brew.sh&quot;&gt;Homebrew&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;brew install alicecaml&#x2F;homebrew-tap&#x2F;alice
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Alternatively, on macOS and Linux, Alice v0.3.0 can be installed by running the &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;install&#x2F;#install-script&quot;&gt;install script&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;sh -s&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt; --&lt;&#x2F;span&gt;&lt;span&gt; 0.3.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On NixOS, Alice v0.3.0 can be installed via the flake
+&lt;code&gt;github:alicecaml&#x2F;alice&#x2F;0.3.0&lt;&#x2F;code&gt;, e.g.:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;nix shell github:alicecaml&#x2F;alice&#x2F;0.3.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Read more about installing Alice &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;install&#x2F;&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;release-notes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#release-notes&quot; aria-label=&quot;Anchor link for: release-notes&quot;&gt;Release Notes&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;changed&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#changed&quot; aria-label=&quot;Anchor link for: changed&quot;&gt;Changed&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Follow the XDG convention when installing tools.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;fixed&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#fixed&quot; aria-label=&quot;Anchor link for: fixed&quot;&gt;Fixed&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Update dot-merlin-reader on windows to fix crash on launch.&lt;&#x2F;li&gt;
+&lt;li&gt;Fix issue running &lt;code&gt;alice tools exec&lt;&#x2F;code&gt; on windows in CMD.exe.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Alice v0.2.0</title>
+        <published>2025-12-01T00:00:00+00:00</published>
+        <updated>2025-12-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-2-0/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-v0-2-0/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-2-0/">&lt;p&gt;Announcing the release of &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.2.0&quot;&gt;Alice v0.2.0&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
+&lt;p&gt;This release adds support for LSP by generating .cmt files in the build directory and a .merlin file at the project’s root,
+as well as adding an additional development tool &lt;code&gt;dot-merlin-reader&lt;&#x2F;code&gt; which is
+necessary for using &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; in non-Dune projects. There’s a new &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;lsp&#x2F;&quot;&gt;LSP&lt;&#x2F;a&gt; page on
+this site with instructions for setting up your environment and editor to use LSP in Alice projects.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;install-alice-v0-2-0&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#install-alice-v0-2-0&quot; aria-label=&quot;Anchor link for: install-alice-v0-2-0&quot;&gt;Install Alice v0.2.0&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;On all platforms that support &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ocaml&#x2F;opam&quot;&gt;Opam&lt;&#x2F;a&gt;, install Alice v0.2.0 with:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;opam update &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;&amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span&gt;opam install alice.0.2.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On Windows, Alice v0.2.0 can be installed with &lt;a href=&quot;https:&#x2F;&#x2F;learn.microsoft.com&#x2F;en-us&#x2F;windows&#x2F;package-manager&#x2F;winget&#x2F;&quot;&gt;WinGet&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt-windows&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;winget install OCaml.Alice --version 0.2.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On macOS and Linux, the latest version of Alice can be installed with &lt;a href=&quot;https:&#x2F;&#x2F;brew.sh&quot;&gt;Homebrew&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;brew install alicecaml&#x2F;homebrew-tap&#x2F;alice
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Alternatively, on macOS and Linux, Alice v0.2.0 can be installed by running the &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;install&#x2F;#install-script&quot;&gt;install script&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;sh -s&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt; --&lt;&#x2F;span&gt;&lt;span&gt; 0.2.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On NixOS, Alice v0.2.0 can be installed via the flake
+&lt;code&gt;github:alicecaml&#x2F;alice&#x2F;0.2.0&lt;&#x2F;code&gt;, e.g.:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;nix shell github:alicecaml&#x2F;alice&#x2F;0.2.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Read more about installing Alice &lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;install&#x2F;&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;release-notes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#release-notes&quot; aria-label=&quot;Anchor link for: release-notes&quot;&gt;Release Notes&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;added&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#added&quot; aria-label=&quot;Anchor link for: added&quot;&gt;Added&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Generate files necessary to support ocamllsp.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;changed&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#changed&quot; aria-label=&quot;Anchor link for: changed&quot;&gt;Changed&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Switch to github for hosting tool archives.&lt;&#x2F;li&gt;
+&lt;li&gt;Display progress bar while downloading tools.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Alice v0.1.3</title>
+        <published>2025-11-28T00:00:00+00:00</published>
+        <updated>2025-11-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-3/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-3/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-3/">&lt;p&gt;Announcing the release of
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.1.3&quot;&gt;Alice v0.1.3&lt;&#x2F;a&gt;.
+This is a patch release though it
+doesn’t make any visible changes. The purpose of the release is to add a
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;blob&#x2F;0.1.3&#x2F;packaging&#x2F;replace-compiler-version-with-template-in-lockdir.patch&quot;&gt;patch&lt;&#x2F;a&gt;
+which replaces the OCaml compiler version number in all lockfiles with a template
+placeholder. This makes it possible to change the version of the compiler that
+Dune expects to see in the environment when building the project. This is
+simplifies packaging Alice for Homebrew, and possibly for other package managers
+in the future.&lt;&#x2F;p&gt;
+&lt;p&gt;Alice builds with Dune Package Management, however Dune (by way of it using
+Opam’s packaging conventions) requires that the OCaml compiler either be built
+as a dependency of the project or be installed system-wide with that compiler’s
+version stored in the lock directory. The first option is not desirable as it
+would make Alice very slow to install, since compiling the OCaml compiler can
+take a long time. The second option isn’t possible in Homebrew, since the
+&lt;code&gt;ocaml&lt;&#x2F;code&gt; package will be updated independently of Alice, meaning that whatever
+compiler version the project is configured to expect, it will see an unexpected
+version each time the &lt;code&gt;ocaml&lt;&#x2F;code&gt; package is update&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;homebrew-tap&#x2F;blob&#x2F;main&#x2F;Formula&#x2F;alice.rb&quot;&gt;Alice’s Homebrew
+formula&lt;&#x2F;a&gt;
+uses a hybrid of both approaches. Its lock directory expects a compiler to be
+installed system-wide of some arbitrary version, and before compilation the
+install script replaces this version with whatever version of the OCaml compiler
+brew decided to install as a dependency of Alice. This way Alice’s Homebrew package can
+be installed relatively quickly and will continue to work as the OCaml compiler
+in Homebrew’s repository gets updated.&lt;&#x2F;p&gt;
+&lt;p&gt;For all Alice’s other dependencies
+(besides the compiler), Dune installs them with its internal package management
+mechanism. A potential alternative to this would be to rely entirely on Homebrew
+to install Alice’s dependencies. This is how Alice’s Opam and Nix packages work -
+rely on the foreign (i.e. non-Dune) package manager to do &lt;em&gt;all&lt;&#x2F;em&gt; the package
+management. Currently this isn’t an option for Homebrew because most of the
+OCaml libraries it uses aren’t in Homebrew’s repository.&lt;&#x2F;p&gt;
+&lt;p&gt;Install Alice with Homebrew by running:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;brew install alicecaml&#x2F;homebrew-tap&#x2F;alice
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;release-notes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#release-notes&quot; aria-label=&quot;Anchor link for: release-notes&quot;&gt;Release Notes&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;added&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#added&quot; aria-label=&quot;Anchor link for: added&quot;&gt;Added&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Add a patch that replaces the locked compiler version with a template string to simplify packaging&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Buzz</title>
+        <published>2025-11-27T00:00:00+00:00</published>
+        <updated>2025-11-27T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/buzz/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/buzz/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/buzz/">&lt;p&gt;People are talking about Alice online.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;discuss.ocaml.org&#x2F;t&#x2F;announcing-the-first-release-of-alice-a-radical-ocaml-build-system&#x2F;17472&#x2F;15&quot;&gt;Here&lt;&#x2F;a&gt;’s
+my announcement post on the OCaml discuss forum where the project received a
+fair amount of praise as well as some helpful feedback.&lt;&#x2F;p&gt;
+&lt;p&gt;The project has almost 100 Github stars (98 at the time of writing). I’d been
+checking the number of stars each day because one of Homebrew’s
+&lt;a href=&quot;https:&#x2F;&#x2F;docs.brew.sh&#x2F;Acceptable-Formulae&quot;&gt;requirements&lt;&#x2F;a&gt; for acceptable
+packages in &lt;code&gt;homebrew-core&lt;&#x2F;code&gt; is “notability”, which can be measured in stars,
+and you need 75. Another requirement is someone other than me has to use the
+project which I don’t qualify for yet. As far as I know there’s a
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;gridbugs&#x2F;climate&quot;&gt;single&lt;&#x2F;a&gt; Alice package out there, and it’s
+mine.&lt;&#x2F;p&gt;
+&lt;p&gt;One day the number of stars shot up by about 15 which surprised me until I
+tracked down &lt;a href=&quot;https:&#x2F;&#x2F;lobste.rs&#x2F;s&#x2F;ttsydj&#x2F;alice_new_build_system_for_ocaml&quot;&gt;this
+post&lt;&#x2F;a&gt; on Lobsters.
+I love when someone else posts about one of my projects. It’s happened with
+Alice several times now but this is the only one to generate any discussion.&lt;&#x2F;p&gt;
+&lt;p&gt;Homebrew may not allow niche projects into their core repository but
+&lt;a href=&quot;https:&#x2F;&#x2F;learn.microsoft.com&#x2F;en-us&#x2F;windows&#x2F;package-manager&#x2F;winget&#x2F;&quot;&gt;WinGet&lt;&#x2F;a&gt; -
+the inbuilt CLI package manager for Windows - has no such requirement.
+I just published an Alice package to WinGet’s repo, and now Windows users can install Alice by running:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt-windows&quot;&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;winget install OCaml.Alice
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Alice v0.1.2</title>
+        <published>2025-11-25T00:00:00+00:00</published>
+        <updated>2025-11-25T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-2/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-2/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-2/">&lt;p&gt;Announcing the release of Alice v0.1.2. This is a patch release though it
+doesn’t make any visible changes. The purpose of the release is to add a &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;download&#x2F;0.1.2&#x2F;alice-0.1.2-x86_64-windows.zip&quot;&gt;zip
+archive containing the Windows
+executable&lt;&#x2F;a&gt;.
+This is intended to make it possible to release Alice on the WinGet package
+manager.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;release-notes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#release-notes&quot; aria-label=&quot;Anchor link for: release-notes&quot;&gt;Release Notes&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;added&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#added&quot; aria-label=&quot;Anchor link for: added&quot;&gt;Added&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Release a zip archive on windows with just alice.exe&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Pre-compiled binaries of Alice v0.1.2 can be downloaded from the its &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.1.2&quot;&gt;release
+page&lt;&#x2F;a&gt; on Github.&lt;&#x2F;p&gt;
+&lt;p&gt;On Windows, install Alice v0.1.2 with WinGet:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt-windows&quot;&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;winget install OCaml.Alice --version 0.1.2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On Linux and macOS, Alice v0.1.2 can be installed by running its install script:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;sh -s&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt; --&lt;&#x2F;span&gt;&lt;span&gt; 0.1.2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On NixOS, Alice v0.1.2 can be installed via the flake
+&lt;code&gt;github:alicecaml&#x2F;alice&#x2F;0.1.2&lt;&#x2F;code&gt;, e.g.:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;nix shell github:alicecaml&#x2F;alice&#x2F;0.1.2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Package Hygiene in Alice</title>
+        <published>2025-11-20T00:00:00+00:00</published>
+        <updated>2025-11-20T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/package-hygiene-in-alice/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/package-hygiene-in-alice/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/package-hygiene-in-alice/">&lt;p&gt;Alice organizes code into packages. All the code for a package goes in OCaml
+source files in the package’s &lt;code&gt;src&lt;&#x2F;code&gt; directory. The presence of a &lt;code&gt;main.ml&lt;&#x2F;code&gt; file
+indicates that the package is &lt;em&gt;executable&lt;&#x2F;em&gt;, and will be linked into a program
+with the same name as the package. The presence of a &lt;code&gt;lib.ml&lt;&#x2F;code&gt; file indicates
+that the package is a &lt;em&gt;library&lt;&#x2F;em&gt;, and the contents of the &lt;code&gt;lib.ml&lt;&#x2F;code&gt; file (or
+&lt;code&gt;lib.mli&lt;&#x2F;code&gt; file if present) is the &lt;em&gt;public interface&lt;&#x2F;em&gt; to the package.
+A package can also be both an executable &lt;em&gt;and&lt;&#x2F;em&gt; a library if it has both a
+&lt;code&gt;main.ml&lt;&#x2F;code&gt; and a &lt;code&gt;lib.ml&lt;&#x2F;code&gt; file.&lt;&#x2F;p&gt;
+&lt;p&gt;If a package is a library then other packages can depend on it, and access the
+definitions from its public interface via a module named after the package (but
+with the first letter capitalized to comply with OCaml’s module naming rules).
+Alice packages must be named such that capitalizing the first letter of their
+name gives a valid OCaml module name.
+I’ll refer to this module as a &lt;em&gt;package module&lt;&#x2F;em&gt;. In Alice, the only way to refer to
+definitions from a package other than the current package is via the other
+package`s package module.&lt;&#x2F;p&gt;
+&lt;p&gt;Packages can depend on other packages, which themselves depend on more packages,
+forming a &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Directed_acyclic_graph&quot;&gt;Directed Acyclic
+Graph (DAG)&lt;&#x2F;a&gt; where the nodes
+are packages and edges represent the dependency relationship between two packages.&lt;&#x2F;p&gt;
+&lt;p&gt;A package’s &lt;em&gt;immediate dependencies&lt;&#x2F;em&gt; are those packages which it directly
+depends on; exactly those packages listed in the &lt;code&gt;[dependencies]&lt;&#x2F;code&gt; section of the
+package’s manifest.&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;em&gt;dependency closure&lt;&#x2F;em&gt; of a package is that package’s immediate
+dependencies, plus the immediate dependencies of all of its immediate
+dependencies, and so on.&lt;&#x2F;p&gt;
+&lt;p&gt;The first graph below highlights in cyan the immediate dependencies of &lt;code&gt;a&lt;&#x2F;code&gt; and
+the second graph highlights &lt;code&gt;a&lt;&#x2F;code&gt;’s dependency closure.&lt;&#x2F;p&gt;
+&lt;div style=&quot;display:flex&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;package-hygiene-in-alice&#x2F;immediate-dependencies.png&quot; alt=&quot;A DAG where the immediate dependencies of node “a” are highlighted&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;package-hygiene-in-alice&#x2F;dependency-closure.png&quot; alt=&quot;A DAG where the dependency closure of node “a” are highlighted&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;package-hygiene&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#package-hygiene&quot; aria-label=&quot;Anchor link for: package-hygiene&quot;&gt;Package Hygiene&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;I’ll introduce the concept of &lt;em&gt;package hygiene&lt;&#x2F;em&gt; which refers to how much of the code from a package’s
+dependency closure is inaccessible by that package.
+Let’s call a package management system &lt;em&gt;hygienic&lt;&#x2F;em&gt; if code in one
+package only has access to code from the &lt;em&gt;public interfaces&lt;&#x2F;em&gt; of its
+&lt;em&gt;immediate dependencies&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Let’s break this definition down into two properties:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;The only &lt;em&gt;package modules&lt;&#x2F;em&gt; that can be accessed by code in a package are those of its
+&lt;em&gt;immediate dependencies&lt;&#x2F;em&gt;. It is a compile error for a package to refer to a
+&lt;em&gt;package module&lt;&#x2F;em&gt; from packages in its &lt;em&gt;dependendcy closure&lt;&#x2F;em&gt; other than
+those of its &lt;em&gt;immediate dependencies&lt;&#x2F;em&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;The only definitions which can be accessed inside a &lt;em&gt;package module&lt;&#x2F;em&gt; are those
+from the package’s &lt;em&gt;public interface&lt;&#x2F;em&gt;. It’s a compile error for a package to
+refer to a definition from a dependency which is not exposed in its &lt;em&gt;public
+interface&lt;&#x2F;em&gt; (i.e. the package’s &lt;code&gt;lib.ml&lt;&#x2F;code&gt; file).&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Package hygiene is a useful property for software maintenance and safety.&lt;&#x2F;p&gt;
+&lt;p&gt;The first property means that packages are forced to specify as dependencies, exactly the packages that
+they need access to, and are only given direct access to those packages.
+Without this property, packages can break due to the removal of
+load-bearing transitive dependencies. If &lt;code&gt;a&lt;&#x2F;code&gt; depends on &lt;code&gt;b&lt;&#x2F;code&gt;, and &lt;code&gt;b&lt;&#x2F;code&gt;
+depends on &lt;code&gt;c&lt;&#x2F;code&gt;, and &lt;code&gt;a&lt;&#x2F;code&gt; starts referring to &lt;code&gt;c&lt;&#x2F;code&gt; directly without
+explicitly adding it as a dependency, then &lt;code&gt;a&lt;&#x2F;code&gt; could break if &lt;code&gt;b&lt;&#x2F;code&gt; ever
+removes its dependency on &lt;code&gt;c&lt;&#x2F;code&gt;, or changes the version of &lt;code&gt;c&lt;&#x2F;code&gt; that it
+depends on. The maintenance burden on a package ecosystem can be
+reduced if the package manager doesn’t let you get into this situation
+in the first place.&lt;&#x2F;p&gt;
+&lt;p&gt;The second property allows packages to make strong guarantees about correctness, since
+the only way to interact with a package is through a specific
+interface. The public interface to a package can be designed to
+enforce invariants over the types defined in that package, and there’s
+no way for client code to circumvent the interface to bypass those
+protections.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;package-hygiene-in-dune&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#package-hygiene-in-dune&quot; aria-label=&quot;Anchor link for: package-hygiene-in-dune&quot;&gt;Package Hygiene in Dune?&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Dune lacks both of the above
+hygiene
+properties. This can be demonstrated succinctly with a small project depending
+on the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;janestreet&#x2F;core&quot;&gt;core&lt;&#x2F;a&gt; package:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;dune&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-dune &quot;&gt;&lt;code class=&quot;language-dune&quot; data-lang=&quot;dune&quot;&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;lang&lt;&#x2F;span&gt;&lt;span&gt; dune &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;20&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;; dune-project
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;package
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt; leak)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;depends
+&lt;&#x2F;span&gt;&lt;span&gt;  ocaml
+&lt;&#x2F;span&gt;&lt;span&gt;  (core
+&lt;&#x2F;span&gt;&lt;span&gt;   (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; v0.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;17&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;))))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;dune&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-dune &quot;&gt;&lt;code class=&quot;language-dune&quot; data-lang=&quot;dune&quot;&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;; dune
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;executable
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;public_name&lt;&#x2F;span&gt;&lt;span&gt; main)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;package&lt;&#x2F;span&gt;&lt;span&gt; leak)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;libraries&lt;&#x2F;span&gt;&lt;span&gt; core))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(* leak.ml *)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= 
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#795da3;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;unit Sexplib0__Sexp_conv_labeled_tuple.Fields.t =
+&lt;&#x2F;span&gt;&lt;span&gt;    Sexplib0__Sexp_conv_labeled_tuple.Fields.Empty
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;in
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This code has access to a module &lt;code&gt;Sexplib0__Sexp_conv_labeled_tuple&lt;&#x2F;code&gt; which
+corresponds to the &lt;code&gt;sexp_conv_labeled_tuple.ml&lt;&#x2F;code&gt; file from the package &lt;code&gt;sexplib0&lt;&#x2F;code&gt;,
+which is a dependency of the package &lt;code&gt;sexplib&lt;&#x2F;code&gt;, which is a dependency of &lt;code&gt;core&lt;&#x2F;code&gt;.
+Opam packages follow a convention of putting their public code
+in a module named after the package, and under this convention the
+&lt;code&gt;Sexp_conv_labeled_tuple&lt;&#x2F;code&gt; module referred to above isn’t part of the public interface
+to &lt;code&gt;sexplib0&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;So Dune allows code in a package to access private definitions from
+non-immediate dependencies, violating both hygiene properties. Dune does have
+what we might call “soft” hygiene since it renames modules so they are unlikely
+to be referred to by accident, but someone determined to intentionally violate
+package hygiene can do so.&lt;&#x2F;p&gt;
+&lt;p&gt;Fortunately Dune might be about to get true package hygiene in an upcoming release
+thanks to &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ocaml&#x2F;dune&#x2F;pull&#x2F;12666&quot;&gt;this PR&lt;&#x2F;a&gt;. This uses a
+newish option to the OCaml compiler, &lt;code&gt;-H&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt; -H &amp;lt;dir&amp;gt;  Add &amp;lt;dir&amp;gt; to the list of &amp;quot;hidden&amp;quot; include directories
+&lt;&#x2F;span&gt;&lt;span&gt;     (Like -I, but the program can not directly reference these dependencies)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Had I been aware of &lt;code&gt;-H&lt;&#x2F;code&gt; while doing
+the work described below adding package hygiene to Alice, it would have simplified things greatly!
+I didn’t notice it because it’s not in the compiler’s man page, though clearly
+I didn’t look very hard because it is in the output of &lt;code&gt;-help&lt;&#x2F;code&gt;.
+Still, I’ve come
+up with a solution that will work with older compilers lacking this feature, and
+employs what I think are some interesting techniques to work around the fact
+that until the relatively recent addition of &lt;code&gt;-H&lt;&#x2F;code&gt;, the
+OCaml compiler did not make it easy to implement hygienic package management.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;why-hygienic-packages-in-ocaml-is-was-hard&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#why-hygienic-packages-in-ocaml-is-was-hard&quot; aria-label=&quot;Anchor link for: why-hygienic-packages-in-ocaml-is-was-hard&quot;&gt;Why Hygienic Packages in OCaml is (was?) Hard&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;The compiler has no concept of packages. The compiler compiles OCaml source
+files into object files, and links object files into executables or library
+archives. Package managers for OCaml must implement packaging policies (such as
+hygiene) on top of the primitives made available by the compiler.&lt;&#x2F;p&gt;
+&lt;p&gt;OCaml source files may depend on each other. Each file implicitly defines a
+module named after the file, and code in one file may refer to modules
+corresponding to other files, provided there are no dependency cycles between
+files. When compiling a file which refers to a module that isn’t in scope, the
+compiler will try to find an object file whose name indicates that it contains the
+module in question. The compiler searches for this object file in the same
+directory as the file it’s currently compiling, and also in each directory
+passed to the compiler with the &lt;code&gt;-I&lt;&#x2F;code&gt; option.&lt;&#x2F;p&gt;
+&lt;p&gt;Let’s see how we might implement the first of my two hygiene properties,
+that only the immediate dependencies of a package may be referred to by that
+package. A reasonable approach to build a package with the first hygiene
+property might be:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Build all the packages in the &lt;em&gt;dependency closure&lt;&#x2F;em&gt; of the package (by
+recursively applying this strategy), storing the compiled object files in
+some directory corresponding to their package.&lt;&#x2F;li&gt;
+&lt;li&gt;Build the package, passing with &lt;code&gt;-I&lt;&#x2F;code&gt; the directory containing object files
+for each &lt;em&gt;immediate dependency&lt;&#x2F;em&gt; of the package only.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Since packages in the dependency closure but which aren’t immediate dependencies
+are excluded in step 2 above, hygiene is achieved since the package code being
+compiled doesn’t have access to them.&lt;&#x2F;p&gt;
+&lt;p&gt;This gives us the desired hygiene property, however some correct programs
+won’t compile with this policy due to &lt;em&gt;module aliases&lt;&#x2F;em&gt;. In OCaml a module
+defined in one file may be aliased by another file, but when compiling code
+that refers to the aliased module, even indirectly, the directory containing the
+&lt;em&gt;original&lt;&#x2F;em&gt; module definition must be passed with  &lt;code&gt;-I&lt;&#x2F;code&gt;. Suppose we have packages
+&lt;code&gt;a&lt;&#x2F;code&gt;, &lt;code&gt;b&lt;&#x2F;code&gt;, and &lt;code&gt;c&lt;&#x2F;code&gt;, where &lt;code&gt;a&lt;&#x2F;code&gt; depends on &lt;code&gt;b&lt;&#x2F;code&gt; and &lt;code&gt;b&lt;&#x2F;code&gt; depends on &lt;code&gt;c&lt;&#x2F;code&gt;, and the
+public interface to &lt;code&gt;b&lt;&#x2F;code&gt; has:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;C_alias &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;C
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;If package &lt;code&gt;a&lt;&#x2F;code&gt; refers to &lt;code&gt;B.C_alias&lt;&#x2F;code&gt;, then in order to build &lt;code&gt;a&lt;&#x2F;code&gt; we need to pass
+the path to the directory containing &lt;code&gt;c&lt;&#x2F;code&gt;’s object files with &lt;code&gt;-I&lt;&#x2F;code&gt;.
+However passing &lt;code&gt;c&lt;&#x2F;code&gt;’s object files with &lt;code&gt;-I&lt;&#x2F;code&gt; would make it possible for &lt;code&gt;a&lt;&#x2F;code&gt; to
+refer to &lt;code&gt;c&lt;&#x2F;code&gt; &lt;em&gt;directly&lt;&#x2F;em&gt;, which violates the first hygiene property.&lt;&#x2F;p&gt;
+&lt;p&gt;This is where the new &lt;code&gt;-H&lt;&#x2F;code&gt; option might save us. That option acts similarly to &lt;code&gt;-I&lt;&#x2F;code&gt;, in that
+it lets the compiler use modules defined in a directory when compiling code that
+refers to them, however unlike &lt;code&gt;-I&lt;&#x2F;code&gt; it doesn’t allow code to refer to these
+modules &lt;em&gt;directly&lt;&#x2F;em&gt;. So a hygienic approach to building a package using &lt;code&gt;-H&lt;&#x2F;code&gt;
+might be to pass the paths to directories containing compiled object files for
+immediate dependencies with &lt;code&gt;-I&lt;&#x2F;code&gt;, and for other packages in the dependency
+closure with &lt;code&gt;-H&lt;&#x2F;code&gt;, allowing their modules to be used during compilation but not
+referred to directly.&lt;&#x2F;p&gt;
+&lt;p&gt;Note that the approach above is only sufficient for the first hygiene property.
+On its own it’s not sufficient to enforce the second hygiene property, to
+prevent packages from accessing private code from its immediate dependencies.&lt;&#x2F;p&gt;
+&lt;p&gt;As I said earlier, I wasn’t aware of &lt;code&gt;-H&lt;&#x2F;code&gt; when implementing hygienic packages in
+Alice. Instead I’ve come up with a packaging protocol that enforces both hygiene
+properties using some other compiler features and a small amount of generated
+code.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;package-hygiene-in-alice&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#package-hygiene-in-alice&quot; aria-label=&quot;Anchor link for: package-hygiene-in-alice&quot;&gt;Package Hygiene in Alice&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;In order to resolve module aliases, the object files from each package in the
+dependency closure of the package being built must be made known to the compiler
+by passing their containing directories with &lt;code&gt;-I&lt;&#x2F;code&gt;. Alice does this in a hygienic
+way by generating modules which
+&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Variable_shadowing&quot;&gt;shadow&lt;&#x2F;a&gt;
+the modules that should be inaccessible.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;compiler-features&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#compiler-features&quot; aria-label=&quot;Anchor link for: compiler-features&quot;&gt;Compiler Features&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;Alice’s packaging protocol depends on two compiler options I hadn’t previously
+encountered:
+&lt;code&gt;-open&lt;&#x2F;code&gt; and &lt;code&gt;-pack&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;code&gt;-open Some_module&lt;&#x2F;code&gt; option takes a module name &lt;code&gt;Some_module&lt;&#x2F;code&gt;, and when
+compiling a file, acts as though the file began with a new line &lt;code&gt;open Some_module&lt;&#x2F;code&gt;. (Read &lt;a href=&quot;https:&#x2F;&#x2F;ocaml.org&#x2F;docs&#x2F;modules#naming-and-scoping&quot;&gt;this&lt;&#x2F;a&gt; to
+learn more about what it means to open a module in OCaml.)
+The &lt;code&gt;-open&lt;&#x2F;code&gt; option can be passed multiple times, resulting in the effect
+of multiple &lt;code&gt;open &amp;lt;module&amp;gt;&lt;&#x2F;code&gt; lines being at the start of the compiled file, in the same
+order as their corresponding &lt;code&gt;-open&lt;&#x2F;code&gt; options.&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;code&gt;-pack&lt;&#x2F;code&gt; option creates an object file combining a given set of existing
+object files, making each of their corresponding modules accessible as
+sub-modules. For example:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;ocamlopt.opt -pack foo.cmx bar.cmx baz.cmx -o qux.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This creates a new module &lt;code&gt;Qux&lt;&#x2F;code&gt; with the object file &lt;code&gt;qux.cmx&lt;&#x2F;code&gt;. The modules
+&lt;code&gt;Foo&lt;&#x2F;code&gt;, &lt;code&gt;Bar&lt;&#x2F;code&gt;, and &lt;code&gt;Baz&lt;&#x2F;code&gt; can now be accessed within &lt;code&gt;Qux&lt;&#x2F;code&gt; as &lt;code&gt;Qux.Foo&lt;&#x2F;code&gt;,
+&lt;code&gt;Qux.Bar&lt;&#x2F;code&gt;, and &lt;code&gt;Qux.Baz&lt;&#x2F;code&gt; respectively. Importantly these are &lt;em&gt;not&lt;&#x2F;em&gt; module
+aliases. Code accessing the modules via &lt;code&gt;qux.cmx&lt;&#x2F;code&gt; can be compiled
+&lt;em&gt;without&lt;&#x2F;em&gt; access to &lt;code&gt;foo.cmx&lt;&#x2F;code&gt;, &lt;code&gt;bar.cmx&lt;&#x2F;code&gt;, or &lt;code&gt;baz.cmx&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;When compiling a file that will eventually be passed to
+&lt;code&gt;ocamlopt.opt -pack foo.cmx&lt;&#x2F;code&gt;,
+it’s necessary to pass an additional option &lt;code&gt;-for-pack Foo&lt;&#x2F;code&gt;, specifying the name
+of the module that the file will eventually be packed into as a sub-module.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;the-packaging-protocol&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-packaging-protocol&quot; aria-label=&quot;Anchor link for: the-packaging-protocol&quot;&gt;The Packaging Protocol&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;To build a package, first recursively apply the process I’m about to describe
+to build the immediate dependencies of the package, which will result in the
+package’s dependency closure being built.&lt;&#x2F;p&gt;
+&lt;p&gt;The result of building a package is stored across several different directories:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The package’s &lt;em&gt;private&lt;&#x2F;em&gt; output directory contains the compiled artifacts
+corresponding to each source file of the project. There’s a roughly one to one
+mapping between &lt;code&gt;.ml&lt;&#x2F;code&gt; source files and &lt;code&gt;.cmx&lt;&#x2F;code&gt; object files. All the object files go
+in this private output directory.&lt;&#x2F;li&gt;
+&lt;li&gt;The package’s &lt;em&gt;public&lt;&#x2F;em&gt; output directory contains a file named
+&lt;code&gt;internal_modules_of_&amp;lt;package&amp;gt;.cmx&lt;&#x2F;code&gt; (replacing &lt;code&gt;&amp;lt;package&amp;gt;&lt;&#x2F;code&gt; with the name of
+the package), which is the output of running &lt;code&gt;ocamlopt.opt -pack ...&lt;&#x2F;code&gt; on all the
+object files in the package’s private directory. All top-level modules of the
+package, corresponding to source files, are accessible as sub-modules of the
+&lt;code&gt;Internal_modules_of_&amp;lt;package&amp;gt;&lt;&#x2F;code&gt; module. There’s a second file in the public
+directory named &lt;code&gt;public_interface_to_open_of_&amp;lt;package&amp;gt;.cmx&lt;&#x2F;code&gt; which is the result of
+compiling a generated file. This file defines the module that will be
+&lt;code&gt;-open&lt;&#x2F;code&gt;ed when compiling code in packages depending on this package.&lt;&#x2F;li&gt;
+&lt;li&gt;The package’s &lt;em&gt;generated&lt;&#x2F;em&gt; output directory, containing the generated
+&lt;code&gt;public_interface_to_open_of_&amp;lt;package&amp;gt;.ml&lt;&#x2F;code&gt; file, that will be compiled to the
+&lt;code&gt;public_interface_to_open_of_&amp;lt;package&amp;gt;.cmx&lt;&#x2F;code&gt; file in the public directory.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Once all the dependencies of the package have been built, compile each source
+file in the package. When compiling a source file, for each package in the
+package’s dependency closure, pass that package’s public output directory with
+&lt;code&gt;-I&lt;&#x2F;code&gt;. For each of the package’s immediate dependencies, pass &lt;code&gt;-open Public_interface_to_open_of_&amp;lt;dependency&amp;gt;&lt;&#x2F;code&gt;. The file needs to be compiled with the
+&lt;code&gt;-for-pack&lt;&#x2F;code&gt; option since it will eventually be packed into a file
+&lt;code&gt;internal_modules_of_&amp;lt;package&amp;gt;.cmx&lt;&#x2F;code&gt;. Store the output in the package’s private
+output directory.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, to compile a source file &lt;code&gt;a.ml&lt;&#x2F;code&gt; from a package named &lt;code&gt;foo&lt;&#x2F;code&gt;, whose
+dependency closure is the packages &lt;code&gt;bar&lt;&#x2F;code&gt;, &lt;code&gt;baz&lt;&#x2F;code&gt;, and &lt;code&gt;qux&lt;&#x2F;code&gt;, and whose immediate
+dependencies are &lt;code&gt;bar&lt;&#x2F;code&gt; and &lt;code&gt;qux&lt;&#x2F;code&gt;, compile it with:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;ocamlopt.opt a.ml -c \
+&lt;&#x2F;span&gt;&lt;span&gt;  -I path&#x2F;to&#x2F;bar&#x2F;public \
+&lt;&#x2F;span&gt;&lt;span&gt;  -I path&#x2F;to&#x2F;baz&#x2F;public \
+&lt;&#x2F;span&gt;&lt;span&gt;  -I path&#x2F;to&#x2F;qux&#x2F;public \
+&lt;&#x2F;span&gt;&lt;span&gt;  -open Public_interface_to_open_of_bar \
+&lt;&#x2F;span&gt;&lt;span&gt;  -open Public_interface_to_open_of_qux \
+&lt;&#x2F;span&gt;&lt;span&gt;  -for-pack Internal_modules_of_foo \
+&lt;&#x2F;span&gt;&lt;span&gt;  -o path&#x2F;to&#x2F;foo&#x2F;private&#x2F;a.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Once all the source files from the package have been compiled, create the
+&lt;code&gt;internal_modules_of_&amp;lt;package&amp;gt;.cmx&lt;&#x2F;code&gt; file by running the compiler with &lt;code&gt;-pack&lt;&#x2F;code&gt;,
+passing it all the object files from the package’s private directory.
+Store the result in the package’s public output directory.&lt;&#x2F;p&gt;
+&lt;p&gt;Continuing the example, assume the package has source files &lt;code&gt;a.ml&lt;&#x2F;code&gt;, &lt;code&gt;b.ml&lt;&#x2F;code&gt;,
+&lt;code&gt;c.ml&lt;&#x2F;code&gt;, and &lt;code&gt;lib.ml&lt;&#x2F;code&gt; (remember &lt;code&gt;lib.ml&lt;&#x2F;code&gt; defines the public interface to the
+package). Create the &lt;code&gt;internal_modules_of_foo.cmx&lt;&#x2F;code&gt; object file with the command:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;ocamlopt.opt -pack \
+&lt;&#x2F;span&gt;&lt;span&gt;  path&#x2F;to&#x2F;foo&#x2F;private&#x2F;a.cmx \
+&lt;&#x2F;span&gt;&lt;span&gt;  path&#x2F;to&#x2F;foo&#x2F;private&#x2F;b.cmx \
+&lt;&#x2F;span&gt;&lt;span&gt;  path&#x2F;to&#x2F;foo&#x2F;private&#x2F;c.cmx \
+&lt;&#x2F;span&gt;&lt;span&gt;  path&#x2F;to&#x2F;foo&#x2F;private&#x2F;lib.cmx \
+&lt;&#x2F;span&gt;&lt;span&gt;  -o path&#x2F;to&#x2F;foo&#x2F;public&#x2F;internal_modules_of_foo.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It might seem odd to store the internal modules of a package in its public
+output directory. This directory is public in the sense that all packages
+depending on this package will have access to the public directory with &lt;code&gt;-I&lt;&#x2F;code&gt;,
+however due to shadowing of the &lt;code&gt;Internal_modules_of_&amp;lt;package&amp;gt;&lt;&#x2F;code&gt; module name in
+the &lt;code&gt;-open&lt;&#x2F;code&gt;ed &lt;code&gt;Public_interface_to_open_of_&amp;lt;package&amp;gt;&lt;&#x2F;code&gt; module, client code won’t actually
+have access to the package’s internal modules.&lt;&#x2F;p&gt;
+&lt;p&gt;Now generate a file in the package’s generated output directory named
+&lt;code&gt;public_interface_to_open_of_&amp;lt;package&amp;gt;.ml&lt;&#x2F;code&gt;. I’ll illustrate this
+generated file by continuing the example above:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(* public_interface_to_open_of_foo.ml *)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(* Recall that the public interface to a package is defined in a file
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   named &amp;quot;lib.ml&amp;quot; which corresponds to a module named &amp;quot;Lib&amp;quot;, which is
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   among the modules packed into the &amp;quot;Internal_modules_of_&amp;lt;package&amp;gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   module. Client code must be able to refer to the package by the
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   package&amp;#39;s name, so define a module alias here named after the package,
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   aliasing the &amp;quot;Lib&amp;quot; module defined in the package. This will allow
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   client code to refer to the public interface of the package with a
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   module named after the package. *)
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Foo &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;Internal_modules_of_foo.Lib
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(* Shadow the internal modules of this package. Since the
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   &amp;quot;Public_interface_to_open_of_&amp;lt;package&amp;gt;&amp;quot; module will be opened by all
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   client code, defining a new module here named the same as the packed
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   module of internal modules will mean that if client code does try to
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   access the internals of this package, instead they get an empty
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   module. This enforces the second hygiene property, preventing client
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   code from accessing the private internals of its immediate
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   dependencies. If someone does try to refer to this shadowed module
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   anyway, the deprecated annotation will mean they see a compiler
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   warning. *)
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Internal_modules_of_foo &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt;deprecated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;This module is for internal use only.&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(* Shadow the internal modules of the packages in the dependency
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   closure of this package. The public output directory of each package
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   in the dependency closure of this package is passed with -I when
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   compiling files from packages that depend on this package. Shadowing
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   the names of the packed internal modules of those packages prevents
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   access to their internals by clients of this package. *)
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Internal_modules_of_bar &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt;deprecated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;This module is for internal use only.&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Internal_modules_of_baz &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt;deprecated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;This module is for internal use only.&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Internal_modules_of_qux &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt;deprecated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;This module is for internal use only.&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;(* Shadow the public interface to each of the packages in the
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   dependency closure of this package, preventing client code from
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   referring to packages outside their immediate dependencies. This
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;   enforces the first hygiene property. *)
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Public_interface_to_open_of_bar &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt;deprecated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;This module is for internal use only.&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Public_interface_to_open_of_baz &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt;deprecated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;This module is for internal use only.&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Public_interface_to_open_of_qux &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt;deprecated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;This module is for internal use only.&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That final batch of module shadowing requires some care.
+In the example, &lt;code&gt;foo&lt;&#x2F;code&gt; immediately depends on &lt;code&gt;bar&lt;&#x2F;code&gt; and &lt;code&gt;qux&lt;&#x2F;code&gt;.
+But if &lt;code&gt;bar&lt;&#x2F;code&gt; also depended on &lt;code&gt;qux&lt;&#x2F;code&gt;, then inside
+&lt;code&gt;Public_interface_to_open_of_bar&lt;&#x2F;code&gt;, we would find the line:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;module &lt;&#x2F;span&gt;&lt;span&gt;Public_interface_to_open_of_qux &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= struct end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That is, &lt;code&gt;bar&lt;&#x2F;code&gt; would shadow the public interface to &lt;code&gt;qux&lt;&#x2F;code&gt;.
+When compiling files in &lt;code&gt;foo&lt;&#x2F;code&gt;, if &lt;code&gt;Public_interface_to_bar&lt;&#x2F;code&gt;
+is opened before &lt;code&gt;Public_interface_to_qux&lt;&#x2F;code&gt;, then due to module name shadowing,
+&lt;code&gt;Public_interface_to_qux&lt;&#x2F;code&gt; will be the empty shadow rather than the
+true public interface to the package &lt;code&gt;qux&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;To avoid this problem, it’s necessary to sort the &lt;code&gt;-open&lt;&#x2F;code&gt; arguments to
+the compiler such that if one dependency depends on another dependency, the
+depended upon package comes before the depending package (&lt;code&gt;qux&lt;&#x2F;code&gt; must
+come before &lt;code&gt;bar&lt;&#x2F;code&gt; in the example).&lt;&#x2F;p&gt;
+&lt;p&gt;Once the &lt;code&gt;public_interface_to_open_of_&amp;lt;package&amp;gt;.ml&lt;&#x2F;code&gt; file is generated,
+compile it, storing the result in the package’s public output
+directory. The package’s public output directory must be passed with &lt;code&gt;-I&lt;&#x2F;code&gt; since
+the generated code refers to &lt;code&gt;Internal_modules_of_&amp;lt;package&amp;gt;&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;ocamlopt.opt path&#x2F;to&#x2F;foo&#x2F;generated&#x2F;public_interface_to_open_of_foo.ml -c \
+&lt;&#x2F;span&gt;&lt;span&gt;  -I path&#x2F;to&#x2F;foo&#x2F;public \
+&lt;&#x2F;span&gt;&lt;span&gt;  -o path&#x2F;to&#x2F;foo&#x2F;public&#x2F;public_interface_to_open_of_foo.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And that’s it! All the necessary files are now in the package’s public
+output directory where they can be consumed while building any additional
+packages which depend on the current one.&lt;&#x2F;p&gt;
+&lt;p&gt;One final note:
+In order to link an executable that depends on packages, library
+archives (&lt;code&gt;.cmxa&lt;&#x2F;code&gt; files) must be generated for those packages. To create a
+&lt;code&gt;.cmxa&lt;&#x2F;code&gt; file for a package, Alice links the &lt;code&gt;.cmx&lt;&#x2F;code&gt; files in the
+package’s public directory. E.g.:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;ocamlopt.opt \
+&lt;&#x2F;span&gt;&lt;span&gt;  path&#x2F;to&#x2F;foo&#x2F;public&#x2F;public_interface_to_open_of_foo.cmx \
+&lt;&#x2F;span&gt;&lt;span&gt;  path&#x2F;to&#x2F;foo&#x2F;public&#x2F;internal_modules_of_foo.cmx \
+&lt;&#x2F;span&gt;&lt;span&gt;  -a -o path&#x2F;to&#x2F;foo&#x2F;public&#x2F;lib.cmxa
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;To learn more, try compiling some interdependent Alice packages. See
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice?tab=readme-ov-file#tutorial&quot;&gt;here&lt;&#x2F;a&gt; for
+a brief tutorial on building packages with Alice. Run &lt;code&gt;alice build -vv&lt;&#x2F;code&gt; to see a
+list of all the commands run by Alice, and inspect the contents of the &lt;code&gt;build&lt;&#x2F;code&gt;
+directory to see the different output files created when building each package.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Alice v0.1.1</title>
+        <published>2025-11-13T00:00:00+00:00</published>
+        <updated>2025-11-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-1/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-1/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-1/">&lt;p&gt;Announcing the release of Alice v0.1.1. This is a patch release with several
+minor fixes. It also introduces a “hermetic source archive” (the
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;download&#x2F;0.1.1&#x2F;alice-0.1.1-hermetic-source.tar.gz&quot;&gt;alice-0.1.1-hermetic-source.tar.gz&lt;&#x2F;a&gt;
+file on the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.1.1&quot;&gt;release page&lt;&#x2F;a&gt;)
+which can be built with Dune package management without needing to install the OCaml toolchain with Alice.
+The lock directory checked into the main branch of Alice specifies the compiler
+be installed externally from Dune allowing Alice to dogfood its own toolchain
+management logic, however if you just want to build Alice from source it’s more
+convenient to have a codebase where running &lt;code&gt;dune build&lt;&#x2F;code&gt; is all that’s
+necessary. The hermetic source archive is created by deleting &lt;code&gt;dune-workspace&lt;&#x2F;code&gt;
+and running &lt;code&gt;dune pkg lock&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;release-notes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#release-notes&quot; aria-label=&quot;Anchor link for: release-notes&quot;&gt;Release Notes&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;fixed&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#fixed&quot; aria-label=&quot;Anchor link for: fixed&quot;&gt;Fixed&lt;&#x2F;a&gt;&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;External commands are run in an environment containing the OCaml toolchain if
+Alice has installed an OCaml toolchain. This fixes an issue where the OCaml
+compiler couldn’t find flexlink on Windows unless the current Alice root was
+in the PATH variable. (#2, fixes #1)&lt;&#x2F;li&gt;
+&lt;li&gt;Fixed compile error on 32-bit machines due to unrepresentable integer literal.&lt;&#x2F;li&gt;
+&lt;li&gt;Wrap text in help messages.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Pre-compiled binaries of Alice v0.1.1 can be downloaded from the its &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.1.1&quot;&gt;release
+page&lt;&#x2F;a&gt; on Github.&lt;&#x2F;p&gt;
+&lt;p&gt;The Opam package can be installed with:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;opam install alice.0.1.1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On Linux and macOS, Alice v0.1.1 can be installed by running its install script:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;sh -s&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt; --&lt;&#x2F;span&gt;&lt;span&gt; 0.1.1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On NixOS, Alice v0.1.1 can be installed via the flake
+&lt;code&gt;github:alicecaml&#x2F;alice&#x2F;0.1.1&lt;&#x2F;code&gt;, e.g.:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;nix shell github:alicecaml&#x2F;alice&#x2F;0.1.1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Alice v0.1.0</title>
+        <published>2025-11-08T00:00:00+00:00</published>
+        <updated>2025-11-08T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-0/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-0/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-0/">&lt;p&gt;Announcing the release of Alice v0.1.0. This is the first official release of
+Alice, so in lieu of a changelog, here’s a summary of the capabilities of Alice
+thus far:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Multi-file packages with dependencies specified within the local filesystem
+can be built and incrementally rebuilt.&lt;&#x2F;li&gt;
+&lt;li&gt;Dependency and build graphs can be visualized with graphviz.&lt;&#x2F;li&gt;
+&lt;li&gt;The OCaml toolchain and some development tools can be installed user-wide.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Pre-compiled binaries of Alice v0.1.0 can be downloaded from the its &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;releases&#x2F;tag&#x2F;0.1.0&quot;&gt;release
+page&lt;&#x2F;a&gt; on Github.&lt;&#x2F;p&gt;
+&lt;p&gt;The Opam package can be installed with:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;opam install alice.0.1.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On Linux and macOS, Alice v0.1.0 can be installed by running its install script:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;sh -s&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt; --&lt;&#x2F;span&gt;&lt;span&gt; 0.1.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;On NixOS, Alice v0.1.0 can be installed via the flake
+&lt;code&gt;github:alicecaml&#x2F;alice&#x2F;0.1.0&lt;&#x2F;code&gt;, e.g.:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;nix shell github:alicecaml&#x2F;alice&#x2F;0.1.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Alice as a Toolchain Manager for Dune Projects</title>
+        <published>2025-09-26T00:00:00+00:00</published>
+        <updated>2025-09-26T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/alice-as-a-toolchain-manager-for-dune-projects/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/alice-as-a-toolchain-manager-for-dune-projects/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/alice-as-a-toolchain-manager-for-dune-projects/">&lt;p&gt;Alice is my experimental work-in-progress build system and package manager for OCaml.
+To help users get started writing OCaml as smoothly as possible, Alice provides
+a mechanism for installing the pre-built versions of the OCaml compiler and other tools.
+This post is about using this feature of Alice to simplify setting up an OCaml
+environment for developing a project with &lt;a href=&quot;https:&#x2F;&#x2F;dune.readthedocs.io&#x2F;en&#x2F;stable&#x2F;tutorials&#x2F;dune-package-management&#x2F;&quot;&gt;Dune Package Management&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;In the Opam ecosystem (which is the package ecosystem accessible to Dune), the OCaml compiler is considered to be a mostly
+regular package, which all other packages must list in their dependencies
+(assuming they are written in OCaml). Opam is mostly a source-based package
+ecosystem, so when building a project (including its transitive dependencies)
+the first thing that usually needs to happen is the OCaml compiler needs to be
+bootstrapped (it is itself written in OCaml) and compiled, which often takes
+several minutes.&lt;&#x2F;p&gt;
+&lt;p&gt;When using &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ocaml&#x2F;ocaml-lsp&quot;&gt;ocaml-lsp-server&lt;&#x2F;a&gt; to analyze
+OCaml code in a text editor, that code needs to have been compiled using the
+same version of the OCaml compiler as the LSP server executable in order for the LSP
+server to understand the code. This is fairly easy
+to ensure when using Opam, but installing the LSP server with Opam requires building the LSP server from source which adds another
+couple of minutes delay to getting started working on a new project. It’s
+tempting to speed this up by distributing a pre-compiled executable of the LSP
+server but this is tricky because somehow we’d need to make sure the executable
+that gets installed was compiled by the same version of the compiler as was used
+for the project.&lt;&#x2F;p&gt;
+&lt;p&gt;Another common OCaml development tool is the de-facto standard code formatter
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ocaml-ppx&#x2F;ocamlformat&quot;&gt;ocamlformat&lt;&#x2F;a&gt;. It doesn’t have the
+same compiler version constraint as the LSP server and is lighter in its
+dependencies and therefore faster to compile. The LSP server requires that
+the executables &lt;code&gt;ocamlformat&lt;&#x2F;code&gt; and &lt;code&gt;ocamlformat-rpc&lt;&#x2F;code&gt; are runnable as commands
+(ie. they are in one of the directories in your &lt;code&gt;PATH&lt;&#x2F;code&gt; variable) when using
+running the LSP command to format a file.&lt;&#x2F;p&gt;
+&lt;p&gt;Alice simplifies getting started on a new OCaml project by providing
+pre-compiled binary versions of the compiler, the LSP server, and the code
+formatter. The binary version of the LSP server was compiled with the binary
+version of the compiler, so the LSP server can analyze code compiled with the
+compiler.&lt;&#x2F;p&gt;
+&lt;p&gt;You can use &lt;code&gt;alice&lt;&#x2F;code&gt; to install the tools with:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;alice tools install
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;…or you can install both Alice and a set of tools with:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;The remainder of this post will go through a minimal example of setting up a fresh
+machine with Alice and its binary versions of development tools, and then
+developing a Dune project using these tools. For the sake of ease of following
+along at home and reproducing my results, I’ll build up a docker image with the
+tools and then do all development inside a container.&lt;&#x2F;p&gt;
+&lt;p&gt;Here’s the &lt;code&gt;Dockerfile&lt;&#x2F;code&gt; I’ll be using. It installs Alice, the OCaml tools, and
+Dune system-wide, all without compiling any code.&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;dockerfile&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-dockerfile &quot;&gt;&lt;code class=&quot;language-dockerfile&quot; data-lang=&quot;dockerfile&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;FROM&lt;&#x2F;span&gt;&lt;span&gt; ubuntu
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# Install packages necessary to install Alice and Dune and the
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# low-level build tools needed by the OCaml compiler.
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;RUN &lt;&#x2F;span&gt;&lt;span&gt;apt-get update &amp;amp;&amp;amp; apt-get install -y build-essential curl git
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# Install Alice and the OCaml development tools.
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;RUN &lt;&#x2F;span&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh | sh -s -- \
+&lt;&#x2F;span&gt;&lt;span&gt;  --global &#x2F;usr --no-prompt --install-tools --no-update-shell-config
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# Install Dune from its binary distribution.
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;RUN &lt;&#x2F;span&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;github.com&#x2F;ocaml-dune&#x2F;dune-bin-install&#x2F;releases&#x2F;download&#x2F;v3&#x2F;install.sh | sh -s -- \
+&lt;&#x2F;span&gt;&lt;span&gt;  3.20.2 --install-root &#x2F;usr --no-update-shell-config
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# Install an editor to show off LSP. I&amp;#39;m using an unstable
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# version of neovim here as it comes with an experimental
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# built-in plugin manager which will make it easy to set up
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# the lspconfig plugin which knows how to run the OCaml LSP
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# server which Alice installed.
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;RUN &lt;&#x2F;span&gt;&lt;span&gt;apt-get install -y software-properties-common &amp;amp;&amp;amp; \
+&lt;&#x2F;span&gt;&lt;span&gt;  add-apt-repository ppa:neovim-ppa&#x2F;unstable &amp;amp;&amp;amp; \
+&lt;&#x2F;span&gt;&lt;span&gt;  apt-get update &amp;amp;&amp;amp; \
+&lt;&#x2F;span&gt;&lt;span&gt;  apt-get install -y neovim
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# Add a non-root user.
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;RUN &lt;&#x2F;span&gt;&lt;span&gt;useradd -m user
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;USER &lt;&#x2F;span&gt;&lt;span&gt;user
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;WORKDIR &lt;&#x2F;span&gt;&lt;span&gt;&#x2F;home&#x2F;user
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;# Minimal neovim config which installs the lspconfig plugin.
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;RUN &lt;&#x2F;span&gt;&lt;span&gt;mkdir -p ~&#x2F;.config&#x2F;nvim &amp;amp;&amp;amp; \
+&lt;&#x2F;span&gt;&lt;span&gt;  printf &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;#39;vim.pack.add({ &amp;quot;https:&#x2F;&#x2F;github.com&#x2F;neovim&#x2F;nvim-lspconfig&amp;quot; })&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;vim.lsp.enable(&amp;quot;ocamllsp&amp;quot;)&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt; &amp;gt; ~&#x2F;.config&#x2F;nvim&#x2F;init.lua
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Now from within a container running an image built from that
+Dockerfile, let’s make a new Dune project!&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;$ dune init project foo
+&lt;&#x2F;span&gt;&lt;span&gt;Entering directory &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;#39;&#x2F;home&#x2F;user&#x2F;foo&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;Success: initialized project component named foo
+&lt;&#x2F;span&gt;&lt;span&gt;$ cd foo
+&lt;&#x2F;span&gt;&lt;span&gt;$ dune exec foo
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, World!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That indicates that Dune and the OCaml compiler both work.&lt;&#x2F;p&gt;
+&lt;p&gt;To test the LSP server, open an OCaml file in an editor like
+&lt;code&gt;bin&#x2F;main.ml&lt;&#x2F;code&gt; whose contents is:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; print_endline &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Hello, World!&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Move the editor’s cursor over the &lt;code&gt;print_endline&lt;&#x2F;code&gt; function
+and run the LSP command to jump to definition. In Neovim
+this is:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;vim&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-vim &quot;&gt;&lt;code class=&quot;language-vim&quot; data-lang=&quot;vim&quot;&gt;&lt;span&gt;:&lt;&#x2F;span&gt;&lt;span style=&quot;color:#62a35c;&quot;&gt;lua&lt;&#x2F;span&gt;&lt;span&gt; vim&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;lsp&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;buf&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#62a35c;&quot;&gt;definition&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;This should take you to the file &lt;code&gt;&#x2F;usr&#x2F;lib&#x2F;ocaml&#x2F;stdlib.ml&lt;&#x2F;code&gt;
+where &lt;code&gt;print_endline&lt;&#x2F;code&gt; is defined like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span&gt;...
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#795da3;&quot;&gt;print_endline &lt;&#x2F;span&gt;&lt;span&gt;s &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=
+&lt;&#x2F;span&gt;&lt;span&gt;    output_string stdout s; output_char stdout &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;&amp;#39;\n&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;; flush stdout
+&lt;&#x2F;span&gt;&lt;span&gt;...
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now let’s test &lt;code&gt;ocamlformat&lt;&#x2F;code&gt;. Make an empty file in the project’s
+root directory named &lt;code&gt;.ocamlformat&lt;&#x2F;code&gt; to enable &lt;code&gt;ocamlformat&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button code-with-prompt&quot;&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;touch .ocamlformat
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Then open &lt;code&gt;bin&#x2F;main.ml&lt;&#x2F;code&gt; back up in your editor and mess with
+its formatting a bit. Maybe something like:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;print_endline &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Hello, World!&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Then run the LSP command to format the file. In Neovim it’s:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;vim&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-vim &quot;&gt;&lt;code class=&quot;language-vim&quot; data-lang=&quot;vim&quot;&gt;&lt;span&gt;:&lt;&#x2F;span&gt;&lt;span style=&quot;color:#62a35c;&quot;&gt;lua&lt;&#x2F;span&gt;&lt;span&gt; vim&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;lsp&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;buf&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#62a35c;&quot;&gt;format&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;…and the code should now be formatted correctly again:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; print_endline &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Hello, World!&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Now let’s use Dune Package Management to add a dependency.
+Make a lock directory:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ dune pkg lock
+&lt;&#x2F;span&gt;&lt;span&gt;Solution for dune.lock:
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml.5.3.0
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml-base-compiler.5.3.0
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml-compiler.5.3.0
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml-config.3
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That doesn’t look right, because our OCaml version should be
+&lt;code&gt;5.3.1+relocatable&lt;&#x2F;code&gt; (confirm this by running):&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ ocaml --version
+&lt;&#x2F;span&gt;&lt;span&gt;The OCaml toplevel, version 5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;By default Dune uses the regular Opam repository which
+doesn’t have an entry for the patched relocatable compiler
+installed by Alice. Also Dune prefers to install the
+compiler by building it from source rather than taking the
+compiler from the system. To change both of these
+behaviours, create a &lt;code&gt;dune-workspace&lt;&#x2F;code&gt; file in the project
+root with contents:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;dune&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-dune &quot;&gt;&lt;code class=&quot;language-dune&quot; data-lang=&quot;dune&quot;&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;lang&lt;&#x2F;span&gt;&lt;span&gt; dune &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;20&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;repository
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt; alice)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;url
+&lt;&#x2F;span&gt;&lt;span&gt;  git+https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;lock_dir
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;constraints
+&lt;&#x2F;span&gt;&lt;span&gt;  (ocaml-system
+&lt;&#x2F;span&gt;&lt;span&gt;   (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;+relocatable)))
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;repositories&lt;&#x2F;span&gt;&lt;span&gt; upstream overlay alice)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;solver_env
+&lt;&#x2F;span&gt;&lt;span&gt;  (sys-ocaml-version &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;+relocatable)))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;This tells Dune to use Alice’s Opam repository (which just contains an
+&lt;code&gt;ocaml-system&lt;&#x2F;code&gt; package for the patched relocatable compiler) and to add the
+package solver constraint that the solution must include the package
+&lt;code&gt;ocaml-system.5.3.1+relocatable&lt;&#x2F;code&gt;. Lock the project again:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ dune pkg lock
+&lt;&#x2F;span&gt;&lt;span&gt;Solution for dune.lock:
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml.5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml-config.3
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml-system.5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Better. Check that it still builds:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ dune clean &amp;amp;&amp;amp; dune exec foo
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, World!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We know that Dune is using the right compiler here because the only compiler installed
+on the system is the one installed by Alice. For Dune to have installed a
+different compiler it would have needed to build it from source, which we would
+notice because doing so takes several minutes.&lt;&#x2F;p&gt;
+&lt;p&gt;Now add a dependency! I’m going to add a dependency on the package &lt;code&gt;climate&lt;&#x2F;code&gt; by
+adding it to the &lt;code&gt;depends&lt;&#x2F;code&gt; field in &lt;code&gt;dune-project&lt;&#x2F;code&gt;. After this change, the
+entire &lt;code&gt;dune-project&lt;&#x2F;code&gt; file looks like:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;dune&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-dune &quot;&gt;&lt;code class=&quot;language-dune&quot; data-lang=&quot;dune&quot;&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;lang&lt;&#x2F;span&gt;&lt;span&gt; dune &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;20&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt; foo)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;generate_opam_files&lt;&#x2F;span&gt;&lt;span&gt; true)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;source
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;github&lt;&#x2F;span&gt;&lt;span&gt; username&#x2F;reponame))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;authors &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Author Name &amp;lt;author@example.com&amp;gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;maintainers &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Maintainer Name &amp;lt;maintainer@example.com&amp;gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;license&lt;&#x2F;span&gt;&lt;span&gt; LICENSE)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;documentation&lt;&#x2F;span&gt;&lt;span&gt; https:&#x2F;&#x2F;url&#x2F;to&#x2F;documentation)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;package
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt; foo)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;synopsis &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;A short synopsis&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;description &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;A longer description&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;depends&lt;&#x2F;span&gt;&lt;span&gt; ocaml climate) &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;; &amp;lt;------------ I modified this line
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;tags
+&lt;&#x2F;span&gt;&lt;span&gt;  (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;add topics&amp;quot; &amp;quot;to describe&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt; your project)))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt;; See the complete stanza docs at https:&#x2F;&#x2F;dune.readthedocs.io&#x2F;en&#x2F;stable&#x2F;reference&#x2F;dune-project&#x2F;index.html
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Lock the project again to make the new dependency available:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;$ dune pkg lock
+&lt;&#x2F;span&gt;&lt;span&gt;Solution for dune.lock:
+&lt;&#x2F;span&gt;&lt;span&gt;- climate.0.8.4
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml.5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml-config.3
+&lt;&#x2F;span&gt;&lt;span&gt;- ocaml-system.5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;To use the new dependency, add &lt;code&gt;climate&lt;&#x2F;code&gt; to the &lt;code&gt;libraries&lt;&#x2F;code&gt; field in
+&lt;code&gt;bin&#x2F;dune&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;dune&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-dune &quot;&gt;&lt;code class=&quot;language-dune&quot; data-lang=&quot;dune&quot;&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;executable
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;public_name&lt;&#x2F;span&gt;&lt;span&gt; foo)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt; main)
+&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;libraries&lt;&#x2F;span&gt;&lt;span&gt; foo climate))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;The &lt;code&gt;climate&lt;&#x2F;code&gt; package is a library to help implement command-line interfaces.
+Use it to make a little CLI in &lt;code&gt;bin&#x2F;main.ml&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;code-with-copy-button&quot;&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span&gt;Climate
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let open&lt;&#x2F;span&gt;&lt;span&gt; Command &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;in
+&lt;&#x2F;span&gt;&lt;span&gt;  run &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@&lt;&#x2F;span&gt;&lt;span&gt; singleton
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;@@
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let open&lt;&#x2F;span&gt;&lt;span&gt; Arg_parser &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;in
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let+&lt;&#x2F;span&gt;&lt;span&gt; name &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; pos_req &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#63a35c;&quot;&gt;~value_name:&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;NAME&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;in
+&lt;&#x2F;span&gt;&lt;span&gt;  Printf.printf &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Hello, %s!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt; name
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Try it out:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ dune exec foo -- --help
+&lt;&#x2F;span&gt;&lt;span&gt;Usage: &#x2F;home&#x2F;user&#x2F;foo&#x2F;_build&#x2F;install&#x2F;default&#x2F;bin&#x2F;foo [OPTION]… &amp;lt;NAME&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Arguments:
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;NAME&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Options:
+&lt;&#x2F;span&gt;&lt;span&gt;  -h, --help  Show this help message.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ dune exec foo -- Alice
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, Alice!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This shows how Alice can help setup an OCaml environment made up entirely
+of binary distributions of tools. Along with the binary release of Dune, this
+makes it possible to develop OCaml projects where the only code you need to
+compile is from your project and the libraries it depends on. Using pre-compiled
+binaries of the compiler and development tools speeds up getting started on a
+new project, and also speeds up CI builds by removing the costly first step of
+compiling the OCaml compiler. Indeed Alice is itself a Dune project which
+uses Alice to manage its development and CI OCaml environments.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Introducing Alice</title>
+        <published>2025-09-07T00:00:00+00:00</published>
+        <updated>2025-09-07T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/">&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&quot;&gt;Alice&lt;&#x2F;a&gt; is an experimental OCaml build
+system and package manager. I’m starting this blog to document progress on its
+development. Here’s a quick tour of Alice’s features at the time of writing.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;installing-ocaml-tools&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#installing-ocaml-tools&quot; aria-label=&quot;Anchor link for: installing-ocaml-tools&quot;&gt;Installing OCaml tools&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;One point of difference between OCaml’s packaging ecosystem and that of most other
+languages is that the OCaml compiler itself is considered to be a package. This
+avoids the need for language version management tools like
+&lt;a href=&quot;https:&#x2F;&#x2F;rustup.rs&#x2F;&quot;&gt;rustup&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;nvm-sh&#x2F;nvm&quot;&gt;nvm&lt;&#x2F;a&gt;, and
+&lt;a href=&quot;https:&#x2F;&#x2F;rvm.io&#x2F;&quot;&gt;rvm&lt;&#x2F;a&gt;, and it allows projects to declare a minimum or maximum
+version of the compiler which they support. However installing the OCaml
+compiler as a package means building it from source and this can take a long
+time. For various technical reasons, using Opam means recompiling the OCaml
+compiler at least once for each new project that you work on which, given the
+time it takes to compile, is not ideal.&lt;&#x2F;p&gt;
+&lt;p&gt;Since you obviously need a compiler before you can compile any code, it’s
+probably the first thing that a new user of the OCaml ecosystem will try to do, so I
+would like for it to be fast. When I eventually add package management to Alice
+I’ll develop a packaging ecosystem where the OCaml compiler is &lt;em&gt;not&lt;&#x2F;em&gt; a package.
+This is one of the big differences between the packaging philosophies of
+Opam and Alice.&lt;&#x2F;p&gt;
+&lt;p&gt;Since the compiler is not a package, it’s up to the user to make sure it’s installed
+before compiling any code. To help with this, Alice can act like a language
+version manager. I’ve pre-compiled a relocatable version of the OCaml compiler,
+and Alice can install it automatically:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice tools install
+&lt;&#x2F;span&gt;&lt;span&gt;  Fetching ocaml.5.3.1+relocatable...
+&lt;&#x2F;span&gt;&lt;span&gt; Unpacking ocaml.5.3.1+relocatable...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocaml.5.3.1+relocatable!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  Fetching ocamllsp.1.22.0...
+&lt;&#x2F;span&gt;&lt;span&gt; Unpacking ocamllsp.1.22.0...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocamllsp.1.22.0!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  Fetching ocamlformat.0.27.0...
+&lt;&#x2F;span&gt;&lt;span&gt; Unpacking ocamlformat.0.27.0...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocamlformat.0.27.0!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Where did it put the tools?&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ ls ~&#x2F;.alice&#x2F; -l
+&lt;&#x2F;span&gt;&lt;span&gt;lrwxrwxrwx - s  7 Jul 14:57 current -&amp;gt; &#x2F;home&#x2F;s&#x2F;.alice&#x2F;roots&#x2F;5.3.1
+&lt;&#x2F;span&gt;&lt;span&gt;drwxr-xr-x - s  7 Sep 18:37 roots
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ ls ~&#x2F;.alice&#x2F;roots&#x2F;5.3.1
+&lt;&#x2F;span&gt;&lt;span&gt;bin  doc  lib  man  share
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ ls ~&#x2F;.alice&#x2F;roots&#x2F;5.3.1&#x2F;bin
+&lt;&#x2F;span&gt;&lt;span&gt;ocaml          ocamldoc.opt       ocamlobjinfo.opt  ocamlrund-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlc         ocamlformat        ocamlopt          ocamlruni
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlc.byte    ocamlformat-rpc    ocamlopt.byte     ocamlruni-00d6
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlc.opt     ocamllex           ocamlopt.opt      ocamlruni-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlcmt       ocamllex.byte      ocamloptp         ocamlyacc
+&lt;&#x2F;span&gt;&lt;span&gt;ocamlcp        ocamllex.opt       ocamlprof         x86_64-pc-linux-musl-ocamlrun-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldebug     ocamllsp           ocamlrun          x86_64-pc-linux-musl-ocamlrund-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldep       ocamlmklib         ocamlrun-00d6     x86_64-pc-linux-musl-ocamlruni-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldep.byte  ocamlmktop         ocamlrun-0096
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldep.opt   ocamlobjinfo       ocamlrund
+&lt;&#x2F;span&gt;&lt;span&gt;ocamldoc       ocamlobjinfo.byte  ocamlrund-00d6
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The &lt;code&gt;~&#x2F;.alice&#x2F;current&lt;&#x2F;code&gt; symlink can be easily changed to a different “root” (what
+I’m calling a filesystem containing installations of the compiler and several
+tools) with &lt;code&gt;alice tools change&lt;&#x2F;code&gt; however currently the only available version is
+&lt;code&gt;5.3.1&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;You’ll note that &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; and &lt;code&gt;ocamlformat&lt;&#x2F;code&gt; are also installed. This pair of
+tools is used by most OCaml developers so to improve the experience of using
+Alice for the first time I’ve pre-compiled binary versions of these packages
+too. The &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; tool needs to be compiled with the same compiler as the code
+it’s analyzing. When I built the &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; binary package installed by Alice I
+used the same compiler as the one that Alice installs, so it’s guaranteed that
+the copy of &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; will be compatible with the compiler if you install both
+through Alice.&lt;&#x2F;p&gt;
+&lt;p&gt;When Alice runs the compiler it just looks it up in the &lt;code&gt;PATH&lt;&#x2F;code&gt; variable, so you
+can still install a different version of the complier (e.g. with Opam) and have
+Alice run that for you. If no OCaml compiler is found in &lt;code&gt;PATH&lt;&#x2F;code&gt; then Alice will
+fall back to running the one from &lt;code&gt;~&#x2F;.alice&#x2F;current&#x2F;bin&lt;&#x2F;code&gt;. If you want to guarantee
+that Alice’s OCaml compiler will be run by Alice, add &lt;code&gt;~&#x2F;.alice&#x2F;current&#x2F;bin&lt;&#x2F;code&gt; to
+the beginning of your &lt;code&gt;PATH&lt;&#x2F;code&gt; variable.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hello-world&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#hello-world&quot; aria-label=&quot;Anchor link for: hello-world&quot;&gt;Hello, World!&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Alice can set up a new project containing an executable or library package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice new --help
+&lt;&#x2F;span&gt;&lt;span&gt;Create a new alice project.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Usage: alice new [OPTION]… &amp;lt;NAME&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Arguments:
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;NAME&amp;gt;  Name of the project
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Options:
+&lt;&#x2F;span&gt;&lt;span&gt;  -v, --verbose      Enable verbose output (-vv for extra verbosity).
+&lt;&#x2F;span&gt;&lt;span&gt;  -q, --quiet        Supress printing of progress messages.
+&lt;&#x2F;span&gt;&lt;span&gt;  -p, --path &amp;lt;FILE&amp;gt;  Initialize the new project in this directory (must not already exist)
+&lt;&#x2F;span&gt;&lt;span&gt;      --exe          Create a project containing an executable package (default)
+&lt;&#x2F;span&gt;&lt;span&gt;      --lib          Create a project containing a library package
+&lt;&#x2F;span&gt;&lt;span&gt;  -h, --help         Show this help message.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Let’s make a new executable package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice new hello
+&lt;&#x2F;span&gt;&lt;span&gt;  Creating new executable package &amp;quot;hello&amp;quot; in &#x2F;tmp&#x2F;alicedemo&#x2F;hello
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ cd hello
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Take a look at the project:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ tree
+&lt;&#x2F;span&gt;&lt;span&gt;.
+&lt;&#x2F;span&gt;&lt;span&gt;├── Alice.toml
+&lt;&#x2F;span&gt;&lt;span&gt;└── src
+&lt;&#x2F;span&gt;&lt;span&gt;    └── main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;2 directories, 2 files
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ cat Alice.toml
+&lt;&#x2F;span&gt;&lt;span&gt;[package]
+&lt;&#x2F;span&gt;&lt;span&gt;name = &amp;quot;hello&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;version = &amp;quot;0.1.0&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$ cat src&#x2F;main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;let () = print_endline &amp;quot;Hello, World!&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Alice has a command &lt;code&gt;alice run&lt;&#x2F;code&gt; that builds and runs the current package if it’s
+an executable package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice run
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;   Running &#x2F;tmp&#x2F;alicedemo&#x2F;hello&#x2F;build&#x2F;hello
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, World!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;What did that build?&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ ls build&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;hello  main.cmi  main.cmx  main.ml  main.o
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The &lt;code&gt;build&lt;&#x2F;code&gt; directory was generated when building the project and contains all
+built artifacts. To remove it, run:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice clean
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;multi-file-projects&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#multi-file-projects&quot; aria-label=&quot;Anchor link for: multi-file-projects&quot;&gt;Multi-file projects&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Add a new file &lt;code&gt;src&#x2F;foo.ml&lt;&#x2F;code&gt; with contents:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;message &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Hello, Alice!&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And make an interface file &lt;code&gt;src&#x2F;foo.mli&lt;&#x2F;code&gt; with contents:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;message : &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;string
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Finally modify &lt;code&gt;src&#x2F;main.ml&lt;&#x2F;code&gt; so that it contains:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; print_endline Foo.message
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now run &lt;code&gt;alice run&lt;&#x2F;code&gt; again.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;   Running &#x2F;tmp&#x2F;alicedemo&#x2F;hello&#x2F;build&#x2F;hello
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, Alice!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;incremental-compilation&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#incremental-compilation&quot; aria-label=&quot;Anchor link for: incremental-compilation&quot;&gt;Incremental Compilation&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;To build a project without running it we can run &lt;code&gt;alice build&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice build --help
+&lt;&#x2F;span&gt;&lt;span&gt;Build a project.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Usage: alice build [OPTION]…
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Options:
+&lt;&#x2F;span&gt;&lt;span&gt;  -v, --verbose               Enable verbose output (-vv for extra verbosity).
+&lt;&#x2F;span&gt;&lt;span&gt;  -q, --quiet                 Supress printing of progress messages.
+&lt;&#x2F;span&gt;&lt;span&gt;      --manifest-path &amp;lt;FILE&amp;gt;  Read project metadata from this file instead of Alice.toml.
+&lt;&#x2F;span&gt;&lt;span&gt;      --release               Build with optimizations.
+&lt;&#x2F;span&gt;&lt;span&gt;  -h, --help                  Show this help message.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Let’s turn up the verbosity to see what’s happening under the hood. Clean the
+project and then run &lt;code&gt;alice build -vv&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice clean
+&lt;&#x2F;span&gt;&lt;span&gt;$ alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets foo.cmi
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets foo.cmx, foo.o
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets main.cmx, main.o
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets hello
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -o hello foo.cmx main.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Running &lt;code&gt;alice build -vv&lt;&#x2F;code&gt; a second time shows that most of the work is now
+skipped.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The project is already built so there’s nothing to do the second time around.
+Those calls of &lt;code&gt;ocamldep.opt&lt;&#x2F;code&gt; can probably be skipped to with some extra work!&lt;&#x2F;p&gt;
+&lt;p&gt;Now change &lt;code&gt;src&#x2F;main.ml&lt;&#x2F;code&gt; without changing any other source files.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ocaml&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-ocaml &quot;&gt;&lt;code class=&quot;language-ocaml&quot; data-lang=&quot;ocaml&quot;&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#0086b3;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;color:#a71d5d;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; print_endline (String.cat Foo.message &lt;&#x2F;span&gt;&lt;span style=&quot;color:#183691;&quot;&gt;&amp;quot;Yay!&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Rebuilding yet again:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt; Compiling hello v0.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Copying source file: main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets main.cmx, main.o
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c main.ml
+&lt;&#x2F;span&gt;&lt;span&gt; [INFO] Building targets hello
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -o hello foo.cmx main.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It rebuilt some of the artifacts but not all of the artifacts (e.g. it did not
+rebuild &lt;code&gt;foo.cmx&lt;&#x2F;code&gt; or &lt;code&gt;foo.o&lt;&#x2F;code&gt;) since those would be unchanged. Alice knows that
+if &lt;code&gt;src&#x2F;foo.ml&lt;&#x2F;code&gt; did not change since the last time &lt;code&gt;foo.cmx&lt;&#x2F;code&gt; was generated,
+there is no need to generate &lt;code&gt;foo.cmx&lt;&#x2F;code&gt; again.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dependency-graphs&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#dependency-graphs&quot; aria-label=&quot;Anchor link for: dependency-graphs&quot;&gt;Dependency Graphs&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Build targets depend on source files, and possibly on other build targets. Alice
+needs to know which targets depend on which other files&#x2F;targets. To help users
+understand their projects’ build dependencies and to help me debug issues with
+Alice, there is a command &lt;code&gt;alice dot&lt;&#x2F;code&gt; which generates a Graphviz dot file
+containing the project’s build or dependency graph.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice dot artifacts
+&lt;&#x2F;span&gt;&lt;span&gt;digraph {
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo.cmi&amp;quot; -&amp;gt; {&amp;quot;foo.mli&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo.cmx&amp;quot; -&amp;gt; {&amp;quot;foo.cmi&amp;quot;, &amp;quot;foo.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo.o&amp;quot; -&amp;gt; {&amp;quot;foo.cmi&amp;quot;, &amp;quot;foo.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;hello&amp;quot; -&amp;gt; {&amp;quot;foo.cmx&amp;quot;, &amp;quot;foo.o&amp;quot;, &amp;quot;main.cmx&amp;quot;, &amp;quot;main.o&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.cmx&amp;quot; -&amp;gt; {&amp;quot;foo.cmx&amp;quot;, &amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.o&amp;quot; -&amp;gt; {&amp;quot;foo.cmx&amp;quot;, &amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We can use Graphviz to visualize this:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;$ alice dot artifacts | dot -Tsvg &amp;gt; graph.svg
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;introducing-alice&#x2F;graph.svg&quot; alt=&quot;A dependency graph visualized&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;what-s-next&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-s-next&quot; aria-label=&quot;Anchor link for: what-s-next&quot;&gt;What’s next?&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;My most recent big push on Alice was
+&lt;a href=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;porting-alice-to-windows&#x2F;&quot;&gt;getting it running on Windows&lt;&#x2F;a&gt;.
+My next focus will be allowing packages to depend on each other, which will be
+the first step on the long journey to supporting package management -
+one of my long-term goals for this project. The first big milestone along that
+path will be bootstrapping, where Alice has enough build-system and
+package-management features to &lt;em&gt;build itself&lt;&#x2F;em&gt;, and all of its dependencies have
+been ported to Alice’s nascent package ecosystem.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Porting Alice to Windows</title>
+        <published>2025-08-28T00:00:00+00:00</published>
+        <updated>2025-08-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Stephen Sherratt
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://alicecaml.github.io/alicecaml.org/porting-alice-to-windows/"/>
+        <id>https://alicecaml.github.io/alicecaml.org/porting-alice-to-windows/</id>
+        
+        <content type="html" xml:base="https://alicecaml.github.io/alicecaml.org/porting-alice-to-windows/">&lt;p&gt;&lt;em&gt;This article was originally posted to my &lt;a href=&quot;https:&#x2F;&#x2F;www.gridbugs.org&#x2F;porting-my-toy-ocaml-build-system-to-windows&#x2F;&quot;&gt;personal website&lt;&#x2F;a&gt;.&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&quot;&gt;Alice&lt;&#x2F;a&gt; is my toy OCaml build system
+project where I ask “What if &lt;a href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;stable&#x2F;cargo&#x2F;&quot;&gt;Cargo&lt;&#x2F;a&gt;
+but for OCaml?”. My main priority when designing Alice is accessibility but
+perhaps a more suitable term would be &lt;em&gt;inclusivity&lt;&#x2F;em&gt; as my goal is for the tool
+to be usable by as many people as possible. Alice is still in its infancy and is
+currently used by &lt;em&gt;nobody&lt;&#x2F;em&gt; but if the day comes when it becomes a viable tool
+for building OCaml software I would hate to systematically exclude a potential
+user base because of baked-in assumptions made early in its design.&lt;&#x2F;p&gt;
+&lt;p&gt;I do most of my development on Linux and macOS which means I’m likely to
+make design decisions favouring those systems, possibly at the expense of
+potential users on other systems. In particular, because Windows differs so much
+from other popular OSes due to it not being Unix-based, there’s a significant
+risk of excluding Windows users if I don’t make a conscious effort to support
+them.&lt;&#x2F;p&gt;
+&lt;p&gt;Like most people who grew up in the 2000s or later I was introduced to
+computing on home and school computers running Windows (Windows 98 in my case!).
+I started playing with Linux in 2009 and it gradually became my daily driver
+but it took a huge amount of free time messing around with different distros and
+learning the tools and conventions to get to my level of comfort. I’m also
+fortunate enough to have the means to afford a Mac. But people who learnt
+Windows first and lack the time, money, or inclination to switch to a
+Unix-based OS will remain Windows users. So when Windows users are excluded from
+a tool, who is &lt;em&gt;really&lt;&#x2F;em&gt; being excluded?&lt;&#x2F;p&gt;
+&lt;p&gt;Today I’m going to port Alice to Windows.&lt;&#x2F;p&gt;
+&lt;p&gt;To prepare for this work I’ve compiled a relocatable OCaml compiler toolchain for
+Windows based on &lt;a href=&quot;https:&#x2F;&#x2F;www.dra27.uk&#x2F;blog&#x2F;&quot;&gt;David Allsopp&lt;&#x2F;a&gt;’s patches to allow
+the compiler to be moved after its initial installation. See &lt;a href=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=5JDSUCx-tPw&quot;&gt;this talk from
+ICFP 2022&lt;&#x2F;a&gt; for more info. Without
+this work every user would need to compile the OCaml compiler on their machine before
+using it. It’s important to me that a user of Alice can get started writing
+OCaml as quickly as possible with no hurdles. Building the compiler from source can
+take over 10 minutes and I don’t want users’ first experience of Alice to be
+waiting such a long time. I don’t think I would have started working on Alice
+at all if distributing a pre-compiled relocatable compiler wasn’t an option.&lt;&#x2F;p&gt;
+&lt;p&gt;Technically I could have used opam to bootstrap my development environment as it works
+&lt;a href=&quot;https:&#x2F;&#x2F;www.gridbugs.org&#x2F;sound-on-ocaml-on-windows&#x2F;&quot;&gt;perfectly fine&lt;&#x2F;a&gt;
+on Windows but one cool feature of Alice is that it can download pre-compiled
+development tools for you. Alice can’t build itself (yet!) but I still want to
+eat my own dogfood when I can, and so I’m testing out the prebuilt toolchain
+while developing Alice. I haven’t updated Alice to be able to install the
+dev tools prebuilt for Windows yet, but I have a handy
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;blob&#x2F;main&#x2F;boot&#x2F;x86_64-windows.sh&quot;&gt;shell script&lt;&#x2F;a&gt;
+that sets up a development environment for working on Alice using the same tools
+as Alice would install if it &lt;em&gt;was&lt;&#x2F;em&gt; already built. Classic bootstrapping problem.&lt;&#x2F;p&gt;
+&lt;p&gt;I’m using powershell and I have &lt;a href=&quot;https:&#x2F;&#x2F;www.msys2.org&#x2F;&quot;&gt;msys2&lt;&#x2F;a&gt; installed so
+some commands will look very Unix-y. Alice itself will work fine on Windows once
+ported but I barely know what I’m doing in powershell so I’ll stick to what I
+know (ie. Unix commands from msys2) while setting up my environment!&lt;&#x2F;p&gt;
+&lt;p&gt;This command installed a prebuilt compiler toolchain to &lt;code&gt;D:\alice\current&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; sh boot\x86_64-windows.sh D:\alice
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The result:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; ls D:\alice\current\bin\
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    Directory: D:\alice\current\bin
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Mode                 LastWriteTime         Length Name
+&lt;&#x2F;span&gt;&lt;span&gt;----                 -------------         ------ ----
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-28     02:07         451937 flexlink.byte.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-28     02:08        4706378 flexlink.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-28     02:08        4706378 flexlink.opt.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-28     02:08       24365426 ocaml.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-28     02:08        3394118 ocamlc.byte.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-28     02:08       13950043 ocamlc.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-28     02:08       13950043 ocamlc.opt.exe
+&lt;&#x2F;span&gt;&lt;span&gt;...
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;In addition to the compiler, this command installed &lt;code&gt;ocamlformat&lt;&#x2F;code&gt; and &lt;code&gt;ocamllsp&lt;&#x2F;code&gt;,
+which I also pre-compiled for Windows in preparation for this work.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; Get-Command ocamlformat
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CommandType     Name               Version    Source
+&lt;&#x2F;span&gt;&lt;span&gt;-----------     ----               -------    ------
+&lt;&#x2F;span&gt;&lt;span&gt;Application     ocamlformat.exe    0.0.0.0    D:\alice\current\bin\ocamlformat.exe
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\src\alice&amp;gt; Get-Command ocamllsp
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CommandType     Name               Version    Source
+&lt;&#x2F;span&gt;&lt;span&gt;-----------     ----               -------    ------
+&lt;&#x2F;span&gt;&lt;span&gt;Application     ocamllsp.exe       0.0.0.0    D:\alice\current\bin\ocamllsp.exe
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The other development tool I’ll need is &lt;code&gt;dune&lt;&#x2F;code&gt;. Alice uses Dune’s relatively new
+package-management features and these have not yet been ported to Windows so
+I’ve needed to hack Dune a little bit to make it work here. I already did this
+work while building &lt;code&gt;ocamlformat&lt;&#x2F;code&gt; and &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; with Dune package management on
+Windows. Most hacks were to those projects’ lockfiles rather than to Dune itself.
+I kept a
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;blob&#x2F;1c934ce6eb096130659268e913e4da54b7b2853c&#x2F;tool-build-scripts&#x2F;5.3.1&#x2F;windows-notes.md&quot;&gt;log&lt;&#x2F;a&gt;
+of everything I needed to change. I may be referring to it in order to get Alice
+to build with Dune on Windows.&lt;&#x2F;p&gt;
+&lt;p&gt;I built Dune from source on Windows using opam while building &lt;code&gt;ocamlformat&lt;&#x2F;code&gt; and
+&lt;code&gt;ocamllsp&lt;&#x2F;code&gt; and that’s the Dune executable I’ll be using for today’s work on
+Alice.&lt;&#x2F;p&gt;
+&lt;p&gt;Ok so I have all the tools I need, let’s see if Alice builds on Windows:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; dune build
+&lt;&#x2F;span&gt;&lt;span&gt;File &amp;quot;dune.lock&#x2F;lock.dune&amp;quot;, lines 18-29, characters 1-288:
+&lt;&#x2F;span&gt;&lt;span&gt;18 |  ((arch x86_64)
+&lt;&#x2F;span&gt;&lt;span&gt;19 |   (os linux)
+&lt;&#x2F;span&gt;&lt;span&gt;20 |   (sys-ocaml-version 5.3.1+relocatable))
+&lt;&#x2F;span&gt;&lt;span&gt;....
+&lt;&#x2F;span&gt;&lt;span&gt;27 |  ((arch arm64)
+&lt;&#x2F;span&gt;&lt;span&gt;28 |   (os macos)
+&lt;&#x2F;span&gt;&lt;span&gt;29 |   (sys-ocaml-version 5.3.1+relocatable)))
+&lt;&#x2F;span&gt;&lt;span&gt;Error: The lockdir does not contain a solution compatible with the current
+&lt;&#x2F;span&gt;&lt;span&gt;platfort.
+&lt;&#x2F;span&gt;&lt;span&gt;The current platform is:
+&lt;&#x2F;span&gt;&lt;span&gt;- arch = x86_64
+&lt;&#x2F;span&gt;&lt;span&gt;- os = win32
+&lt;&#x2F;span&gt;&lt;span&gt;- os-distribution = win32
+&lt;&#x2F;span&gt;&lt;span&gt;- os-family = windows
+&lt;&#x2F;span&gt;&lt;span&gt;- os-version = 10.0.22621
+&lt;&#x2F;span&gt;&lt;span&gt;- sys-ocaml-version = 5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;span&gt;Hint: Try adding the following to dune-workspace:
+&lt;&#x2F;span&gt;&lt;span&gt;Hint: (lock_dir (solve_for_platforms ((arch x86_64) (os win32))))
+&lt;&#x2F;span&gt;&lt;span&gt;Hint: ...and then rerun &amp;#39;dune pkg lock&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I’ve seen this error before while building &lt;code&gt;ocamlformat&lt;&#x2F;code&gt;. Alice has &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo&quot;&gt;its own
+little opam repository&lt;&#x2F;a&gt; which
+allows it to use the pre-compiled relocatable OCaml toolchain. The relocatable
+OCaml toolchain has a version which is not released on the main opam repository
+which means the &lt;code&gt;ocaml-system&lt;&#x2F;code&gt; package can’t be used, so I needed to make a new
+version of &lt;code&gt;ocaml-system&lt;&#x2F;code&gt; matching the version of the pre-compiled toolchain
+(&lt;code&gt;5.3.1+relocatable&lt;&#x2F;code&gt;). I did this months ago when first getting Alice working
+on Linux and macOS but the version of the &lt;code&gt;ocaml-system&lt;&#x2F;code&gt; package originally had
+some logic preventing its installation on Windows (copied from the upstream
+&lt;code&gt;ocaml-system&lt;&#x2F;code&gt; package), but that logic turned out to be unnecessary for my use
+case so I just
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo&#x2F;commit&#x2F;781db10863f3b7a3507842e88d0d3beeebd264ad&quot;&gt;deleted it&lt;&#x2F;a&gt;.
+However I did so recently and that change hasn’t made its way into Alice yet.
+Making that change to Alice was
+straightforward:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;patch&quot; style=&quot;background-color:#ffffff;color:#323232;&quot; class=&quot;language-patch &quot;&gt;&lt;code class=&quot;language-patch&quot; data-lang=&quot;patch&quot;&gt;&lt;span&gt;diff --git a&#x2F;dune-workspace b&#x2F;dune-workspace
+&lt;&#x2F;span&gt;&lt;span&gt;index bc77561..8d8b9db 100644
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#ffecec;font-weight:bold;font-style:italic;color:#bd2c00;&quot;&gt;---&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt; a&#x2F;dune-workspace
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;font-style:italic;color:#55a532;&quot;&gt;+++&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt; b&#x2F;dune-workspace
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;font-style:italic;color:#969896;&quot;&gt;@@ -7,7 +7,7 @@
+&lt;&#x2F;span&gt;&lt;span&gt; (repository
+&lt;&#x2F;span&gt;&lt;span&gt;  (name alice_frozen)
+&lt;&#x2F;span&gt;&lt;span&gt;  (url
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#ffecec;color:#323232;&quot;&gt;-  git+https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo#9957c6334ca7ea18a973ea2fa9e3e56ab9c85eeb))
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt;  git+https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo#781db10863f3b7a3507842e88d0d3beeebd264ad))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt; (repository
+&lt;&#x2F;span&gt;&lt;span&gt;  (name upstream_frozen)
+&lt;&#x2F;span&gt;&lt;span&gt;diff --git a&#x2F;dune.lock&#x2F;lock.dune b&#x2F;dune.lock&#x2F;lock.dune
+&lt;&#x2F;span&gt;&lt;span&gt;index 5ef36e2..fdc34a5 100644
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#ffecec;font-weight:bold;font-style:italic;color:#bd2c00;&quot;&gt;---&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt; a&#x2F;dune.lock&#x2F;lock.dune
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;font-style:italic;color:#55a532;&quot;&gt;+++&lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#969896;&quot;&gt; b&#x2F;dune.lock&#x2F;lock.dune
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;font-style:italic;color:#969896;&quot;&gt;@@ -12,7 +12,7 @@
+&lt;&#x2F;span&gt;&lt;span&gt;   ((source
+&lt;&#x2F;span&gt;&lt;span&gt;     https:&#x2F;&#x2F;github.com&#x2F;ocaml-dune&#x2F;opam-overlays.git#2a9543286ff0e0656058fee5c0da7abc16b8717d))
+&lt;&#x2F;span&gt;&lt;span&gt;   ((source
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#ffecec;color:#323232;&quot;&gt;-    https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo#9957c6334ca7ea18a973ea2fa9e3e56ab9c85eeb))))
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt;    https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo#781db10863f3b7a3507842e88d0d3beeebd264ad))))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt; (solved_for_platforms
+&lt;&#x2F;span&gt;&lt;span&gt;  ((arch x86_64)
+&lt;&#x2F;span&gt;&lt;span style=&quot;font-weight:bold;font-style:italic;color:#969896;&quot;&gt;@@ -26,4 +26,10 @@
+&lt;&#x2F;span&gt;&lt;span&gt;   (sys-ocaml-version 5.3.1+relocatable))
+&lt;&#x2F;span&gt;&lt;span&gt;  ((arch arm64)
+&lt;&#x2F;span&gt;&lt;span&gt;   (os macos)
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt;  (sys-ocaml-version 5.3.1+relocatable))
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt; ((arch x86_64)
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt;  (os win32)
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt;  (sys-ocaml-version 5.3.1+relocatable))
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt; ((arch arm64)
+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;font-weight:bold;color:#55a532;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#eaffea;color:#323232;&quot;&gt;  (os win32)
+&lt;&#x2F;span&gt;&lt;span&gt;   (sys-ocaml-version 5.3.1+relocatable)))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Trying to build again:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; dune build
+&lt;&#x2F;span&gt;&lt;span&gt;    Building ocaml-system.5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;span&gt;    Building ocaml-config.3
+&lt;&#x2F;span&gt;&lt;span&gt;    Building ocaml.5.3.1+relocatable
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading xdg.3.19.1
+&lt;&#x2F;span&gt;&lt;span&gt;    Building xdg.3.19.1
+&lt;&#x2F;span&gt;&lt;span&gt;    Building base-unix.base
+&lt;&#x2F;span&gt;&lt;span&gt;Shared cache miss [bc92329a7327ee6a16f45fa75edf32e5] (_build&#x2F;_fetch&#x2F;checksum&#x2F;md5=a460f01d409d51b7d537429881bfa276&#x2F;dir): error: Unix.Unix_error(Unix.EXDEV, &amp;quot;link&amp;quot;, &amp;quot;_build&#x2F;_fetch&#x2F;checksum&#x2F;md5=a460f01d409d51b7d537429881bfa276&#x2F;dir&#x2F;.gitignore&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading ISO8601.0.2.6
+&lt;&#x2F;span&gt;&lt;span&gt;    Building ISO8601.0.2.6
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading menhirLib.20240715
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading menhirSdk.20240715
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading menhirCST.20240715
+&lt;&#x2F;span&gt;&lt;span&gt;    Building menhirLib.20240715
+&lt;&#x2F;span&gt;&lt;span&gt;    Building menhirSdk.20240715
+&lt;&#x2F;span&gt;&lt;span&gt;    Building menhirCST.20240715
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading menhir.20240715
+&lt;&#x2F;span&gt;&lt;span&gt;    Building menhir.20240715
+&lt;&#x2F;span&gt;&lt;span&gt;Shared cache miss [919bb687d0058dc8265afa905483f2bd] (_build&#x2F;_fetch&#x2F;checksum&#x2F;sha256=1d4e9c16ed9e24d46dd757ce94adc7fc8b2068eb5ff7cd2a70fce08135a752ef&#x2F;dir): error: Unix.Unix_error(Unix.EXDEV, &amp;quot;link&amp;quot;, &amp;quot;_build&#x2F;_fetch&#x2F;checksum&#x2F;sha256=1d4e9c16ed9e24d46dd757ce94adc7fc8b2068eb5ff7cd2a70fce08135a752ef&#x2F;dir&#x2F;.gitignore&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading toml.7.1.0
+&lt;&#x2F;span&gt;&lt;span&gt;    Building toml.7.1.0
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading stdlib-shims.0.3.0
+&lt;&#x2F;span&gt;&lt;span&gt;    Building stdlib-shims.0.3.0
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading sha.1.15.4
+&lt;&#x2F;span&gt;&lt;span&gt;    Building sha.1.15.4
+&lt;&#x2F;span&gt;&lt;span&gt;    Building seq.base
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading re.1.13.2
+&lt;&#x2F;span&gt;&lt;span&gt;    Building re.1.13.2
+&lt;&#x2F;span&gt;&lt;span&gt;Shared cache miss [806d141e2f359f01b7662634ccd5886d] (_build&#x2F;_fetch&#x2F;checksum&#x2F;sha256=796d5791e2bf7b3bff200cf5057a7a1878439ebcd74ed0f1088cf86756d52be6&#x2F;dir): error: Unix.Unix_error(Unix.EXDEV, &amp;quot;link&amp;quot;, &amp;quot;_build&#x2F;_fetch&#x2F;checksum&#x2F;sha256=796d5791e2bf7b3bff200cf5057a7a1878439ebcd74ed0f1088cf86756d52be6&#x2F;dir&#x2F;.gitignore&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading fileutils.0.6.6
+&lt;&#x2F;span&gt;&lt;span&gt;    Building fileutils.0.6.6
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading ordering.3.19.1
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading pp.2.0.0
+&lt;&#x2F;span&gt;&lt;span&gt;    Building pp.2.0.0
+&lt;&#x2F;span&gt;&lt;span&gt;    Building ordering.3.19.1
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading dyn.3.19.1
+&lt;&#x2F;span&gt;&lt;span&gt;    Building dyn.3.19.1
+&lt;&#x2F;span&gt;&lt;span&gt; Downloading climate.0.8.0
+&lt;&#x2F;span&gt;&lt;span&gt;    Building climate.0.8.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That worked!&lt;&#x2F;p&gt;
+&lt;p&gt;I thought I might have to apply some of the hacks I wrote about while getting
+&lt;code&gt;ocamlformat&lt;&#x2F;code&gt; and &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; to build
+(&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice&#x2F;blob&#x2F;1c934ce6eb096130659268e913e4da54b7b2853c&#x2F;tool-build-scripts&#x2F;5.3.1&#x2F;windows-notes.md&quot;&gt;here&lt;&#x2F;a&gt;)
+but fortunately not. Most of those problems come from the dependency on packages
+that don’t use Dune as their build system, and I’ve avoided such packages in
+Alice.&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;code&gt;Shared cache miss&lt;&#x2F;code&gt; errors are benign, and I think related to
+the fact that my user account in on a different partition to the project I’m
+building, though it’s odd that it doesn’t happen for all the dependencies.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; ls .\_build\default\alice\src\alice.exe
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    Directory: D:\src\alice\_build\default\alice\src
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Mode                 LastWriteTime         Length Name
+&lt;&#x2F;span&gt;&lt;span&gt;----                 -------------         ------ ----
+&lt;&#x2F;span&gt;&lt;span&gt;-ar---        2025-08-28     02:51        7180768 alice.exe
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\src\alice&amp;gt; ls .\_build\install\default\bin\
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    Directory: D:\src\alice\_build\install\default\bin
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Mode                 LastWriteTime         Length Name
+&lt;&#x2F;span&gt;&lt;span&gt;----                 -------------         ------ ----
+&lt;&#x2F;span&gt;&lt;span&gt;-ar---        2025-08-28     02:51        7180768 alice.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-ar---        2025-08-28     02:51        4825269 alice_demo.exe
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;One difference I observe between building Alice on Windows verses Unix-based
+OSes is that on Windows it’s very slow to compile. It took over 7 minutes.
+One possibility is that I’m building Alice from a spinning disk drive. I use
+this same computer for most of my OCaml development but usually booted into
+Linux and I don’t remember if I use an SSD or spinning disk for that work but
+I’ve never run into this type of performance issue there.&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;code&gt;Shared cache miss&lt;&#x2F;code&gt; errors suggest something is going wrong accessing Dune’s
+cache, and I see that rebuilding the project causes dependencies to be
+downloaded again which also suggests a cache problem. As an experiment I deleted
+the Dune cache from my Mac (a 2020 Macbook Air) and rebuilt Alice there, and from a
+cold cache it took about a minute compared to 10 seconds building from scratch
+on my Mac from a warm cache, so the caching issue on Windows probably has an
+impact on the build time but it’s clearly not the full story.&lt;&#x2F;p&gt;
+&lt;p&gt;I tried copying the project into my Windows user account which &lt;em&gt;is&lt;&#x2F;em&gt; on an SSD, and the
+same partition as Dune’s cache. Rebuilding from a clean project with a cold
+cache took almost 9 minutes this time but there were no cache errors. I think
+this rules out the explanation that my spinning disk is the problem. Rebuilding
+from a clean project a second time still caused the dependencies to be
+re-downloaded so I’m not sure if the cache is even enabled (but then why the
+cache errors when I was on a different drive?).&lt;&#x2F;p&gt;
+&lt;p&gt;Anyway incremental builds are still pretty fast and that’s
+all I’ll be needing today so I’ll move on. The goal of this project isn’t to
+debug Dune performance issues on Windows.&lt;&#x2F;p&gt;
+&lt;p&gt;Now that I have Alice building on Windows the next step is to make sure
+&lt;code&gt;ocamlformat&lt;&#x2F;code&gt; and &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; work and integrate them into my editor. I built
+binary versions of these tools for Windows in preparation for today’s work but I
+didn’t test them yet.&lt;&#x2F;p&gt;
+&lt;p&gt;I’m going to be using Neovim with the same
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;gridbugs&#x2F;dotfiles&#x2F;tree&#x2F;main&#x2F;nvim&quot;&gt;configuration&lt;&#x2F;a&gt; as I use
+for development on Linux and macOS. It starts an &lt;code&gt;ocamllsp&lt;&#x2F;code&gt; server upon opening
+an OCaml source file and autoformats the code with &lt;code&gt;ocamlformat&lt;&#x2F;code&gt; whenever I
+save an OCaml source file.&lt;&#x2F;p&gt;
+&lt;p&gt;Both of these tools worked flawlessly on the first try.&lt;&#x2F;p&gt;
+&lt;p&gt;The next step is to add Windows support to the &lt;code&gt;alice tools get&lt;&#x2F;code&gt; command which
+downloads the OCaml development tools for the current platform. Alice currently
+has no concept of Windows at all, and running that command on my machine prints
+&lt;code&gt;Unknown system: MSYS_NT-10.0-22631&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;When Alice installs tools it creates a “root” which is a directory resembling a
+typical Unix filesystem root, with subdirectories like &lt;code&gt;bin&lt;&#x2F;code&gt; and &lt;code&gt;share&lt;&#x2F;code&gt;. This
+lets it include things like manual pages when installing tools as well as the
+tools themselves. Over time I expect to support multiple different versions of the compiler
+though currently &lt;code&gt;5.3.1+relocatable&lt;&#x2F;code&gt; is the only supported version. Similar
+to &lt;a href=&quot;https:&#x2F;&#x2F;rustup.rs&#x2F;&quot;&gt;&lt;code&gt;rustup&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; it’s possible to change the
+global root that is considered “active” by running the command &lt;code&gt;alice tools change&lt;&#x2F;code&gt;. This creates a symlink at &lt;code&gt;~&#x2F;.alice&#x2F;current&lt;&#x2F;code&gt; pointing to (say)
+&lt;code&gt;~&#x2F;.alice&#x2F;roots&#x2F;5.3.1+relocatable&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;The problem is that creating a symlink on Windows requires admin permissions.
+My solution is to copy the selected root into &lt;code&gt;~&#x2F;.alice&#x2F;current&lt;&#x2F;code&gt; instead.&lt;&#x2F;p&gt;
+&lt;p&gt;Now it works:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; alice tools get
+&lt;&#x2F;span&gt;&lt;span&gt;Fetching ocaml.5.3.1+relocatable...Done!
+&lt;&#x2F;span&gt;&lt;span&gt;Unpacking ocaml.5.3.1+relocatable...Done!
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocaml.5.3.1+relocatable!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Fetching ocamllsp.1.22.0...Done!
+&lt;&#x2F;span&gt;&lt;span&gt;Unpacking ocamllsp.1.22.0...Done!
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocamllsp.1.22.0!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Fetching ocamlformat.0.27.0...Done!
+&lt;&#x2F;span&gt;&lt;span&gt;Unpacking ocamlformat.0.27.0...Done!
+&lt;&#x2F;span&gt;&lt;span&gt;Successfully installed ocamlformat.0.27.0!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;No current root was found so making 5.3.1+relocatable the current root.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Even though that command installed the same version of the tools I’m already
+using, I updated my &lt;code&gt;PATH&lt;&#x2F;code&gt; variable to include &lt;code&gt;$HOME\.alice\current\bin&lt;&#x2F;code&gt;,
+so now I have:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\src\alice&amp;gt; Get-Command ocamlopt
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CommandType     Name          Version    Source
+&lt;&#x2F;span&gt;&lt;span&gt;-----------     ----          -------    ------
+&lt;&#x2F;span&gt;&lt;span&gt;Application     ocamlopt.exe  0.0.0.0    C:\Users\steph\.alice\current\bin\ocamlopt.exe
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Next up let’s see if it’s possible to create a new project using Alice on
+Windows:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp&amp;gt; alice new foo
+&lt;&#x2F;span&gt;&lt;span&gt;Created new executable project in D:\tmp\foo
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\tmp&amp;gt; find foo
+&lt;&#x2F;span&gt;&lt;span&gt;foo
+&lt;&#x2F;span&gt;&lt;span&gt;foo&#x2F;.gitignore
+&lt;&#x2F;span&gt;&lt;span&gt;foo&#x2F;Alice.toml
+&lt;&#x2F;span&gt;&lt;span&gt;foo&#x2F;src
+&lt;&#x2F;span&gt;&lt;span&gt;foo&#x2F;src&#x2F;main.ml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Can we build it?&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice build
+&lt;&#x2F;span&gt;&lt;span&gt;Program &amp;quot;ocamldep.opt&amp;quot; not found!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I do have &lt;code&gt;ocamldep.opt&lt;&#x2F;code&gt; installed as part of the OCaml compiler toolchain
+however I suspect the &lt;code&gt;.exe&lt;&#x2F;code&gt; extension is causing the problem:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; Get-Command ocamldep.opt
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CommandType Name             Version Source
+&lt;&#x2F;span&gt;&lt;span&gt;----------- ----             ------- ------
+&lt;&#x2F;span&gt;&lt;span&gt;Application ocamldep.opt.exe 0.0.0.0 C:\Users\steph\.alice\current\bin\ocamldep.opt.exe
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I updated Alice to include the &lt;code&gt;.exe&lt;&#x2F;code&gt; on Windows. I also needed to update the
+invocation of &lt;code&gt;ocamlopt.opt&lt;&#x2F;code&gt; to &lt;code&gt;ocamlopt.opt.exe&lt;&#x2F;code&gt;. After this change
+&lt;code&gt;alice build&lt;&#x2F;code&gt; could run successfully.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice build
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; ls .\build\
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    Directory: D:\tmp\foo\build
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Mode                 LastWriteTime         Length Name
+&lt;&#x2F;span&gt;&lt;span&gt;----                 -------------         ------ ----
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-29     10:25        3134570 foo.exe
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-29     10:25            180 main.cmi
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-29     10:25            196 main.cmx
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-29     10:18             38 main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;-a----        2025-08-29     10:25           1226 main.o
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; .\build\foo.exe
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, World!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Alice has some commands for cleaning and running a project too:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice clean
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice run
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Need to add some more printouts so it’s more clear when a command completes
+successfully! In the case of &lt;code&gt;alice run&lt;&#x2F;code&gt; something did go wrong since it didn’t
+print “Hello, World!”. When I press enter again I see “Hello, World!” print at
+the next prompt:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice run
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; Hello, World!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Alice runs programs with &lt;code&gt;Unix.execv&lt;&#x2F;code&gt;. Here’s its documentation:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;execv prog args&lt;&#x2F;code&gt; execute the program in file &lt;code&gt;prog&lt;&#x2F;code&gt;, with the arguments &lt;code&gt;args&lt;&#x2F;code&gt;, and the current process environment. Note that the first argument, &lt;code&gt;args.(0)&lt;&#x2F;code&gt;, is by convention the filename of the program being executed, just like &lt;code&gt;Sys.argv.(0)&lt;&#x2F;code&gt;. These &lt;code&gt;execv*&lt;&#x2F;code&gt; functions never return: on success, the current program is replaced by the new one.&lt;&#x2F;p&gt;
+&lt;p&gt;On Windows: the CRT simply spawns a new process and exits the current one. This will have unwanted consequences if e.g. another process is waiting on the current one. Using &lt;code&gt;create_process&lt;&#x2F;code&gt; or one of the &lt;code&gt;open_process_*&lt;&#x2F;code&gt; functions instead is recommended.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;@raise&lt;&#x2F;strong&gt;&lt;&#x2F;em&gt; &lt;code&gt;Unix_error&lt;&#x2F;code&gt; on failure&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;As the docs suggest I replaced &lt;code&gt;Unix.execv&lt;&#x2F;code&gt; with &lt;code&gt;Unix.create_process&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice run
+&lt;&#x2F;span&gt;&lt;span&gt;Hello, World!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Next I want to test &lt;code&gt;alice dot&lt;&#x2F;code&gt; which prints the graphviz dot sourcecode for the
+build graph:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice dot
+&lt;&#x2F;span&gt;&lt;span&gt;digraph {
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo&amp;quot; -&amp;gt; {&amp;quot;main.cmx&amp;quot;, &amp;quot;main.o&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.cmx&amp;quot; -&amp;gt; {&amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.o&amp;quot; -&amp;gt; {&amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The &lt;code&gt;.exe&lt;&#x2F;code&gt; is missing from the executable name. Windows obviously allows file
+extensions like &lt;code&gt;.exe&lt;&#x2F;code&gt; to be omitted under some conditions since &lt;code&gt;alice run&lt;&#x2F;code&gt; was
+able to execute &lt;code&gt;foo.exe&lt;&#x2F;code&gt; without its extension. It would still be better to
+include the file extension here and in any other debug output printed by Alice.
+Another place where the extension is missing is from the build commands
+themselves. Rerunning the build with verbose logging:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] copying source file: main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -c main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -o foo main.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The OCaml compiler is clearly able to add the appropriate extension even though
+it was omitted from &lt;code&gt;-o foo&lt;&#x2F;code&gt; but it would still be better to update the build
+rules so that on Windows they use the correct extension for executable files.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] copying source file: main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -c main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -o foo.exe main.cmx
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice dot
+&lt;&#x2F;span&gt;&lt;span&gt;digraph {
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;foo.exe&amp;quot; -&amp;gt; {&amp;quot;main.cmx&amp;quot;, &amp;quot;main.o&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.cmx&amp;quot; -&amp;gt; {&amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;main.o&amp;quot; -&amp;gt; {&amp;quot;main.ml&amp;quot;}
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Just for fun here’s a render of the graph made with &lt;code&gt;alice dot | dot -Tsvg &amp;gt; graph.svg&lt;&#x2F;code&gt;
+showing dependencies between build artifacts and source files.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;porting-alice-to-windows&#x2F;graph.svg&quot; alt=&quot;A directed graph with nodes labeled with file names and edges representing build dependencies&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;I added a second source file and interface to exercise Alice on a slightly less
+trivial case:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#ffffff;color:#323232;&quot;&gt;&lt;code&gt;&lt;span&gt;PS D:\tmp\foo&amp;gt; alice build -vv
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] copying source file: foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -c foo.mli
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] copying source file: foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -c foo.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] copying source file: main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -c main.ml
+&lt;&#x2F;span&gt;&lt;span&gt;[DEBUG] running build command: ocamlopt.opt.exe -g -o foo.exe foo.cmx main.cmx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;porting-alice-to-windows&#x2F;graph2.svg&quot; alt=&quot;A directed graph with nodes labeled with file names and edges representing build dependencies&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;I did a little more work not directly relating to supporting Windows but which
+will make it easier for Alice to find the OCaml compiler, assuming the toolchain
+was installed by Alice. If Alice would run an external program (such as the
+OCaml compiler) and the program isn’t in the user’s &lt;code&gt;PATH&lt;&#x2F;code&gt; variable then Alice
+will run the program from the current root (like &lt;code&gt;~&#x2F;.alice&#x2F;current&lt;&#x2F;code&gt;). This
+will make Alice easier to set up since it removes the need to add
+&lt;code&gt;~&#x2F;.alice&#x2F;current&#x2F;bin&lt;&#x2F;code&gt; to &lt;code&gt;PATH&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;And now Alice works on Windows!&lt;&#x2F;p&gt;
+&lt;p&gt;You need to be in Powershell rather than CMD.exe, and you’ll need a C compiler
+like LLVM installed an in your &lt;code&gt;PATH&lt;&#x2F;code&gt; for the OCaml compiler to work
+correctly. After that, as long as &lt;code&gt;alice.exe&lt;&#x2F;code&gt; is in your &lt;code&gt;PATH&lt;&#x2F;code&gt;, just run
+run &lt;code&gt;alice tools get&lt;&#x2F;code&gt; to install the OCaml compiler and dev tools, &lt;code&gt;alice new &amp;lt;NAME&amp;gt;&lt;&#x2F;code&gt;
+to make a new project, and &lt;code&gt;alice run&lt;&#x2F;code&gt; from within the new project’s directory
+to run the project.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;porting-alice-to-windows&#x2F;screenshot.png&quot; alt=&quot;A screenshot of a powershell session with the commands get started with Alice&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Alice is highly experimental and far from ready for everyday use. The next step
+will be allowing Alice packages to depend on each other.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

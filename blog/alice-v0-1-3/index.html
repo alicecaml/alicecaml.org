@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Alice v0.1.3
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-3/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-1-3/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+				<meta property="article:published_time" content="2025-11-28T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>
+Alice v0.1.3
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Alice v0.1.3</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2025-11-28T00:00:00+00:00">
+    November 28, 2025
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/release" aria-label="tag">release</a>
+  
+</p>
+
+
+  
+
+<p>Announcing the release of
+<a href="https://github.com/alicecaml/alice/releases/tag/0.1.3">Alice v0.1.3</a>.
+This is a patch release though it
+doesn’t make any visible changes. The purpose of the release is to add a
+<a href="https://github.com/alicecaml/alice/blob/0.1.3/packaging/replace-compiler-version-with-template-in-lockdir.patch">patch</a>
+which replaces the OCaml compiler version number in all lockfiles with a template
+placeholder. This makes it possible to change the version of the compiler that
+Dune expects to see in the environment when building the project. This is
+simplifies packaging Alice for Homebrew, and possibly for other package managers
+in the future.</p>
+<p>Alice builds with Dune Package Management, however Dune (by way of it using
+Opam’s packaging conventions) requires that the OCaml compiler either be built
+as a dependency of the project or be installed system-wide with that compiler’s
+version stored in the lock directory. The first option is not desirable as it
+would make Alice very slow to install, since compiling the OCaml compiler can
+take a long time. The second option isn’t possible in Homebrew, since the
+<code>ocaml</code> package will be updated independently of Alice, meaning that whatever
+compiler version the project is configured to expect, it will see an unexpected
+version each time the <code>ocaml</code> package is update</p>
+<p><a href="https://github.com/alicecaml/homebrew-tap/blob/main/Formula/alice.rb">Alice’s Homebrew
+formula</a>
+uses a hybrid of both approaches. Its lock directory expects a compiler to be
+installed system-wide of some arbitrary version, and before compilation the
+install script replaces this version with whatever version of the OCaml compiler
+brew decided to install as a dependency of Alice. This way Alice’s Homebrew package can
+be installed relatively quickly and will continue to work as the OCaml compiler
+in Homebrew’s repository gets updated.</p>
+<p>For all Alice’s other dependencies
+(besides the compiler), Dune installs them with its internal package management
+mechanism. A potential alternative to this would be to rely entirely on Homebrew
+to install Alice’s dependencies. This is how Alice’s Opam and Nix packages work -
+rely on the foreign (i.e. non-Dune) package manager to do <em>all</em> the package
+management. Currently this isn’t an option for Homebrew because most of the
+OCaml libraries it uses aren’t in Homebrew’s repository.</p>
+<p>Install Alice with Homebrew by running:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>brew install alicecaml/homebrew-tap/alice
+</span></code></pre>
+</div>
+<h2 id="release-notes"><a class="zola-anchor" href="#release-notes" aria-label="Anchor link for: release-notes">Release Notes</a></h2>
+<h3 id="added"><a class="zola-anchor" href="#added" aria-label="Anchor link for: added">Added</a></h3>
+<ul>
+<li>Add a patch that replaces the locked compiler version with a template string to simplify packaging</li>
+</ul>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;buzz&#x2F;" aria-label="Previous">
+	  Previous: Buzz
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-2-0&#x2F;" aria-label="Next">
+	  Next: Alice v0.2.0
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

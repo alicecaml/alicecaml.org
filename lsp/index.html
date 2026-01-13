@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="Alice: LSP">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/lsp/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/lsp/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>Alice: LSP</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+<h1 id="alice-and-the-language-server-protocol"><a class="zola-anchor" href="#alice-and-the-language-server-protocol" aria-label="Anchor link for: alice-and-the-language-server-protocol">Alice and the Language Server Protocol</a></h1>
+<p>The <a href="https://microsoft.github.io/language-server-protocol/">Language Server Protocol
+(LSP)</a> allows editors to
+communicate with language servers to implement features such as code completion
+and navigation. The de facto standard LSP server for OCaml is
+<a href="https://github.com/ocaml/ocaml-lsp">OCaml-LSP</a> (aka. ocamllsp and
+ocaml-lsp-server). This page is a guide for using OCaml-LSP while editing OCaml code
+in Alice projects.</p>
+<p>Note that to use OCaml-LSP in an Alice project you’ll need to be using Alice
+v0.3.0 or later.</p>
+<h2 id="table-of-contents"><a class="zola-anchor" href="#table-of-contents" aria-label="Anchor link for: table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#terminology">Terminology</a></li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#install-ocaml-lsp-and-dot-merlin-reader">Install OCaml-LSP and dot-merlin-reader</a>
+<ul>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#option-1-use-alice">Option 1: Use Alice</a></li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#option-2-use-opam">Option 2: Use Opam</a></li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#option-3-use-nix">Option 3: Use Nix</a></li>
+</ul>
+</li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#confirm-that-the-tools-are-installed-correctly">Confirm that the tools are installed correctly</a></li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#configure-your-editor">Configure your Editor</a>
+<ul>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#visual-studio-code">Visual Studio Code</a></li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#neovim">Neovim</a></li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#emacs">Emacs</a></li>
+</ul>
+</li>
+<li><a href="https://alicecaml.github.io/alicecaml.org/lsp/#formatting-your-code-with-ocamlformat">Formatting your code with OCamlFormat</a></li>
+</ul>
+<h2 id="terminology"><a class="zola-anchor" href="#terminology" aria-label="Anchor link for: terminology">Terminology</a></h2>
+<p>An <em>editor</em> is a program like Visual Studio Code, Neovim or Emacs that you use
+to edit code. An <em>LSP Client</em> is part of an editor, either built into the editor
+directly or installed as a plugin, and implements IDE features such as displaying
+documentation when hovering over a term or navigating a codebase, without
+knowledge of any specific language syntax or semantics. An <em>LSP Server</em> is a program that runs in the
+background and analyzes
+code in a particular language, responding to queries made by the LSP Client such
+as “What’s the type of this expression?” or “Where is this function defined?”.
+LSP Clients are usually responsible for launching the appropriate LSP Server
+when an editor first starts editing code in a particular language.</p>
+<p>There’s often a way to configure your editor to run a particular command to
+start the LSP Server for a given language, or at least to customize the
+arguments passed to the LSP Server on launch. This is important because the
+default configuration for OCaml-LSP only works for <a href="https://dune.build">Dune</a>
+projects, and an extra argument (<code>--fallback-read-dot-merlin</code>) needs to be passed to the OCaml LSP Server in
+order to use it for Alice projects. More on this
+<a href="https://alicecaml.github.io/alicecaml.org/lsp/#configure-your-editor">below</a>.</p>
+<h2 id="install-ocaml-lsp-and-dot-merlin-reader"><a class="zola-anchor" href="#install-ocaml-lsp-and-dot-merlin-reader" aria-label="Anchor link for: install-ocaml-lsp-and-dot-merlin-reader">Install OCaml-LSP and dot-merlin-reader</a></h2>
+<p>In addition to the OCaml LSP Server you’ll need a tool called
+<code>dot-merlin-reader</code> which will allow OCaml-LSP to parse a <code>.merlin</code> file which
+Alice will create and maintain at the root of your project. As explained above, OCaml-LSP only
+works for Dune projects in its default configuration, and non-Dune projects
+need to place a <code>.merlin</code> file at their root so OCaml-LSP can identify the
+project’s boundary within the file system.
+Don’t check this file into version control, as some paths might not be portable between different computers.
+<a href="https://github.com/ocaml/merlin">Merlin</a> is the OCaml editor service used
+internally by OCaml-LSP, hence the name <code>.merlin</code>.
+Read more about the <code>.merlin</code> file <a href="https://github.com/ocaml/merlin/wiki/project-configuration#the-merlin-file">here</a>.</p>
+<p>You’ll need to install the executables <code>ocamllsp</code>
+(from the OCaml-LSP project) and <code>dot-merlin-reader</code>. There are several ways to
+go about this. The main consideration is that the <code>ocamllsp</code> executable that your
+LSP Client launches needs to have been compiled with the same compiler that Alice
+will run when building your project (which is also the one that runs when you type
+<code>ocamlopt.opt</code> in your terminal - Alice respects your <code>PATH</code> variable!). As long as you get OCaml-LSP and the OCaml
+compiler from the same place then everything should work.</p>
+<p>Here are some options for installing the necessary tools:</p>
+<h3 id="option-1-use-alice"><a class="zola-anchor" href="#option-1-use-alice" aria-label="Anchor link for: option-1-use-alice">Option 1: Use Alice</a></h3>
+<p>On Windows, macOS and Linux, Alice can install pre-compiled development tools with the following command:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice tools install
+</span></code></pre>
+</div>
+<p>This includes <code>ocamllsp</code>, <code>dot-merlin-reader</code>, and the OCaml compiler that was
+used to compile them both. The install location differs between OSes:</p>
+<ul>
+<li>On Unix-like systems they are installed to <code>$HOME/.local/share/alice/current/bin</code>
+(but the <code>$HOME/.local/share</code> prefix can be overriden by the value of the
+<code>XDG_DATA_HOME</code> environment variable).</li>
+<li>On Windows they are installed to <code>%USERPROFILE%\AppData\Local\alice\current\bin</code>.</li>
+</ul>
+<p>Make sure that the directory appropriate to your system is in your <code>PATH</code>
+variable and appears earlier than any other directory that might contain OCaml
+tools (e.g. the <code>bin</code> directory from an opam switch).</p>
+<h3 id="option-2-use-opam"><a class="zola-anchor" href="#option-2-use-opam" aria-label="Anchor link for: option-2-use-opam">Option 2: Use Opam</a></h3>
+<p>Install all the necessary tools to the current opam switch by running:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install ocaml-lsp-server dot-merlin-reader
+</span></code></pre>
+</div>
+<p>Since opam will build these packages from source using the OCaml compiler from
+your current switch, you’ll end up with an LSP Server that’s compatible with
+your compiler.</p>
+<h3 id="option-3-use-nix"><a class="zola-anchor" href="#option-3-use-nix" aria-label="Anchor link for: option-3-use-nix">Option 3: Use Nix</a></h3>
+<p>Users of the <a href="https://nixos.org">Nix</a> package manager can install the <code>ocaml</code>,
+<code>ocamlPackages.ocaml-lsp</code>, and <code>ocamlPackages.dot-merlin-reader</code> packages from
+the <a href="https://github.com/NixOS/nixpkgs">nixpkgs</a> repo. Alternatively, install the <code>github:alicecaml/alice</code> flake
+which contains all 3 packages as well as Alice and <code>ocamlformat</code>, or
+<code>github:alicecaml/alice#tools</code> which is the same but lacks Alice itself.</p>
+<h2 id="confirm-that-the-tools-are-installed-correctly"><a class="zola-anchor" href="#confirm-that-the-tools-are-installed-correctly" aria-label="Anchor link for: confirm-that-the-tools-are-installed-correctly">Confirm that the tools are installed correctly</a></h2>
+<p>First verify that you have all the requisite tools by running:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>$ which ocamlopt.opt
+</span><span>$ which ocamllsp
+</span><span>$ which dot-merlin-config
+</span></code></pre>
+<p>…on Unix-like systems, or:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>&gt; Get-Command ocamlopt.opt
+</span><span>&gt; Get-Command ocamllsp
+</span><span>&gt; Get-Command dot-merlin-config
+</span></code></pre>
+<p>…on Windows (in PowerShell).</p>
+<h2 id="configure-your-editor"><a class="zola-anchor" href="#configure-your-editor" aria-label="Anchor link for: configure-your-editor">Configure your Editor</a></h2>
+<p>You need to make it so that when your editor or LSP Client launches the
+<code>ocamllsp</code> executable, that it passes the argument <code>--fallback-read-dot-merlin</code>.
+That is, it runs the command:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre style="background-color:#ffffff;color:#323232;"><code><span>ocamllsp --fallback-read-dot-merlin
+</span></code></pre>
+</div>
+<p>The specific configuration depends on your editor:</p>
+<h3 id="visual-studio-code"><a class="zola-anchor" href="#visual-studio-code" aria-label="Anchor link for: visual-studio-code">Visual Studio Code</a></h3>
+<p>Use the <a href="https://marketplace.visualstudio.com/items?itemName=ocamllabs.ocaml-platform">OCaml
+Platform</a>
+plugin, which will automatically launch <code>ocamllsp</code> when you start editing an
+OCaml project. On the settings page for the OCaml Platform plugin, find the
+section labeled “Ocaml &gt; Server: Args”, with description “Extra arguments to
+pass to ocamllsp.”</p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/lsp/vscode-ocaml-server-args.png" alt="The Ocaml &gt; Server: Args setting from Visual Studio Code" /></p>
+<p>Click “Edit in settings.json”, and add the following:</p>
+<div class="code-with-copy-button">
+<pre data-lang="json" style="background-color:#ffffff;color:#323232;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  </span><span style="color:#183691;">&quot;ocaml.server.args&quot;</span><span>: [
+</span><span>    </span><span style="color:#183691;">&quot;--fallback-read-dot-merlin&quot;
+</span><span>  ]
+</span><span>}
+</span></code></pre>
+</div>
+<p>Visual Studio Code also needs to be told how to launch <code>ocamllsp</code> and other tools.
+The OCaml Platform plugin has a concept of a “Sandbox” which is a collection of OCaml tools,
+and every project must be configured with a particular sandbox in order for the OCaml Platform plugin
+to provide editor support. To select the sandbox for a project, select the OCaml Platform plugin on the left side of the VSCode window
+and click on “Select a Sandbox” under “COMMANDS”:</p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/lsp/select-a-sandbox.png" alt="VSCode UI OCaml Platform COMMANDS list, with “Select a Sandbox” selected" /></p>
+<p>That will display the following drop-down menu:</p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/lsp/sandbox-drop-down.png" alt="VSCode UI drop-down menu for selecting a sandbox" /></p>
+<p>The appropriate sandbox for Alice projects depends on how you installed the OCaml
+LSP Server and other development tools.</p>
+<p>If you installed tools with Opam then select the sandbox which corresponds to the
+Opam Switch in which the tools were installed.</p>
+<p>If you installed tools with Alice (by running <code>alice tools install</code>) then select “Custom”. You’ll be prompted to enter a command template with
+placeholder values for the program and its arguments (<code>$prog</code> and <code>$args</code>
+respectively):</p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/lsp/custom-sandbox.png" alt="VSCode UI for writing a template for launching commands" /></p>
+<p>Fill in the template with a command that launches the appropriate instance of each tool. For example when the OCaml Platform plugin wants
+to launch the OCaml LSP Server it will run this command with <code>$prog</code>
+substituted with <code>ocamllsp</code> and <code>$args</code> substituted with
+<code>--fallback-read-dot-merlin</code>. If you installed tools with the <code>alice tools install</code> command
+then a suitable template for Unix-like systems is:</p>
+<div class="code-with-copy-button">
+<pre data-lang="sh" style="background-color:#ffffff;color:#323232;" class="language-sh "><code class="language-sh" data-lang="sh"><span>alice tools exec</span><span style="font-weight:bold;color:#a71d5d;"> -- </span><span>$prog $args
+</span></code></pre>
+</div>
+<p>On Windows a suitable template is:</p>
+<div class="code-with-copy-button">
+<pre data-lang="cmd" style="background-color:#ffffff;color:#323232;" class="language-cmd "><code class="language-cmd" data-lang="cmd"><span style="font-weight:bold;color:#a71d5d;">set </span><span style="color:#183691;">&quot;</span><span>PATH</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">C:\msys64\mingw64\bin;</span><span>%PATH%</span><span style="color:#183691;">&quot; </span><span style="font-weight:bold;color:#a71d5d;">&amp;&amp;</span><span> alice tools exec -- $prog $args
+</span></code></pre>
+</div>
+<p>Note that on Windows the template must use CMD.EXE syntax rather than PowerShell.
+The example above for Windows assumes you use <code>mingw64</code> as your C compiler,
+installed with <a href="https://www.msys2.org">msys2</a> with its default install location. You’ll need to change this to
+match your setup.</p>
+<p>Read more about OCaml Platform sandboxes <a href="https://github.com/ocamllabs/vscode-ocaml-platform?tab=readme-ov-file#sandbox">here</a>.</p>
+<h3 id="neovim"><a class="zola-anchor" href="#neovim" aria-label="Anchor link for: neovim">Neovim</a></h3>
+<p>Using the <a href="https://github.com/neovim/nvim-lspconfig">nvim-lspconfig</a> plugin,
+enable running the <code>ocamllsp</code> server and configure its startup command with:</p>
+<div class="code-with-copy-button">
+<pre data-lang="lua" style="background-color:#ffffff;color:#323232;" class="language-lua "><code class="language-lua" data-lang="lua"><span>vim.lsp.enable(</span><span style="color:#183691;">&#39;ocamllsp&#39;</span><span>)
+</span><span>vim.lsp.config(</span><span style="color:#183691;">&#39;ocamllsp&#39;</span><span>, {
+</span><span>  </span><span style="color:#183691;">cmd </span><span>= { </span><span style="color:#183691;">&#39;ocamllsp&#39;</span><span>, </span><span style="color:#183691;">&#39;--fallback-read-dot-merlin&#39; </span><span>},
+</span><span>})
+</span></code></pre>
+</div>
+<p>Make sure your <code>PATH</code> variable is set correctly such that the instances of the
+OCaml tools you installed above are launched by Neovim.</p>
+<p>On Unix-like systems it’s recommended to use <a href="https://direnv.net">direnv</a>
+to manage project-specific environment variables.</p>
+<p>If you installed tools with <code>alice tools install</code> then your project’s <code>.envrc</code> file should be:</p>
+<div class="code-with-copy-button">
+<pre data-lang="sh" style="background-color:#ffffff;color:#323232;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#62a35c;">eval </span><span>$(alice tools env)
+</span></code></pre>
+</div>
+<p>If you installed tools with Opam, use:</p>
+<div class="code-with-copy-button">
+<pre data-lang="sh" style="background-color:#ffffff;color:#323232;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#62a35c;">eval </span><span>$(opam env --switch</span><span style="font-weight:bold;color:#a71d5d;">=</span><span>SWITCH)
+</span></code></pre>
+</div>
+<p>…replacing <code>SWITCH</code> with the name of the switch which you installed the tools into.</p>
+<h3 id="emacs"><a class="zola-anchor" href="#emacs" aria-label="Anchor link for: emacs">Emacs</a></h3>
+<p>Use the <a href="https://emacs-lsp.github.io/lsp-mode/">lsp-mode</a> package which contains an LSP client for Emacs.
+You’ll need to make sure that Emacs can find the <code>ocamllsp</code> executable. One approach is to use <a href="https://direnv.net">direnv</a>
+and to create a <code>.envrc</code> file as described above in the Neovim configuration, and then use the <a href="https://github.com/purcell/envrc">envrc</a>
+package to have Emacs pick up the changes to the <code>PATH</code> variable.</p>
+<p>If you installed tools with <code>alice tools install</code> then your
+<code>.envrc</code> file will run <code>alice</code> to find out the location where tools were installed.
+You’ll need to add the directory containing the <code>alice</code> executable (<code>~/.local/bin</code>) to both the <code>'exec-path</code> list and the <code>PATH</code> environment variable
+(even if you’ve already added <code>~/.local/bin</code> to <code>PATH</code> in your shell config file, in case Emacs is launched from an icon rather than the terminal).</p>
+<p>Finally, you’ll need to override the <code>lsp-ocaml-lsp-server-command</code> variable to pass <code>--fallback-read-dot-merlin</code> to <code>ocamllsp</code>.</p>
+<p>Here’s a snippet of an Emacs config file (<code>~/.emacs</code> or <code>~/.emacs.d/init.el</code>) that applies the above configuration.
+Not shown here is how to install the <code>lsp-mode</code> and <code>envrc</code> packages.
+These packages are in the <a href="https://melpa.org">MELPA</a> repository.
+There are
+several ways to install MELPA packages in Emacs.
+<a href="https://melpa.org/#/getting-started">Here</a>’s a guide for getting started.</p>
+<div class="code-with-copy-button">
+<pre style="background-color:#ffffff;color:#323232;"><code><span>(add-to-list &#39;exec-path &quot;~/.local/bin&quot;)
+</span><span>(setenv &quot;PATH&quot; (concat (expand-file-name &quot;~/.local/bin&quot;) &quot;:&quot; (getenv &quot;PATH&quot;)))
+</span><span>
+</span><span>(envrc-global-mode)
+</span><span>
+</span><span>(require &#39;lsp-mode)
+</span><span>(setq lsp-ocaml-lsp-server-command &#39;(&quot;ocamllsp&quot; &quot;--fallback-read-dot-merlin&quot;))
+</span></code></pre>
+</div>
+<h2 id="formatting-your-code-with-ocamlformat"><a class="zola-anchor" href="#formatting-your-code-with-ocamlformat" aria-label="Anchor link for: formatting-your-code-with-ocamlformat">Formatting your code with <a href="https://github.com/ocaml-ppx/ocamlformat">OCamlFormat</a></a></h2>
+<p>If you have <code>ocamlformat</code> and <code>ocamlformat-rpc</code> installed, OCaml-LSP can use
+them to format your code from your editor (e.g. in Visual Studio Code,
+right-click inside the editing window and select “Format Document”). These tools are installed
+when you run <code>alice tools install</code>, and can alternatively be installed with opam
+by installing the <code>ocamlformat</code> package. By default auto-formatting is disabled for
+new projects, but a project can enable auto-formatting by creating an empty file named
+<code>.ocamlformat</code> at their root (i.e. next to <code>Alice.kdl</code>).  Check this file into
+version control so all collaborators on a project share the same code style.
+Read more about OCamlFormat in its
+<a href="https://ocaml.org/p/ocamlformat/latest/doc/index.html">manual</a>.</p>
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

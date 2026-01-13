@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Alice v0.3.0
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-3-0/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-3-0/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+				<meta property="article:published_time" content="2025-12-30T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>
+Alice v0.3.0
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Alice v0.3.0</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2025-12-30T00:00:00+00:00">
+    December 30, 2025
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/release" aria-label="tag">release</a>
+  
+</p>
+
+
+  
+
+<p>Announcing the release of <a href="https://github.com/alicecaml/alice/releases/tag/0.3.0">Alice v0.3.0</a>!</p>
+<p>This release starts following the <a href="https://specifications.freedesktop.org/basedir/latest/">XDG Base Directory Specification</a>.
+This means there is no longer a <code>~/.alice</code> directory. Tools are installed to <code>~/.local/share/alice/current/bin</code>, and Alice’s executable
+is installed to <code>~/.local/bin</code> if using the install script.</p>
+<p>This is a breaking change.</p>
+<h2 id="migrating-from-earlier-versions"><a class="zola-anchor" href="#migrating-from-earlier-versions" aria-label="Anchor link for: migrating-from-earlier-versions">Migrating from earlier versions</a></h2>
+<ul>
+<li>Delete <code>~/.alice</code>.</li>
+<li>If you have a block in your shell config starting with <code># BEGIN configuration from Alice installer</code>, remove that block.</li>
+<li>If you installed Alice with the installation script then run the script again.</li>
+<li>If you used Alice to install OCaml tools, you’ll need to reinstall those tools (run <code>alice tools install</code>).</li>
+<li>If you’ve configured a custom sandbox template with Visual Studio Code for any Alice projects,
+change the template based on the new LSP instructions for Visual Studio Code <a href="https://alicecaml.github.io/alicecaml.org/lsp/#visual-studio-code">here</a>.</li>
+</ul>
+<h2 id="install-alice-v0-3-0"><a class="zola-anchor" href="#install-alice-v0-3-0" aria-label="Anchor link for: install-alice-v0-3-0">Install Alice v0.3.0</a></h2>
+<p>On all platforms that support <a href="https://github.com/ocaml/opam">Opam</a>, install Alice v0.3.0 with:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam update </span><span style="font-weight:bold;color:#a71d5d;">&amp;&amp; </span><span>opam install alice.0.3.0
+</span></code></pre>
+</div>
+<p>On Windows, Alice v0.3.0 can be installed with <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">WinGet</a>:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>winget install OCaml.Alice --version 0.3.0
+</span></code></pre>
+</div>
+<p>On macOS and Linux, the latest version of Alice can be installed with <a href="https://brew.sh">Homebrew</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>brew install alicecaml/homebrew-tap/alice
+</span></code></pre>
+</div>
+<p>Alternatively, on macOS and Linux, Alice v0.3.0 can be installed by running the <a href="https://alicecaml.github.io/alicecaml.org/install/#install-script">install script</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> --</span><span> 0.3.0
+</span></code></pre>
+</div>
+<p>On NixOS, Alice v0.3.0 can be installed via the flake
+<code>github:alicecaml/alice/0.3.0</code>, e.g.:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>nix shell github:alicecaml/alice/0.3.0
+</span></code></pre>
+</div>
+<p>Read more about installing Alice <a href="https://alicecaml.github.io/alicecaml.org/install/">here</a>.</p>
+<h2 id="release-notes"><a class="zola-anchor" href="#release-notes" aria-label="Anchor link for: release-notes">Release Notes</a></h2>
+<h3 id="changed"><a class="zola-anchor" href="#changed" aria-label="Anchor link for: changed">Changed</a></h3>
+<ul>
+<li>Follow the XDG convention when installing tools.</li>
+</ul>
+<h3 id="fixed"><a class="zola-anchor" href="#fixed" aria-label="Anchor link for: fixed">Fixed</a></h3>
+<ul>
+<li>Update dot-merlin-reader on windows to fix crash on launch.</li>
+<li>Fix issue running <code>alice tools exec</code> on windows in CMD.exe.</li>
+</ul>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-2-0&#x2F;" aria-label="Previous">
+	  Previous: Alice v0.2.0
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;switching-manifests-to-kdl&#x2F;" aria-label="Next">
+	  Next: Switching Manifests to KDL
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

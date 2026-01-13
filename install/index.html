@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="Alice: Install">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/install/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/install/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>Alice: Install</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+<h1 id="install-alice"><a class="zola-anchor" href="#install-alice" aria-label="Anchor link for: install-alice">Install Alice</a></h1>
+<div id="install">
+<div class="os-picker">
+</div>
+<div id="windows" class="os">
+<p>Install on Windows with <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">WinGet</a>:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>winget install OCaml.Alice
+</span></code></pre>
+</div>
+<p>Alternatively you can install Alice from its <a href="https://opam.ocaml.org">opam</a> package:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+<p>Additionally, you’ll need a C compiler to use Alice on Windows. It’s recommended to install <a href="https://www.msys2.org">msys2</a>
+and add the path to the directory containing <code>cc.exe</code> to your <code>PATH</code> variable. For example assuming the default install
+location for msys2, in PowerShell run:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="powershell" style="background-color:#ffffff;color:#323232;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span>$env:PATH </span><span style="font-weight:bold;color:#a71d5d;">+= </span><span style="color:#183691;">&quot;;C:\msys64\mingw64\bin&quot;
+</span></code></pre>
+</div>
+<p>…or in CMD.EXE run:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="cmd" style="background-color:#ffffff;color:#323232;" class="language-cmd "><code class="language-cmd" data-lang="cmd"><span style="font-weight:bold;color:#a71d5d;">set </span><span>PATH</span><span style="font-weight:bold;color:#a71d5d;">=</span><span>%PATH%</span><span style="color:#183691;">;C:\msys64\mingw64\bin
+</span></code></pre>
+</div>
+</div>
+<div id="macos" class="os">
+<p>Install on macOS with <a href="https://brew.sh">Homebrew</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>brew install alicecaml/homebrew-tap/alice
+</span></code></pre>
+</div>
+<p>…or run the install script:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh
+</span></code></pre>
+</div>
+<p>You’ll need <code>curl</code> and <code>git</code> to be installed in order to run the script.
+After completing the installation the <code>alice</code> command will be available in
+new terminal sessions.</p>
+<p>Alternatively you can install Alice from its <a href="https://opam.ocaml.org">opam</a> package:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+</div>
+<div id="linux" class="os">
+<p>Install on Linux with the install script:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh
+</span></code></pre>
+</div>
+<p>You’ll need <code>curl</code> and <code>git</code> to be installed in order to run the script.
+After completing the installation the <code>alice</code> command will be available in
+new terminal sessions.</p>
+<p>Alternatively you can install Alice from its <a href="https://opam.ocaml.org">opam</a> package:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+<p>On NixOS you can instead use the flake <code>github:alicecaml/alice</code>, for example:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>nix shell github:alicecaml/alice
+</span></code></pre>
+</div>
+</div>
+<div id="other" class="os">
+<p>Install on any platform supported by <a href="https://opam.ocaml.org">opam</a> by installing Alice’s opam package:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+</div>
+</div>
+<script>
+function populate_os_picker() {
+  function make_button(name, title) {
+    const button = document.createElement("button");
+    button.id = name + "-button";
+    button.classList.add("os-button");
+    button.onclick = () => show_os(name);
+    button.innerText = title;
+    return button;
+  }
+  function make_button_li(name, title) {
+    const li = document.createElement("li");
+    li.appendChild(make_button(name, title));
+    return li;
+  }
+  for (let os_picker of document.getElementsByClassName("os-picker")) {
+    const ul = document.createElement("ul");
+    os_picker.appendChild(ul);
+    ul.appendChild(make_button_li("windows", "Windows"));
+    ul.appendChild(make_button_li("macos", "macOS"));
+    ul.appendChild(make_button_li("linux", "Linux"));
+    ul.appendChild(make_button_li("other", "Other"));
+  }
+}
+
+function detect_os() {
+  const platform = navigator.platform;
+  if (platform === "Win32") {
+    return "windows";
+  }
+  const platform_parts = platform.split(/ +/);
+  if (platform_parts[0] === "Linux") {
+    return "linux";
+  } else if (platform.slice(0, 3) === "Mac") {
+    return "macos"
+  }
+  return "other";
+}
+
+function show_os(os) {
+  for (os_element of document.getElementsByClassName("os")) {
+    os_element.style.display = "none";
+  }
+  for (os_element of document.getElementsByClassName("os-button")) {
+    os_element.classList.remove("selected");
+  }
+  document.getElementById(os).style.display = "block";
+  document.getElementById(os + "-button").classList.add("selected");
+}
+
+populate_os_picker();
+show_os(detect_os());
+</script>
+<h2 id="setup-lsp"><a class="zola-anchor" href="#setup-lsp" aria-label="Anchor link for: setup-lsp">Setup LSP</a></h2>
+<p>Refer to <a href="https://alicecaml.github.io/alicecaml.org/lsp/">this guide</a> for configuring your editor to support the
+Language Server Protocol with <a href="https://github.com/ocaml/ocaml-lsp"><code>ocamllsp</code></a>
+in Alice projects.</p>
+<h2 id="install-script"><a class="zola-anchor" href="#install-script" aria-label="Anchor link for: install-script">Install Script</a></h2>
+<p>The install script will install the <code>alice</code> executable to <code>$HOME/.local/bin</code>.
+To run the <code>alice</code> command from your shell, the <code>$HOME/.local</code> directory must be added to your <code>$PATH</code> variable.</p>
+<p>The install script will also offer to install some OCaml tools including the compiler and LSP server.
+These tools are installed to a location of Alice’s choosing. The location may differ between systems
+but the path to an installed tool is printed by the <code>alice tools which &lt;tool&gt;</code>
+command, for example <code>alice tools which ocamlc</code>.</p>
+<p>The install script will offer to update your shell config file (e.g. <code>.bashrc</code>) to add directories to <code>$PATH</code>
+to allow Alice and the OCaml tools to be run as commands, and also to install shell completions for Alice’s commands.</p>
+<p>For most users this should be sufficient to install
+Alice. Read on to learn more about different installation options.</p>
+<h3 id="install-script-options"><a class="zola-anchor" href="#install-script-options" aria-label="Anchor link for: install-script-options">Install Script Options</a></h3>
+<p>By default the installer is interactive, however all the interactions can be
+skipped by passing command-line arguments. Command-line arguments can be passed
+to the installer like:</p>
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>$ curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> --</span><span> arg1 arg2 ...
+</span></code></pre>
+<p>To see a list of accepted arguments, run:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> --</span><span> --help
+</span></code></pre>
+</div>
+<p>An example command which installs Alice non-interactively is:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> -- </span><span>\
+</span><span>    --no-prompt --install-tools --no-update-shell-config
+</span></code></pre>
+</div>
+<p>This might be handy when installing Alice in an environment where interactivity
+is not an option, such as when building a docker image.</p>
+<p>Here’s a minimal example <code>Dockerfile</code> which makes Alice and a set of OCaml
+development tools globally available (all the executables end up in
+<code>/usr/bin</code>):</p>
+<div class="code-with-copy-button">
+<pre data-lang="dockerfile" style="background-color:#ffffff;color:#323232;" class="language-dockerfile "><code class="language-dockerfile" data-lang="dockerfile"><span style="font-weight:bold;color:#a71d5d;">FROM</span><span> alpine
+</span><span style="font-weight:bold;color:#a71d5d;">RUN </span><span>apk add curl git build-base
+</span><span style="font-weight:bold;color:#a71d5d;">RUN </span><span>curl -fsSL https://alicecaml.org/install.sh | sh -s -- \
+</span><span>  --global /usr --no-prompt --install-tools --no-update-shell-config
+</span></code></pre>
+</div>
+<p>Read more about the <code>--global</code> argument <a href="https://alicecaml.github.io/alicecaml.org/install/#global-installation">below</a>.</p>
+<h2 id="manual-installation"><a class="zola-anchor" href="#manual-installation" aria-label="Anchor link for: manual-installation">Manual Installation</a></h2>
+<p>Pre-compiled executables of Alice can be found on its <a href="https://github.com/alicecaml/alice/releases">Github release
+page</a>. Download and extract the
+<code>.tar.gz</code> archive appropriate to your system, and copy the file <code>bin/alice</code> to one of the directories
+in your <code>PATH</code> variable.</p>
+<p>To manually install OCaml development tools to a specific location such as <code>/usr/local</code>, run:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>alice tools install --global</span><span style="font-weight:bold;color:#a71d5d;">=</span><span>/usr/local
+</span></code></pre>
+</div>
+<p>Executables will be placed in a <code>bin</code> directory under the path passed to
+<code>--global</code>, so make sure not to include the <code>bin</code> directory in that path.
+Read more about the <code>--global</code> argument <a href="https://alicecaml.github.io/alicecaml.org/install/#global-installation">below</a>.</p>
+<h2 id="global-installation"><a class="zola-anchor" href="#global-installation" aria-label="Anchor link for: global-installation">Global Installation</a></h2>
+<p>By default Alice and all the tools it manages are installed inside the current user’s home directory.
+This allows Alice to be installed as a regular (non-root) user
+however a drawback is
+that you need to modify your environment (namely the <code>$PATH</code> variable)
+in order to run Alice or its tools as commands.</p>
+<p>Alice’s install script and the <code>alice tools install</code> command both accept an
+argument <code>--global PATH</code> which installs files under a given directory. For
+example if you run:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh -s</span><span style="font-weight:bold;color:#a71d5d;"> --</span><span> --global /usr/local
+</span></code></pre>
+</div>
+<p>…then the <code>alice</code> executable will be
+installed to <code>/usr/local/bin/alice</code> and the OCaml compiler will be installed to
+<code>/usr/local/bin/ocamlopt.opt</code>. That command will probably need to be run as root
+since <code>/usr/local</code> is not always writeable by regular users. The benefit of
+installing Alice and OCaml tools globally is that you can install the
+executables to a location already in your <code>PATH</code> variable, so commands work
+without needing to modify shell configs to prepend additional directories to
+<code>PATH</code>.</p>
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

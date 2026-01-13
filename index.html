@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:title" content="Alice the Caml">
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>Alice the Caml</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+<h1 id="alice-the-caml"><a class="zola-anchor" href="#alice-the-caml" aria-label="Anchor link for: alice-the-caml">Alice the Caml</a></h1>
+<p>Alice is a radical, experimental <a href="https://ocaml.org/">OCaml</a> build system and
+package manager. Its goal is to allow anyone to
+program in OCaml with as little friction as possible.</p>
+<div id="install">
+<div class="os-picker">
+</div>
+<div id="windows" class="os">
+<p>Install on Windows with <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">WinGet</a>:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>winget install OCaml.Alice
+</span></code></pre>
+</div>
+<p>Alternatively you can install Alice from its <a href="https://opam.ocaml.org">opam</a> package:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+<p>Additionally, you’ll need a C compiler to use Alice on Windows. It’s recommended to install <a href="https://www.msys2.org">msys2</a>
+and add the path to the directory containing <code>cc.exe</code> to your <code>PATH</code> variable. For example assuming the default install
+location for msys2, in PowerShell run:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="powershell" style="background-color:#ffffff;color:#323232;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span>$env:PATH </span><span style="font-weight:bold;color:#a71d5d;">+= </span><span style="color:#183691;">&quot;;C:\msys64\mingw64\bin&quot;
+</span></code></pre>
+</div>
+<p>…or in CMD.EXE run:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="cmd" style="background-color:#ffffff;color:#323232;" class="language-cmd "><code class="language-cmd" data-lang="cmd"><span style="font-weight:bold;color:#a71d5d;">set </span><span>PATH</span><span style="font-weight:bold;color:#a71d5d;">=</span><span>%PATH%</span><span style="color:#183691;">;C:\msys64\mingw64\bin
+</span></code></pre>
+</div>
+</div>
+<div id="macos" class="os">
+<p>Install on macOS with <a href="https://brew.sh">Homebrew</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>brew install alicecaml/homebrew-tap/alice
+</span></code></pre>
+</div>
+<p>…or run the install script:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh
+</span></code></pre>
+</div>
+<p>You’ll need <code>curl</code> and <code>git</code> to be installed in order to run the script.
+After completing the installation the <code>alice</code> command will be available in
+new terminal sessions.</p>
+<p>Alternatively you can install Alice from its <a href="https://opam.ocaml.org">opam</a> package:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+</div>
+<div id="linux" class="os">
+<p>Install on Linux with the install script:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>curl -fsSL https://alicecaml.org/install.sh </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>sh
+</span></code></pre>
+</div>
+<p>You’ll need <code>curl</code> and <code>git</code> to be installed in order to run the script.
+After completing the installation the <code>alice</code> command will be available in
+new terminal sessions.</p>
+<p>Alternatively you can install Alice from its <a href="https://opam.ocaml.org">opam</a> package:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+<p>On NixOS you can instead use the flake <code>github:alicecaml/alice</code>, for example:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>nix shell github:alicecaml/alice
+</span></code></pre>
+</div>
+</div>
+<div id="other" class="os">
+<p>Install on any platform supported by <a href="https://opam.ocaml.org">opam</a> by installing Alice’s opam package:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" style="background-color:#ffffff;color:#323232;" class="language-bash "><code class="language-bash" data-lang="bash"><span>opam install alice
+</span></code></pre>
+</div>
+</div>
+</div>
+<script>
+function populate_os_picker() {
+  function make_button(name, title) {
+    const button = document.createElement("button");
+    button.id = name + "-button";
+    button.classList.add("os-button");
+    button.onclick = () => show_os(name);
+    button.innerText = title;
+    return button;
+  }
+  function make_button_li(name, title) {
+    const li = document.createElement("li");
+    li.appendChild(make_button(name, title));
+    return li;
+  }
+  for (let os_picker of document.getElementsByClassName("os-picker")) {
+    const ul = document.createElement("ul");
+    os_picker.appendChild(ul);
+    ul.appendChild(make_button_li("windows", "Windows"));
+    ul.appendChild(make_button_li("macos", "macOS"));
+    ul.appendChild(make_button_li("linux", "Linux"));
+    ul.appendChild(make_button_li("other", "Other"));
+  }
+}
+
+function detect_os() {
+  const platform = navigator.platform;
+  if (platform === "Win32") {
+    return "windows";
+  }
+  const platform_parts = platform.split(/ +/);
+  if (platform_parts[0] === "Linux") {
+    return "linux";
+  } else if (platform.slice(0, 3) === "Mac") {
+    return "macos"
+  }
+  return "other";
+}
+
+function show_os(os) {
+  for (os_element of document.getElementsByClassName("os")) {
+    os_element.style.display = "none";
+  }
+  for (os_element of document.getElementsByClassName("os-button")) {
+    os_element.classList.remove("selected");
+  }
+  document.getElementById(os).style.display = "block";
+  document.getElementById(os + "-button").classList.add("selected");
+}
+
+populate_os_picker();
+show_os(detect_os());
+</script>
+<p>See more installation options <a href="https://alicecaml.github.io/alicecaml.org/install/">here</a>.</p>
+<p>Here’s how to run your first OCaml program on a computer with no pre-installed
+OCaml tools (you will need a C compiler though!):</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>$ alice tools install
+</span><span>$ alice new hello
+</span><span>$ cd hello
+</span><span>$ alice run
+</span><span>
+</span><span>Hello, World!
+</span></code></pre>
+<p>That first line downloads an OCaml compiler toolchain and a couple of
+development tools (<a href="https://alicecaml.github.io/alicecaml.org/lsp/"><code>ocamllsp</code></a> and <code>ocamlformat</code>). Skip it if you already have
+an existing installation of OCaml. Alice runs the OCaml compiler
+(<code>ocamlopt.opt</code>) searching the directories in your <code>PATH</code> variable and only
+uses its own installation of the tools (installed by <code>alice tools install</code>) as
+a fallback.</p>
+<p>This project is exploring alternative approaches to OCaml packaging than those
+chosen by <a href="https://github.com/ocaml/opam">Opam</a> and alternative approaches to
+building projects than those chosen by <a href="https://github.com/ocaml/dune">Dune</a>.</p>
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>
