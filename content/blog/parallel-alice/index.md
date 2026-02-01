@@ -13,7 +13,7 @@ og_image = "og_image.png"
 
 ![The Alice logo with 12 humps](parallel-alice.png)
 
-The next release of Alice will support parallel builds.
+I added support for parallel builds to the Alice build system.
 
 Alice runs external commands to build OCaml projects.
 While computing the build plan it runs the OCaml compiler to
