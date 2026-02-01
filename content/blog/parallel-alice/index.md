@@ -2,12 +2,13 @@
 title = "Parallel Alice"
 date = 2026-02-01
 slug = "parallel-alice"
+description = "Adding parallel builds to the Alice OCaml build system"
 
 [taxonomies]
 tags = ["implementation"]
 
 [extra]
-og_image = "parallel-alice.png"
+og_image = "og_image.png"
 +++
 
 ![The Alice logo with 12 humps](parallel-alice.png)
