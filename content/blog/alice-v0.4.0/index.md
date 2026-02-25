@@ -78,7 +78,7 @@ curl -fsSL https://alicecaml.org/install.sh | sh -s -- 0.4.0
 </div>
 
 On NixOS, Alice v0.4.0 can be installed via the flake
-`github:alicecaml/alice/0.4.0`, e.g.:
+`github:alicecaml/alice#alice_0_4_0.default`, e.g.:
 <div class="code-with-copy-button code-with-prompt">
 
 ```bash
