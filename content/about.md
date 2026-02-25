@@ -8,7 +8,7 @@ template = "page.html"
 Alice is my toy build-system project and is intended as an experiment and not a
 production-ready tool.
 
-For my day job I work on OCaml tooling, including the build system [Dune](https://github.com/ocaml/dune).
+Most of my work in the OCaml ecosystem has been on [Dune](https://github.com/ocaml/dune).
 Dune is a mature and widely used OCaml build
 system and package manager which makes it difficult to affect large structural
 changes to its UI and packaging philosophy. Alice is an experiment exploring
