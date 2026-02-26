@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Parallel Alice without Eio
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice-without-eio/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice-without-eio/">
+
+			
+				<meta name="description" content="Parallel builds in the Alice OCaml build system without Eio">
+				<meta property="og:description" content="Parallel builds in the Alice OCaml build system without Eio">
+			
+
+			
+				<meta property="article:published_time" content="2026-02-25T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice-without-eio/ryzen-windows.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>
+Parallel Alice without Eio
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Parallel Alice without Eio</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2026-02-25T00:00:00+00:00">
+    February 25, 2026
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/implementation" aria-label="tag">implementation</a>
+  
+</p>
+
+
+  
+
+<p>In my <a href="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/">previous post</a> I wrote about adding
+support for parallel builds to Alice using concurrency primitives from the
+<a href="https://github.com/ocaml-multicore/eio">Eio</a> library.
+Eio doesn’t support spawning processes on Windows, and depending on Eio meant
+that I could no longer build Alice on Windows using Dune package management,
+which complicated development and CI workflows.
+It’s important to me that Windows users aren’t treated as second-class citizens,
+so I’ve dropped Eio as a dependency and implemented some parallel subprocess
+management logic directly in Alice.</p>
+<p>As described in my previous post there are two places in Alice where it runs a
+lot of external processes: computing inter-file dependencies with <code>ocamldep</code> and
+compiling OCaml code with <code>ocamlopt</code>.</p>
+<p>Computing dependencies is embarrassingly parallel. The <code>ocamldep</code> program needs
+to be run on each source file in the project, and the order doesn’t matter.
+We need to make sure the number of simultaneously running processes doesn’t
+exceed the maximum number of jobs (the argument to <code>-j</code>), and the standard
+output of each process needs to be collected and parsed so Alice can find out
+inter-file dependencies. The strategy will be to start as many processes as is
+permitted by the maximum number of jobs, and then whenever a process completes,
+start a new process in its place.</p>
+<p>To check if a process has completed, the standard library has a function:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">val </span><span>waitpid : </span><span style="font-weight:bold;color:#a71d5d;">wait_flag list </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">int </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">int * process_status
+</span></code></pre>
+<p>Passing <code>WNOHANG</code> in the list of <code>wait_flag</code>s causes the function to return
+immediately with a (non-existent) pid of 0 if the process is still running.
+Alice needs to monitor the status of multiple concurrent processes so it can’t
+block until any specific process completes. It spins in a loop, continuously
+checking the status of all running processes, with a short pause in between each
+iteration via <code>Unix.sleepf</code> so your computer doesn’t get too hot.</p>
+<p>Actively polling the status of each running process in a loop feels a bit
+inefficient, and the standard library does provide an alternative way to wait
+until any child process completes:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span>  </span><span style="font-weight:bold;color:#a71d5d;">val </span><span>wait : </span><span style="font-weight:bold;color:#a71d5d;">unit </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">int * process_status
+</span><span>  </span><span style="font-style:italic;color:#969896;">(** Wait until one of the children processes die, and return its pid
+</span><span style="font-style:italic;color:#969896;">     and termination status.
+</span><span style="font-style:italic;color:#969896;">
+</span><span style="font-style:italic;color:#969896;">     @raise Invalid_argument on Windows. Use {!waitpid} instead. *)
+</span></code></pre>
+<p>But unfortunately it’s not available on Windows, so actively polling will have
+to do.</p>
+<p>To parallelize computing dependencies I implemented the above strategy for
+scheduling processes, and refactored the logic around it to compute all
+dependencies as a single batch. This is less ergonomic than using Eio since I
+can no longer write straight-line code and mostly pretend it’s synchronous.</p>
+<p>Next I parallelized compiling OCaml code. This was more complicated because
+invocations of the compiler are constrained by a partial order, with some
+commands needing to have completed before others can start. Alice
+computes a DAG representing the build plan which exactly captures these
+relationships between commands already, and this DAG can be used to schedule
+processes in a correct order.</p>
+<p>The strategy will be similar to computing dependencies, except we need to be
+careful to only start processes when they’re ready. Each node in the DAG
+represents a command for which a process will be spawned. Initially just the
+leaves of the DAG (the nodes with no children) can be started. When a process
+completes, check each of its parents to see if any of them are now ready to
+start. Add all the ready parents to a “ready” queue, and start as many processes
+from this queue as are allowed by the user-specified maximum number of jobs.</p>
+<p>The main difficulty was due to technical debt. My DAG implementation didn’t have
+a way to access tho parents of a node, and initially each node in the build plan
+represented a file to be built rather than a command. Nodes knew
+the command that would create their file, but since commands can generate
+multiple files, commands were effectively duplicated between multiple nodes (all
+the nodes whose files the command would create). When scheduling processes it’s
+much easier to think of nodes as commands, and not duplicate commands, so it was
+DAG-refactoring o’clock which meant updating the logic for generating build
+plans and dependency graphs which share the same underlying DAG representation
+despite being unrelated to the work I set out to do parallelizing Alice.</p>
+<p>Now that parallel Alice works on Windows I can add an additional set of
+benchmarks to the <a href="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/#benchmarks">comparison with
+Dune</a> from my previous post.</p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice-without-eio/ryzen-windows.png" alt="" /></p>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;parallel-alice&#x2F;" aria-label="Previous">
+	  Previous: Parallel Alice
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-5-0&#x2F;" aria-label="Next">
+	  Next: Alice v0.5.0
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

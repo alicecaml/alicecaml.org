@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Parallel Alice
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/">
+
+			
+				<meta name="description" content="Adding parallel builds to the Alice OCaml build system">
+				<meta property="og:description" content="Adding parallel builds to the Alice OCaml build system">
+			
+
+			
+				<meta property="article:published_time" content="2026-02-01T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/og_image.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+		<title>
+Parallel Alice
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Parallel Alice</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2026-02-01T00:00:00+00:00">
+    February 01, 2026
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/implementation" aria-label="tag">implementation</a>
+  
+</p>
+
+
+  
+
+<p><img src="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/parallel-alice.png" alt="The Alice logo with 12 humps" /></p>
+<p>I added support for parallel builds to the Alice build system.</p>
+<p>Alice runs external commands to build OCaml projects.
+While computing the build plan it runs the OCaml compiler to
+determine dependencies between object files, and then of course
+while executing the build plan it runs the compiler to compile OCaml code.
+Many invocations of the compiler are independent from one another
+presenting an opportunity to do them in parallel.</p>
+<p>I used the library <a href="https://github.com/ocaml-multicore/eio">eio</a> which contains
+effects-based IO and concurrency primitives. All the concurrent OCaml I’ve written
+until now used a concurrency monad (e.g. <a href="https://github.com/ocsigen/lwt">lwt</a>),
+but doing so requires threading monadic control flow throughout the code.
+A useful property of effects is that any function can “perform” an effect without
+changing its type signature, as long as an appropriate effect handler is installed.
+You can write straight-line synchronous-looking code, but when it does IO, instead of
+blocking the thread, it performs (raises sort of) an effect to the effect handler.
+In the case of eio, the handler runs the IO operation asynchronously and schedules
+other OCaml code or IO to run at the same time. When the IO completes, the original
+function is resumed with the result of the IO.</p>
+<p>Here’s an example. This is the signature for the <code>Eio.Fiber.pair</code> functions which runs
+a pair of “fibers” concurrently, returning both of their results. In eio a fiber is
+just a function that may perform effects which are handled by eio’s effect handler.</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">val </span><span>pair : (</span><span style="font-weight:bold;color:#a71d5d;">unit </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">&#39;a</span><span>) -&gt; (</span><span style="font-weight:bold;color:#a71d5d;">unit </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">&#39;b</span><span>) -&gt; </span><span style="font-weight:bold;color:#a71d5d;">&#39;a * &#39;b
+</span></code></pre>
+<p>Contrast this with lwt, which uses monadic concurrency. Here’s the signature of <code>Lwt.both</code>:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">val </span><span>both : </span><span style="font-weight:bold;color:#a71d5d;">&#39;a t </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">&#39;b t </span><span>-&gt; (</span><span style="font-weight:bold;color:#a71d5d;">&#39;a * &#39;b</span><span>) </span><span style="font-weight:bold;color:#a71d5d;">t
+</span></code></pre>
+<p>Here the type constructor <code>'a t</code> is a promise that resolves to a value of type <code>'a</code>.
+In code written with monadic concurrency it’s common for most functions to return
+a <code>_ t</code>, since if one function calls a second function that returns a <code>_ t</code>, the only
+way to make the types work out will often be for that first function to also return a <code>_ t</code>,
+and thus the type constructor spreads throughout the code.</p>
+<p>The strategy for introducing parallel builds into Alice will be to use eio to run external
+commands in parallel, but continue using a single OCaml thread (technically a single <em>domain</em>).
+There are two different points in the build process where parallelism will be introduced:</p>
+<ul>
+<li>running <code>ocamldep</code> to determine dependencies between object files</li>
+<li>running the compiler to compile the code</li>
+</ul>
+<h2 id="determining-dependencies-between-object-files"><a class="zola-anchor" href="#determining-dependencies-between-object-files" aria-label="Anchor link for: determining-dependencies-between-object-files">Determining Dependencies between Object Files</a></h2>
+<p>An OCaml source file can only be compiled into an object file if all the modules
+it refers to have already been compiled. There’s a partial order on the source files
+of a project that requires certain files be built before certain other files.
+The OCaml toolchain contains a tool <code>ocamldep</code> which prints the dependencies of a given
+source file, and Alice runs this program for each source file in the project to construct
+the build plan.</p>
+<p>This step is trivial to parallelise since <code>ocamldep</code> can be run on files in any
+order without affecting the results.</p>
+<p>The first step was wrapping the build process in a call to <code>Eio_main.run</code> which installs
+an effect handler. To spawn processes with eio we need a “process manager” which is part
+of the eio environment.</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span>  Eio_main.run (</span><span style="font-weight:bold;color:#a71d5d;">fun </span><span>env -&gt;
+</span><span>    </span><span style="font-weight:bold;color:#a71d5d;">let </span><span style="color:#0086b3;">proc_mgr </span><span style="font-weight:bold;color:#a71d5d;">= </span><span>Eio.Stdenv.process_mgr env </span><span style="font-weight:bold;color:#a71d5d;">in
+</span><span>    </span><span style="font-style:italic;color:#969896;">(* ... build the project *)
+</span><span>  )
+</span></code></pre>
+<p>Next I changed the logic for running <code>ocamldep</code> from calling <code>Unix.create_process</code>
+to <code>Eio.Process.parse_out</code>. There’s a function in Alice called <code>Ocamldep_cache.get_deps</code>
+which tries to load a cached <code>ocamldep</code> result for a given file, and runs <code>ocamldep</code>
+if it’s not found in the cache. This function is just called in a loop over every source
+file in the project, and in eio concurrency parlance we can now think of this function as
+a fiber which can be run concurrently with other fibers.</p>
+<p>So now just run all the fibers concurrently and collect their results using a helper function
+from <code>Eio.Fiber</code>. There’s <code>Eio.Fiber.all</code>:</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">val </span><span>all : (</span><span style="font-weight:bold;color:#a71d5d;">unit </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">unit</span><span>) </span><span style="font-weight:bold;color:#a71d5d;">list </span><span>-&gt; </span><span style="font-weight:bold;color:#a71d5d;">unit
+</span></code></pre>
+<p>But that won’t work because my fibers compute results.
+Unless I missed something there’s no built-in way to run a list of fibers and return
+a list of their results.
+I could have used <code>Eio.Fiber.all</code> to run a fiber that populates a <code>ref</code> cell with the output
+of <code>ocamldep</code> for each source file but that seemed messy. Instead in the end I implemented my own
+<code>all_values</code> function based on <code>Eio.Fiber.pair</code>.</p>
+<pre data-lang="ocaml" style="background-color:#ffffff;color:#323232;" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml"><span style="font-weight:bold;color:#a71d5d;">let rec </span><span style="font-weight:bold;color:#795da3;">all_values </span><span>fs </span><span style="font-weight:bold;color:#a71d5d;">=
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">match</span><span> fs </span><span style="font-weight:bold;color:#a71d5d;">with
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">| </span><span style="color:#0086b3;">[] </span><span>-&gt; </span><span style="color:#0086b3;">[]
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>[ x ] -&gt; [ x </span><span style="color:#0086b3;">() </span><span>]
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>[ a; b ] -&gt;
+</span><span>    </span><span style="font-weight:bold;color:#a71d5d;">let</span><span> a, b </span><span style="font-weight:bold;color:#a71d5d;">= </span><span>Eio.Fiber.pair a b </span><span style="font-weight:bold;color:#a71d5d;">in
+</span><span>    [ a; b ]
+</span><span>  </span><span style="font-weight:bold;color:#a71d5d;">| </span><span>x :: xs -&gt;
+</span><span>    </span><span style="font-weight:bold;color:#a71d5d;">let</span><span> x, xs </span><span style="font-weight:bold;color:#a71d5d;">= </span><span>Eio.Fiber.pair x (</span><span style="font-weight:bold;color:#a71d5d;">fun </span><span>() -&gt; all_values xs) </span><span style="font-weight:bold;color:#a71d5d;">in
+</span><span>    x :: xs
+</span></code></pre>
+<p>I’m really curious if I missed something or if there’s a reason for not using fibers like this.</p>
+<h2 id="compiling-ocaml-code"><a class="zola-anchor" href="#compiling-ocaml-code" aria-label="Anchor link for: compiling-ocaml-code">Compiling OCaml Code</a></h2>
+<p>Alice has some logic for scheduling calls to the compiler so that files are compiled
+in an order that satisfies the dependencies between files as determined by <code>ocamldep</code>.
+When parallelizing calls to the compiler we need to make sure that they still satisfy
+the dependencies. My strategy is to think of each call to the compiler as a fiber, and have
+each fiber keep track of the other fibers that must complete before it can start.
+Concretely, use a condition variable per file, and when a call to the compiler completes it
+broadcasts on the condition variables of each file it just created. Before any given call
+to the compiler, first wait on the condition variable of each file that must exist before
+that particular call to the compiler.</p>
+<p>Alice’s logic for evaluating build plans originally interspersed running the
+compiler with traversing the build plan. To parallelize calls to the compiler, I changed it
+to produce a list of fibers with the above logic for waiting and broadcasting on
+per-file condition variables. Finally I just ran all the fibers concurrently with <code>Eio.Fiber.all</code>
+(this time my fibers don’t return a value).</p>
+<h2 id="limited-parallelism-with-j"><a class="zola-anchor" href="#limited-parallelism-with-j" aria-label="Anchor link for: limited-parallelism-with-j">Limited Parallelism with <code>-j</code></a></h2>
+<p>When <code>-j &lt;number&gt;</code> is passed to <code>alice build</code> and friends, Alice uses a global semaphore
+to limit the number of parallel calls to the compiler.</p>
+<h2 id="windows-complications"><a class="zola-anchor" href="#windows-complications" aria-label="Anchor link for: windows-complications">Windows Complications</a></h2>
+<p>Alice uses Dune’s package management features to manage its dependencies for local
+development and when running tests in CI. It’s a little known fact that Dune package
+management mostly works on Windows as long as your entire dependency closure builds with Dune
+and you use <code>ocaml-system</code> as your compiler. Alice ticked all these boxes so developing
+it on Windows was possible with Dune package management. Unfortunately, eio depends on
+some packages that don’t build with Dune.</p>
+<p>Initially I tried to work around the problem by manually modifying the
+lockfiles using some
+<a href="https://github.com/alicecaml/alice-tool-build-scripts/blob/38f0221c8023425c15b747a1e20fff207144b8ff/5.3.1/windows-notes.md">tricks</a>
+I learnt while getting Alice’s dev tools working on Windows.
+This actually worked fine for local development, but I started running into issues in CI
+that I couldn’t reproduce locally, and it took 15 minutes to run CI so the try/fail loop
+would be painfully long.</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>File &quot;dune.lock/topkg.1.1.1.pkg&quot;, line 7, characters 5-7:
+</span><span>7 |      sh
+</span><span>         ^^
+</span><span>Error: Logs for package topkg
+</span><span>ocamlfind: Package `threads&#39; not found
+</span><span>Warning: WARNING] OCaml host-os conf:  cmd [&quot;ocamlfind&quot; &quot;ocamlc&quot; &quot;-config&quot;]: exited with 2
+</span><span>Warning: WARNING] OCaml host-os conf: key native: undefined, stdlib dir not found for discovery
+</span><span>                  using false
+</span><span>Warning: WARNING] OCaml host-os conf: key natdynlink: undefined, stdlib dir not found for discovery
+</span><span>                  using false
+</span><span>Warning: WARNING] OCaml host-os conf: key supports_shared_libraries: undefined, stdlib dir not found for discovery
+</span><span>                  using false
+</span><span>Warning: WARNING] OCaml host-os conf: key ext_obj: undefined, using &quot;.o&quot;
+</span><span>Warning: WARNING] OCaml host-os conf: key ext_lib: undefined, using &quot;.a&quot;
+</span><span>Warning: WARNING] OCaml host-os conf: key ext_dll: undefined, using &quot;.so&quot;
+</span><span>Warning: WARNING] OCaml host-os conf: key ext_exe: undefined and
+</span><span>                  no C toolchain detected, using &quot;&quot;
+</span><span>ocamlfind: Package `threads&#39; not found
+</span><span>ocamlfind: Package `threads&#39; not found
+</span><span>Error: : The library directory where ocamlbuild was originally installed (D:\a\alice\alice\_build/.sandbox/1e137b948d479f5e3d8239d05c7f7865/_private/default/.pkg/ocamlbuild/target/lib\ocamlbuild) either no longer exists, or does not contain a copy of the ocamlbuild library. Guessing that the correct library directory is D:\a\alice\alice\_build\_private\default\.pkg\ocamlbuild\target\lib\ocamlbuild because a copy of the ocamlbuild library exists at that location, and because it is located at the expected path relative to the current ocamlbuild executable. This can happen if ocamlbuild&#39;s files are moved from the location where they were originally installed.pkg.ml: [ERROR] cmd [&quot;ocamlbuild&quot; &quot;-use-ocamlfind&quot; &quot;-classic-display&quot; &quot;-j&quot; &quot;4&quot; &quot;-tag&quot; &quot;debug&quot;
+</span><span>     &quot;-build-dir&quot; &quot;_build&quot; &quot;pkg.otarget&quot;]: exited with 2
+</span><span>
+</span><span>Error: Process completed with exit code 1.
+</span></code></pre>
+<p>Getting to this point required manual changes to lockdirs, forking and patching
+both <code>ocamlfind</code> and <code>dune</code> itself. So I admitted defeat and concede that Dune
+package management doesn’t work on Windows yet, and switched to opam for local
+development of Alice and CI on Windows which mostly works, except that now when
+I run tests I get this error:</p>
+<pre style="background-color:#ffffff;color:#323232;"><code><span>Fatal error: exception Failure(&quot;process operations not supported on Windows yet&quot;)
+</span></code></pre>
+<p>This is an error from eio stating that support for managing processes isn’t
+implemented on Windows.
+So for now Alice on Windows doesn’t support parallel builds and falls back to
+blocking process management. I might revisit this in the future or experiment
+with using lwt instead.</p>
+<h2 id="benchmarks"><a class="zola-anchor" href="#benchmarks" aria-label="Anchor link for: benchmarks">Benchmarks</a></h2>
+<p>For these experiments I built the library <a href="https://github.com/gridbugs/climate">climate</a>
+with both Alice and Dune with different levels of parallelism by passing different values
+to the <code>-j</code> argument of their respective build commands. The comparison isn’t a perfectly
+apples-to-apples comparison since I couldn’t figure out how to prevent Dune from
+building bytecode object files (in addition to native object files) whereas Alice only
+compiles code natively. The comparison is to show that Alice and Dune are in the same
+ballpark, not that one tool meaningfully outperforms the other.</p>
+<p>Each benchmark was performed 32 times, and the means are plotted with
+the standard deviation indicated with error bars.</p>
+<p>To build the package with Dune I used the command <code>dune build -p climate</code> rather than simply
+<code>dune build</code> as the former was consistently faster.</p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/rpi4.png" alt="" />
+<img src="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/m2.png" alt="" />
+<img src="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/ryzen.png" alt="" /></p>
+<h2 id="next-steps"><a class="zola-anchor" href="#next-steps" aria-label="Anchor link for: next-steps">Next Steps</a></h2>
+<p>This post covered parallelising the builds of individual files within a single
+Alice package, but I’m yet to allow building multiple packages in parallel.
+There’s also more IO which Alice performs, mostly related to generating and copying
+files, which could possibly be parallelised.</p>
+<p><img src="https://alicecaml.github.io/alicecaml.org/blog/parallel-alice/parallel-alice.png" alt="The Alice logo with 12 humps" /></p>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-4-0&#x2F;" aria-label="Previous">
+	  Previous: Alice v0.4.0
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;parallel-alice-without-eio&#x2F;" aria-label="Next">
+	  Next: Parallel Alice without Eio
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>
