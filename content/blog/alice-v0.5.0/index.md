@@ -13,6 +13,22 @@ This change introduces [parallel builds](@/blog/parallel-alice-without-eio/index
 
 ## Install Alice v0.5.0
 
+On all platforms that support [opam](https://github.com/ocaml/opam), install Alice v0.5.0 with:
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+opam update && opam install alice.0.5.0
+```
+</div>
+
+On Windows, Alice v0.5.0 can be installed with [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
+<div class="code-with-copy-button code-with-prompt-windows">
+
+```bash
+winget install OCaml.Alice --version 0.5.0
+```
+</div>
+
 On macOS and Linux, the latest version of Alice can be installed with [Homebrew](https://brew.sh):
 <div class="code-with-copy-button code-with-prompt">
 
