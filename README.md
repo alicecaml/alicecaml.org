@@ -2,3 +2,8 @@
 
 - [Production Site](https://www.alicecaml.org)
 - [Staging Site](https://alicecaml.github.io/alicecaml.org/)
+
+Run development server:
+```
+$ zola serve
+```
