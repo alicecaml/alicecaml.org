@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Introducing Alice
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+				<meta property="article:published_time" content="2025-09-07T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+
+		<title>
+Introducing Alice
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a class="external" href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Introducing Alice</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2025-09-07T00:00:00+00:00">
+    September 07, 2025
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/tutorial" aria-label="tag">tutorial</a>
+  
+</p>
+
+
+  
+
+<p><a href="https://github.com/alicecaml/alice">Alice</a> is an experimental OCaml build
+system and package manager. I'm starting this blog to document progress on its
+development. Here's a quick tour of Alice's features at the time of writing.</p>
+<h2 id="installing-ocaml-tools"><a class="zola-anchor" href="#installing-ocaml-tools" aria-label="Anchor link for: installing-ocaml-tools">Installing OCaml tools</a></h2>
+<p>One point of difference between OCaml's packaging ecosystem and that of most other
+languages is that the OCaml compiler itself is considered to be a package. This
+avoids the need for language version management tools like
+<a href="https://rustup.rs/">rustup</a>, <a href="https://github.com/nvm-sh/nvm">nvm</a>, and
+<a href="https://rvm.io/">rvm</a>, and it allows projects to declare a minimum or maximum
+version of the compiler which they support. However installing the OCaml
+compiler as a package means building it from source and this can take a long
+time. For various technical reasons, using Opam means recompiling the OCaml
+compiler at least once for each new project that you work on which, given the
+time it takes to compile, is not ideal.</p>
+<p>Since you obviously need a compiler before you can compile any code, it's
+probably the first thing that a new user of the OCaml ecosystem will try to do, so I
+would like for it to be fast. When I eventually add package management to Alice
+I'll develop a packaging ecosystem where the OCaml compiler is <em>not</em> a package.
+This is one of the big differences between the packaging philosophies of
+Opam and Alice.</p>
+<p>Since the compiler is not a package, it's up to the user to make sure it's installed
+before compiling any code. To help with this, Alice can act like a language
+version manager. I've pre-compiled a relocatable version of the OCaml compiler,
+and Alice can install it automatically:</p>
+<pre><code>$ alice tools install
+  Fetching ocaml.5.3.1+relocatable...
+ Unpacking ocaml.5.3.1+relocatable...
+
+Successfully installed ocaml.5.3.1+relocatable!
+
+  Fetching ocamllsp.1.22.0...
+ Unpacking ocamllsp.1.22.0...
+
+Successfully installed ocamllsp.1.22.0!
+
+  Fetching ocamlformat.0.27.0...
+ Unpacking ocamlformat.0.27.0...
+
+Successfully installed ocamlformat.0.27.0!
+</code></pre>
+<p>Where did it put the tools?</p>
+<pre><code>$ ls ~&#x2F;.alice&#x2F; -l
+lrwxrwxrwx - s  7 Jul 14:57 current -&gt; &#x2F;home&#x2F;s&#x2F;.alice&#x2F;roots&#x2F;5.3.1
+drwxr-xr-x - s  7 Sep 18:37 roots
+
+$ ls ~&#x2F;.alice&#x2F;roots&#x2F;5.3.1
+bin  doc  lib  man  share
+
+$ ls ~&#x2F;.alice&#x2F;roots&#x2F;5.3.1&#x2F;bin
+ocaml          ocamldoc.opt       ocamlobjinfo.opt  ocamlrund-0096
+ocamlc         ocamlformat        ocamlopt          ocamlruni
+ocamlc.byte    ocamlformat-rpc    ocamlopt.byte     ocamlruni-00d6
+ocamlc.opt     ocamllex           ocamlopt.opt      ocamlruni-0096
+ocamlcmt       ocamllex.byte      ocamloptp         ocamlyacc
+ocamlcp        ocamllex.opt       ocamlprof         x86_64-pc-linux-musl-ocamlrun-0096
+ocamldebug     ocamllsp           ocamlrun          x86_64-pc-linux-musl-ocamlrund-0096
+ocamldep       ocamlmklib         ocamlrun-00d6     x86_64-pc-linux-musl-ocamlruni-0096
+ocamldep.byte  ocamlmktop         ocamlrun-0096
+ocamldep.opt   ocamlobjinfo       ocamlrund
+ocamldoc       ocamlobjinfo.byte  ocamlrund-00d6
+</code></pre>
+<p>The <code>~/.alice/current</code> symlink can be easily changed to a different "root" (what
+I'm calling a filesystem containing installations of the compiler and several
+tools) with <code>alice tools change</code> however currently the only available version is
+<code>5.3.1</code>.</p>
+<p>You'll note that <code>ocamllsp</code> and <code>ocamlformat</code> are also installed. This pair of
+tools is used by most OCaml developers so to improve the experience of using
+Alice for the first time I've pre-compiled binary versions of these packages
+too. The <code>ocamllsp</code> tool needs to be compiled with the same compiler as the code
+it's analyzing. When I built the <code>ocamllsp</code> binary package installed by Alice I
+used the same compiler as the one that Alice installs, so it's guaranteed that
+the copy of <code>ocamllsp</code> will be compatible with the compiler if you install both
+through Alice.</p>
+<p>When Alice runs the compiler it just looks it up in the <code>PATH</code> variable, so you
+can still install a different version of the complier (e.g. with Opam) and have
+Alice run that for you. If no OCaml compiler is found in <code>PATH</code> then Alice will
+fall back to running the one from <code>~/.alice/current/bin</code>. If you want to guarantee
+that Alice's OCaml compiler will be run by Alice, add <code>~/.alice/current/bin</code> to
+the beginning of your <code>PATH</code> variable.</p>
+<h2 id="hello-world"><a class="zola-anchor" href="#hello-world" aria-label="Anchor link for: hello-world">Hello, World!</a></h2>
+<p>Alice can set up a new project containing an executable or library package:</p>
+<pre><code>$ alice new --help
+Create a new alice project.
+
+Usage: alice new [OPTION]… &lt;NAME&gt;
+
+Arguments:
+  &lt;NAME&gt;  Name of the project
+
+Options:
+  -v, --verbose      Enable verbose output (-vv for extra verbosity).
+  -q, --quiet        Supress printing of progress messages.
+  -p, --path &lt;FILE&gt;  Initialize the new project in this directory (must not already exist)
+      --exe          Create a project containing an executable package (default)
+      --lib          Create a project containing a library package
+  -h, --help         Show this help message.
+</code></pre>
+<p>Let's make a new executable package:</p>
+<pre><code>$ alice new hello
+  Creating new executable package &quot;hello&quot; in &#x2F;tmp&#x2F;alicedemo&#x2F;hello
+
+$ cd hello
+</code></pre>
+<p>Take a look at the project:</p>
+<pre><code>$ tree
+.
+├── Alice.toml
+└── src
+    └── main.ml
+
+2 directories, 2 files
+
+$ cat Alice.toml
+[package]
+name = &quot;hello&quot;
+version = &quot;0.1.0&quot;
+
+$ cat src&#x2F;main.ml
+let () = print_endline &quot;Hello, World!&quot;
+</code></pre>
+<p>Alice has a command <code>alice run</code> that builds and runs the current package if it's
+an executable package:</p>
+<pre><code>$ alice run
+ Compiling hello v0.1.0
+   Running &#x2F;tmp&#x2F;alicedemo&#x2F;hello&#x2F;build&#x2F;hello
+
+Hello, World!
+</code></pre>
+<p>What did that build?</p>
+<pre><code>$ ls build&#x2F;
+hello  main.cmi  main.cmx  main.ml  main.o
+</code></pre>
+<p>The <code>build</code> directory was generated when building the project and contains all
+built artifacts. To remove it, run:</p>
+<pre><code>$ alice clean
+</code></pre>
+<h2 id="multi-file-projects"><a class="zola-anchor" href="#multi-file-projects" aria-label="Anchor link for: multi-file-projects">Multi-file projects</a></h2>
+<p>Add a new file <code>src/foo.ml</code> with contents:</p>
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">let message = &quot;Hello, Alice!&quot;
+</code></pre>
+<p>And make an interface file <code>src/foo.mli</code> with contents:</p>
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">val message : string
+</code></pre>
+<p>Finally modify <code>src/main.ml</code> so that it contains:</p>
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">let () = print_endline Foo.message
+</code></pre>
+<p>Now run <code>alice run</code> again.</p>
+<pre><code> Compiling hello v0.1.0
+   Running &#x2F;tmp&#x2F;alicedemo&#x2F;hello&#x2F;build&#x2F;hello
+
+Hello, Alice!
+</code></pre>
+<h2 id="incremental-compilation"><a class="zola-anchor" href="#incremental-compilation" aria-label="Anchor link for: incremental-compilation">Incremental Compilation</a></h2>
+<p>To build a project without running it we can run <code>alice build</code>:</p>
+<pre><code>$ alice build --help
+Build a project.
+
+Usage: alice build [OPTION]…
+
+Options:
+  -v, --verbose               Enable verbose output (-vv for extra verbosity).
+  -q, --quiet                 Supress printing of progress messages.
+      --manifest-path &lt;FILE&gt;  Read project metadata from this file instead of Alice.toml.
+      --release               Build with optimizations.
+  -h, --help                  Show this help message.
+</code></pre>
+<p>Let's turn up the verbosity to see what's happening under the hood. Clean the
+project and then run <code>alice build -vv</code>:</p>
+<pre><code>$ alice clean
+$ alice build -vv
+ Compiling hello v0.1.0
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+ [INFO] Copying source file: foo.mli
+ [INFO] Building targets foo.cmi
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c foo.mli
+ [INFO] Copying source file: foo.ml
+ [INFO] Building targets foo.cmx, foo.o
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c foo.ml
+ [INFO] Copying source file: main.ml
+ [INFO] Building targets main.cmx, main.o
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c main.ml
+ [INFO] Building targets hello
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -o hello foo.cmx main.cmx
+</code></pre>
+<p>Running <code>alice build -vv</code> a second time shows that most of the work is now
+skipped.</p>
+<pre><code>$ alice build -vv
+ Compiling hello v0.1.0
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+</code></pre>
+<p>The project is already built so there's nothing to do the second time around.
+Those calls of <code>ocamldep.opt</code> can probably be skipped to with some extra work!</p>
+<p>Now change <code>src/main.ml</code> without changing any other source files.</p>
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">let () = print_endline (String.cat Foo.message &quot;Yay!&quot;)
+</code></pre>
+<p>Rebuilding yet again:</p>
+<pre><code>$ alice build -vv
+ Compiling hello v0.1.0
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.mli
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native foo.ml
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamldep.opt -one-line -native main.ml
+ [INFO] Copying source file: main.ml
+ [INFO] Building targets main.cmx, main.o
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -c main.ml
+ [INFO] Building targets hello
+[DEBUG] Running command: &#x2F;home&#x2F;s&#x2F;.alice&#x2F;current&#x2F;bin&#x2F;ocamlopt.opt -g -o hello foo.cmx main.cmx
+</code></pre>
+<p>It rebuilt some of the artifacts but not all of the artifacts (e.g. it did not
+rebuild <code>foo.cmx</code> or <code>foo.o</code>) since those would be unchanged. Alice knows that
+if <code>src/foo.ml</code> did not change since the last time <code>foo.cmx</code> was generated,
+there is no need to generate <code>foo.cmx</code> again.</p>
+<h2 id="dependency-graphs"><a class="zola-anchor" href="#dependency-graphs" aria-label="Anchor link for: dependency-graphs">Dependency Graphs</a></h2>
+<p>Build targets depend on source files, and possibly on other build targets. Alice
+needs to know which targets depend on which other files/targets. To help users
+understand their projects' build dependencies and to help me debug issues with
+Alice, there is a command <code>alice dot</code> which generates a Graphviz dot file
+containing the project's build or dependency graph.</p>
+<pre><code>$ alice dot artifacts
+digraph {
+  &quot;foo.cmi&quot; -&gt; {&quot;foo.mli&quot;}
+  &quot;foo.cmx&quot; -&gt; {&quot;foo.cmi&quot;, &quot;foo.ml&quot;}
+  &quot;foo.o&quot; -&gt; {&quot;foo.cmi&quot;, &quot;foo.ml&quot;}
+  &quot;hello&quot; -&gt; {&quot;foo.cmx&quot;, &quot;foo.o&quot;, &quot;main.cmx&quot;, &quot;main.o&quot;}
+  &quot;main.cmx&quot; -&gt; {&quot;foo.cmx&quot;, &quot;main.ml&quot;}
+  &quot;main.o&quot; -&gt; {&quot;foo.cmx&quot;, &quot;main.ml&quot;}
+}
+</code></pre>
+<p>We can use Graphviz to visualize this:</p>
+<pre><code>$ alice dot artifacts | dot -Tsvg &gt; graph.svg
+</code></pre>
+<p><img src="https://alicecaml.github.io/alicecaml.org/blog/introducing-alice/graph.svg" alt="A dependency graph visualized" /></p>
+<h2 id="what-s-next"><a class="zola-anchor" href="#what-s-next" aria-label="Anchor link for: what-s-next">What's next?</a></h2>
+<p>My most recent big push on Alice was
+<a href="https://alicecaml.github.io/alicecaml.org/porting-alice-to-windows/">getting it running on Windows</a>.
+My next focus will be allowing packages to depend on each other, which will be
+the first step on the long journey to supporting package management -
+one of my long-term goals for this project. The first big milestone along that
+path will be bootstrapping, where Alice has enough build-system and
+package-management features to <em>build itself</em>, and all of its dependencies have
+been ported to Alice's nascent package ecosystem.</p>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;porting-alice-to-windows&#x2F;" aria-label="Previous">
+	  Previous: Porting Alice to Windows
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-as-a-toolchain-manager-for-dune-projects&#x2F;" aria-label="Next">
+	  Next: Alice as a Toolchain Manager for Dune Projects
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

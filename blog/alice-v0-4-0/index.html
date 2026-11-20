@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Alice v0.4.0
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-4-0/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-4-0/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+				<meta property="article:published_time" content="2026-01-05T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+
+		<title>
+Alice v0.4.0
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a class="external" href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Alice v0.4.0</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2026-01-05T00:00:00+00:00">
+    January 05, 2026
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/release" aria-label="tag">release</a>
+  
+</p>
+
+
+  
+
+<p>Announcing the release of <a href="https://github.com/alicecaml/alice/releases/tag/0.4.0">Alice v0.4.0</a>!</p>
+<p>The main change in this version is switching the manifest format from TOML to <a href="https://kdl.dev/">KDL</a>.
+Read <a href="https://alicecaml.github.io/alicecaml.org/blog/switching-manifests-to-kdl/">this page</a> for the reasoning
+behind this change.</p>
+<h2 id="migrating-from-earlier-versions"><a class="zola-anchor" href="#migrating-from-earlier-versions" aria-label="Anchor link for: migrating-from-earlier-versions">Migrating from earlier versions</a></h2>
+<p>This example demonstrates how all the features of package manifests are
+represented in the old TOML format and the new KDL format.</p>
+<p><code>Alice.toml</code>:</p>
+<pre data-lang="toml" class="language-toml "><code class="language-toml" data-lang="toml">[package]
+name = &quot;foo&quot;
+version = &quot;0.1.0&quot;
+
+[dependencies]
+bar = { path = &quot;..&#x2F;bar&quot; }
+baz = { path = &quot;..&#x2F;baz&quot; }
+</code></pre>
+<p><code>Alice.kdl</code>:</p>
+<pre data-lang="kdl" class="language-kdl "><code class="language-kdl" data-lang="kdl">package {
+  name foo
+  version &quot;0.1.0&quot;
+  dependencies {
+    bar path=&quot;..&#x2F;bar&quot;
+    baz path=&quot;..&#x2F;baz&quot;
+  }
+}
+</code></pre>
+<h2 id="install-alice-v0-4-0"><a class="zola-anchor" href="#install-alice-v0-4-0" aria-label="Anchor link for: install-alice-v0-4-0">Install Alice v0.4.0</a></h2>
+<p>On all platforms that support <a href="https://github.com/ocaml/opam">opam</a>, install Alice v0.4.0 with:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">opam update &amp;&amp; opam install alice.0.4.0
+</code></pre>
+</div>
+<p>On Windows, Alice v0.4.0 can be installed with <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">WinGet</a>:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">winget install OCaml.Alice --version 0.4.0
+</code></pre>
+</div>
+<p>On macOS and Linux, the latest version of Alice can be installed with <a href="https://brew.sh">Homebrew</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">brew install alicecaml&#x2F;homebrew-tap&#x2F;alice
+</code></pre>
+</div>
+<p>Alternatively, on macOS and Linux, Alice v0.4.0 can be installed by running the <a href="https://alicecaml.github.io/alicecaml.org/install/#install-script">install script</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh | sh -s -- 0.4.0
+</code></pre>
+</div>
+<p>On NixOS, Alice v0.4.0 can be installed via the flake
+<code>github:alicecaml/alice#alice_0_4_0.default</code>, e.g.:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">nix shell github:alicecaml&#x2F;alice#alice_0_4_0.default
+</code></pre>
+</div>
+<p>Read more about installing Alice <a href="https://alicecaml.github.io/alicecaml.org/install/">here</a>.</p>
+<h2 id="release-notes"><a class="zola-anchor" href="#release-notes" aria-label="Anchor link for: release-notes">Release Notes</a></h2>
+<h3 id="changed"><a class="zola-anchor" href="#changed" aria-label="Anchor link for: changed">Changed</a></h3>
+<ul>
+<li>Use <a href="https://kdl.dev">kdl</a> rather than toml for manifests. More info <a href="https://alicecaml.github.io/alicecaml.org/install/">here</a>.</li>
+</ul>
+<h3 id="fixed"><a class="zola-anchor" href="#fixed" aria-label="Anchor link for: fixed">Fixed</a></h3>
+<ul>
+<li>Replace panics with user exceptions in some cases</li>
+<li>Detect case when the name of a dependency doesn't match the name of the specified package</li>
+</ul>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;switching-manifests-to-kdl&#x2F;" aria-label="Previous">
+	  Previous: Switching Manifests to KDL
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;parallel-alice&#x2F;" aria-label="Next">
+	  Next: Parallel Alice
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

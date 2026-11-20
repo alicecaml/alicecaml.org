@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Alice as a Toolchain Manager for Dune Projects
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/alice-as-a-toolchain-manager-for-dune-projects/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/alice-as-a-toolchain-manager-for-dune-projects/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+				<meta property="article:published_time" content="2025-09-26T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+
+		<title>
+Alice as a Toolchain Manager for Dune Projects
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a class="external" href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Alice as a Toolchain Manager for Dune Projects</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2025-09-26T00:00:00+00:00">
+    September 26, 2025
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/tutorial" aria-label="tag">tutorial</a>
+  
+</p>
+
+
+  
+
+<p>Alice is my experimental work-in-progress build system and package manager for OCaml.
+To help users get started writing OCaml as smoothly as possible, Alice provides
+a mechanism for installing the pre-built versions of the OCaml compiler and other tools.
+This post is about using this feature of Alice to simplify setting up an OCaml
+environment for developing a project with <a href="https://dune.readthedocs.io/en/stable/tutorials/dune-package-management/">Dune Package Management</a>.</p>
+<p>In the Opam ecosystem (which is the package ecosystem accessible to Dune), the OCaml compiler is considered to be a mostly
+regular package, which all other packages must list in their dependencies
+(assuming they are written in OCaml). Opam is mostly a source-based package
+ecosystem, so when building a project (including its transitive dependencies)
+the first thing that usually needs to happen is the OCaml compiler needs to be
+bootstrapped (it is itself written in OCaml) and compiled, which often takes
+several minutes.</p>
+<p>When using <a href="https://github.com/ocaml/ocaml-lsp">ocaml-lsp-server</a> to analyze
+OCaml code in a text editor, that code needs to have been compiled using the
+same version of the OCaml compiler as the LSP server executable in order for the LSP
+server to understand the code. This is fairly easy
+to ensure when using Opam, but installing the LSP server with Opam requires building the LSP server from source which adds another
+couple of minutes delay to getting started working on a new project. It's
+tempting to speed this up by distributing a pre-compiled executable of the LSP
+server but this is tricky because somehow we'd need to make sure the executable
+that gets installed was compiled by the same version of the compiler as was used
+for the project.</p>
+<p>Another common OCaml development tool is the de-facto standard code formatter
+<a href="https://github.com/ocaml-ppx/ocamlformat">ocamlformat</a>. It doesn't have the
+same compiler version constraint as the LSP server and is lighter in its
+dependencies and therefore faster to compile. The LSP server requires that
+the executables <code>ocamlformat</code> and <code>ocamlformat-rpc</code> are runnable as commands
+(ie. they are in one of the directories in your <code>PATH</code> variable) when using
+running the LSP command to format a file.</p>
+<p>Alice simplifies getting started on a new OCaml project by providing
+pre-compiled binary versions of the compiler, the LSP server, and the code
+formatter. The binary version of the LSP server was compiled with the binary
+version of the compiler, so the LSP server can analyze code compiled with the
+compiler.</p>
+<p>You can use <code>alice</code> to install the tools with:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">alice tools install
+</code></pre>
+</div>
+<p>...or you can install both Alice and a set of tools with:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh | sh
+</code></pre>
+</div>
+<p>The remainder of this post will go through a minimal example of setting up a fresh
+machine with Alice and its binary versions of development tools, and then
+developing a Dune project using these tools. For the sake of ease of following
+along at home and reproducing my results, I'll build up a docker image with the
+tools and then do all development inside a container.</p>
+<p>Here's the <code>Dockerfile</code> I'll be using. It installs Alice, the OCaml tools, and
+Dune system-wide, all without compiling any code.</p>
+<div class="code-with-copy-button">
+<pre data-lang="dockerfile" class="language-dockerfile "><code class="language-dockerfile" data-lang="dockerfile">FROM ubuntu
+
+# Install packages necessary to install Alice and Dune and the
+# low-level build tools needed by the OCaml compiler.
+RUN apt-get update &amp;&amp; apt-get install -y build-essential curl git
+
+# Install Alice and the OCaml development tools.
+RUN curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh | sh -s -- \
+  --global &#x2F;usr --no-prompt --install-tools --no-update-shell-config
+
+# Install Dune from its binary distribution.
+RUN curl -fsSL https:&#x2F;&#x2F;github.com&#x2F;ocaml-dune&#x2F;dune-bin-install&#x2F;releases&#x2F;download&#x2F;v3&#x2F;install.sh | sh -s -- \
+  3.20.2 --install-root &#x2F;usr --no-update-shell-config
+
+# Install an editor to show off LSP. I&#x27;m using an unstable
+# version of neovim here as it comes with an experimental
+# built-in plugin manager which will make it easy to set up
+# the lspconfig plugin which knows how to run the OCaml LSP
+# server which Alice installed.
+RUN apt-get install -y software-properties-common &amp;&amp; \
+  add-apt-repository ppa:neovim-ppa&#x2F;unstable &amp;&amp; \
+  apt-get update &amp;&amp; \
+  apt-get install -y neovim
+
+# Add a non-root user.
+RUN useradd -m user
+USER user
+WORKDIR &#x2F;home&#x2F;user
+
+# Minimal neovim config which installs the lspconfig plugin.
+RUN mkdir -p ~&#x2F;.config&#x2F;nvim &amp;&amp; \
+  printf &#x27;vim.pack.add({ &quot;https:&#x2F;&#x2F;github.com&#x2F;neovim&#x2F;nvim-lspconfig&quot; })\nvim.lsp.enable(&quot;ocamllsp&quot;)&#x27; &gt; ~&#x2F;.config&#x2F;nvim&#x2F;init.lua
+</code></pre>
+</div>
+<p>Now from within a container running an image built from that
+Dockerfile, let's make a new Dune project!</p>
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">$ dune init project foo
+Entering directory &#x27;&#x2F;home&#x2F;user&#x2F;foo&#x27;
+Success: initialized project component named foo
+$ cd foo
+$ dune exec foo
+Hello, World!
+</code></pre>
+<p>That indicates that Dune and the OCaml compiler both work.</p>
+<p>To test the LSP server, open an OCaml file in an editor like
+<code>bin/main.ml</code> whose contents is:</p>
+<div class="code-with-copy-button">
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">let () = print_endline &quot;Hello, World!&quot;
+</code></pre>
+</div>
+<p>Move the editor's cursor over the <code>print_endline</code> function
+and run the LSP command to jump to definition. In Neovim
+this is:</p>
+<div class="code-with-copy-button">
+<pre data-lang="vim" class="language-vim "><code class="language-vim" data-lang="vim">:lua vim.lsp.buf.definition()
+</code></pre>
+</div>
+<p>This should take you to the file <code>/usr/lib/ocaml/stdlib.ml</code>
+where <code>print_endline</code> is defined like:</p>
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">...
+  let print_endline s =
+    output_string stdout s; output_char stdout &#x27;\n&#x27;; flush stdout
+...
+</code></pre>
+<p>Now let's test <code>ocamlformat</code>. Make an empty file in the project's
+root directory named <code>.ocamlformat</code> to enable <code>ocamlformat</code>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">touch .ocamlformat
+</code></pre>
+</div>
+<p>Then open <code>bin/main.ml</code> back up in your editor and mess with
+its formatting a bit. Maybe something like:</p>
+<div class="code-with-copy-button">
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">let () =
+
+
+print_endline &quot;Hello, World!&quot;
+</code></pre>
+</div>
+<p>Then run the LSP command to format the file. In Neovim it's:</p>
+<div class="code-with-copy-button">
+<pre data-lang="vim" class="language-vim "><code class="language-vim" data-lang="vim">:lua vim.lsp.buf.format()
+</code></pre>
+</div>
+<p>...and the code should now be formatted correctly again:</p>
+<div class="code-with-copy-button">
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">let () = print_endline &quot;Hello, World!&quot;
+</code></pre>
+</div>
+<p>Now let's use Dune Package Management to add a dependency.
+Make a lock directory:</p>
+<pre><code>$ dune pkg lock
+Solution for dune.lock:
+- ocaml.5.3.0
+- ocaml-base-compiler.5.3.0
+- ocaml-compiler.5.3.0
+- ocaml-config.3
+</code></pre>
+<p>That doesn't look right, because our OCaml version should be
+<code>5.3.1+relocatable</code> (confirm this by running):</p>
+<pre><code>$ ocaml --version
+The OCaml toplevel, version 5.3.1+relocatable
+</code></pre>
+<p>By default Dune uses the regular Opam repository which
+doesn't have an entry for the patched relocatable compiler
+installed by Alice. Also Dune prefers to install the
+compiler by building it from source rather than taking the
+compiler from the system. To change both of these
+behaviours, create a <code>dune-workspace</code> file in the project
+root with contents:</p>
+<div class="code-with-copy-button">
+<pre data-lang="common-lisp" class="language-common-lisp "><code class="language-common-lisp" data-lang="common-lisp">(lang dune 3.20)
+
+(repository
+ (name alice)
+ (url
+  git+https:&#x2F;&#x2F;github.com&#x2F;alicecaml&#x2F;alice-opam-repo))
+
+(lock_dir
+ (constraints
+  (ocaml-system
+   (= 5.3.1+relocatable)))
+ (repositories upstream overlay alice)
+ (solver_env
+  (sys-ocaml-version 5.3.1+relocatable)))
+</code></pre>
+</div>
+<p>This tells Dune to use Alice's Opam repository (which just contains an
+<code>ocaml-system</code> package for the patched relocatable compiler) and to add the
+package solver constraint that the solution must include the package
+<code>ocaml-system.5.3.1+relocatable</code>. Lock the project again:</p>
+<pre><code>$ dune pkg lock
+Solution for dune.lock:
+- ocaml.5.3.1+relocatable
+- ocaml-config.3
+- ocaml-system.5.3.1+relocatable
+</code></pre>
+<p>Better. Check that it still builds:</p>
+<pre><code>$ dune clean &amp;&amp; dune exec foo
+Hello, World!
+</code></pre>
+<p>We know that Dune is using the right compiler here because the only compiler installed
+on the system is the one installed by Alice. For Dune to have installed a
+different compiler it would have needed to build it from source, which we would
+notice because doing so takes several minutes.</p>
+<p>Now add a dependency! I'm going to add a dependency on the package <code>climate</code> by
+adding it to the <code>depends</code> field in <code>dune-project</code>. After this change, the
+entire <code>dune-project</code> file looks like:</p>
+<div class="code-with-copy-button">
+<pre data-lang="common-lisp" class="language-common-lisp "><code class="language-common-lisp" data-lang="common-lisp">(lang dune 3.20)
+
+(name foo)
+
+(generate_opam_files true)
+
+(source
+ (github username&#x2F;reponame))
+
+(authors &quot;Author Name &lt;author@example.com&gt;&quot;)
+
+(maintainers &quot;Maintainer Name &lt;maintainer@example.com&gt;&quot;)
+
+(license LICENSE)
+
+(documentation https:&#x2F;&#x2F;url&#x2F;to&#x2F;documentation)
+
+(package
+ (name foo)
+ (synopsis &quot;A short synopsis&quot;)
+ (description &quot;A longer description&quot;)
+ (depends ocaml climate) ; &lt;------------ I modified this line
+ (tags
+  (&quot;add topics&quot; &quot;to describe&quot; your project)))
+
+; See the complete stanza docs at https:&#x2F;&#x2F;dune.readthedocs.io&#x2F;en&#x2F;stable&#x2F;reference&#x2F;dune-project&#x2F;index.html
+</code></pre>
+</div>
+<p>Lock the project again to make the new dependency available:</p>
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">$ dune pkg lock
+Solution for dune.lock:
+- climate.0.8.4
+- ocaml.5.3.1+relocatable
+- ocaml-config.3
+- ocaml-system.5.3.1+relocatable
+</code></pre>
+<p>To use the new dependency, add <code>climate</code> to the <code>libraries</code> field in
+<code>bin/dune</code>:</p>
+<div class="code-with-copy-button">
+<pre data-lang="common-lisp" class="language-common-lisp "><code class="language-common-lisp" data-lang="common-lisp">(executable
+ (public_name foo)
+ (name main)
+ (libraries foo climate))
+</code></pre>
+</div>
+<p>The <code>climate</code> package is a library to help implement command-line interfaces.
+Use it to make a little CLI in <code>bin/main.ml</code>:</p>
+<div class="code-with-copy-button">
+<pre data-lang="ocaml" class="language-ocaml "><code class="language-ocaml" data-lang="ocaml">open Climate
+
+let () =
+  let open Command in
+  run @@ singleton
+  @@
+  let open Arg_parser in
+  let+ name = pos_req 0 string ~value_name:&quot;NAME&quot; in
+  Printf.printf &quot;Hello, %s!\n&quot; name
+</code></pre>
+</div>
+<p>Try it out:</p>
+<pre><code>$ dune exec foo -- --help
+Usage: &#x2F;home&#x2F;user&#x2F;foo&#x2F;_build&#x2F;install&#x2F;default&#x2F;bin&#x2F;foo [OPTION]… &lt;NAME&gt;
+
+Arguments:
+  &lt;NAME&gt;
+
+Options:
+  -h, --help  Show this help message.
+
+$ dune exec foo -- Alice
+Hello, Alice!
+</code></pre>
+<p>This shows how Alice can help setup an OCaml environment made up entirely
+of binary distributions of tools. Along with the binary release of Dune, this
+makes it possible to develop OCaml projects where the only code you need to
+compile is from your project and the libraries it depends on. Using pre-compiled
+binaries of the compiler and development tools speeds up getting started on a
+new project, and also speeds up CI builds by removing the costly first step of
+compiling the OCaml compiler. Indeed Alice is itself a Dune project which
+uses Alice to manage its development and CI OCaml environments.</p>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;introducing-alice&#x2F;" aria-label="Previous">
+	  Previous: Introducing Alice
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-1-0&#x2F;" aria-label="Next">
+	  Next: Alice v0.1.0
+	</a>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>

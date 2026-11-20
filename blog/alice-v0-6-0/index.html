@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="Alice the Caml">
+		<meta property="og:type" content="website">
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+			<meta property="og:type" content="article">
+			<meta property="og:title" content="
+Alice v0.6.0
+">
+			<link rel="canonical" href="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-6-0/">
+			<meta property="og:url" content="https://alicecaml.github.io/alicecaml.org/blog/alice-v0-6-0/">
+
+			
+				<meta name="description" content="A radical, experimental OCaml build system and package manager">
+				<meta property="og:description" content="A radical, experimental OCaml build system and package manager">
+			
+
+			
+				<meta property="article:published_time" content="2026-11-21T00:00:00+00:00">
+			
+			
+				<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+			
+		
+
+		<meta property="og:image" content="https://alicecaml.github.io/alicecaml.org/logo512x256.png">
+
+
+		<link rel="icon" type="image/x-icon" href="https://alicecaml.github.io/alicecaml.org/favicon.png">
+		<link rel="alternate" type="application/rss+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/rss.xml">
+		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="https://alicecaml.github.io/alicecaml.org/atom.xml">
+
+		<link rel="stylesheet" href="https://alicecaml.github.io/alicecaml.org/style.css">
+
+		<title>
+Alice v0.6.0
+</title>
+	</head>
+	<body>
+		<div id="content">
+			<header>
+	<div class="header-nav-container">
+		<nav>
+			<ul>
+				<li class="lhs logo"><a href="https://alicecaml.github.io/alicecaml.org"><img alt="Alice Logo" src="https://alicecaml.github.io/alicecaml.org/logo64x64.png"></a></li>
+				<li class="lhs hide-on-mobile"><a href="https://alicecaml.github.io/alicecaml.org">Alice</a></li>
+				<li class="first-rhs"><a href="https://alicecaml.github.io/alicecaml.org/about">About</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/blog">Blog</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/install">Install</a></li>
+				<li class="rhs"><a href="https://alicecaml.github.io/alicecaml.org/lsp">LSP</a></li>
+				<li class="rhs"><a class="external" href="https://github.com/alicecaml/alice">Github</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+			
+
+
+
+
+<article>
+<h1 class="title">Alice v0.6.0</h1>
+
+  
+<p class="post-meta">
+  <time datetime="2026-11-21T00:00:00+00:00">
+    November 21, 2026
+  </time>
+  
+  in
+  
+  <a href="https://alicecaml.github.io/alicecaml.org/tags/release" aria-label="tag">release</a>
+  
+</p>
+
+
+  
+
+<p>Announcing the release of <a href="https://github.com/alicecaml/alice/releases/tag/0.6.0">Alice v0.6.0</a>!</p>
+<p>This change introduces several new features needed to build a small collection
+of packages from the Opam repository which I've been manually porting to
+Alice's package format in <a href="https://github.com/alicecaml/alice-ports">alice-ports</a>.</p>
+<h2 id="new-features"><a class="zola-anchor" href="#new-features" aria-label="Anchor link for: new-features">New Features</a></h2>
+<h3 id="access-built-in-modules-from-the-standard-library"><a class="zola-anchor" href="#access-built-in-modules-from-the-standard-library" aria-label="Anchor link for: access-built-in-modules-from-the-standard-library">Access built-in modules from the standard library</a></h3>
+<p>Alice packages may now refer to modules from the standard library which are
+excluded from the prelude, such as <code>Unix</code> and <code>Str</code>. A new <code>builtins</code> section
+in <code>Alice.kdl</code> can be used to list the built-in modules a package can access:</p>
+<pre data-lang="kdl" class="language-kdl "><code class="language-kdl" data-lang="kdl">package {
+  name foo
+  version &quot;0.1.0&quot;
+
+  builtins {
+    unix
+  }
+}
+</code></pre>
+<h3 id="mixing-c-code-with-ocaml"><a class="zola-anchor" href="#mixing-c-code-with-ocaml" aria-label="Anchor link for: mixing-c-code-with-ocaml">Mixing C code with OCaml</a></h3>
+<p>Packages may include C source files in their <code>src</code> directory. All C files will
+be compiled and linked into the resulting executable when building a project.
+The ability to compile C code raises the question of how to pass custom linker
+arguments to the C compiler, and this is addressed with another new feature:
+config scripts.</p>
+<h3 id="config-scripts"><a class="zola-anchor" href="#config-scripts" aria-label="Anchor link for: config-scripts">Config Scripts</a></h3>
+<p>A package may include a config script in a file named <code>config.ml</code> file in the
+package's root directory (next to <code>Alice.kdl</code>). The <code>config.ml</code> file is
+compiled and executed as the first step of building a package, and any lines in
+its standard output beginning with <code>alice:</code> are interpreted by Alice as
+directives that can influence the build. Currently the only supported
+directives are <code>alice:print_endline</code> which prints a message, and
+<code>alice:add_c_linker_args</code> which adds C linker arguments.</p>
+<p>Config scripts can depend on other packages, and also access built-in modules
+from the standard library. This can be configured in <code>Alice.kdl</code>:</p>
+<pre data-lang="kdl" class="language-kdl "><code class="language-kdl" data-lang="kdl">package {
+  name bar
+  version &quot;0.1.0&quot;
+
+  config_script {
+    dependencies {
+      foo path=&quot;..&#x2F;foo&quot;
+    }
+
+    builtins {
+      str
+    }
+  }
+}
+</code></pre>
+<p>Config scripts are expected to be run only once each time they are compiled
+because their output can be trivially cached in the build directory. For this
+reason it's faster to compile config scripts with the bytecode compiler rather
+than the native compiler, and of course this means compiling all their
+dependencies with the bytecode compiler too.</p>
+<h3 id="packages-can-be-built-with-the-bytecode-compiler"><a class="zola-anchor" href="#packages-can-be-built-with-the-bytecode-compiler" aria-label="Anchor link for: packages-can-be-built-with-the-bytecode-compiler">Packages can be built with the bytecode compiler</a></h3>
+<p>This was a necessary feature for allowing config scripts to be built with the
+bytecode compiler, but it might also be something people find useful to
+integrate into their workflow, since the bytecode compiler backend is generally
+faster than the native backend (but of course the executables it produces are
+generally slower to run).</p>
+<p>Commands that compile code (e.g. <code>alice build</code>, <code>alice run</code>) now take a
+<code>--backend</code> argument which can be passed <code>native</code> or <code>bytecode</code>. The default is
+<code>native</code>.</p>
+<h2 id="install-alice-v0-6-0"><a class="zola-anchor" href="#install-alice-v0-6-0" aria-label="Anchor link for: install-alice-v0-6-0">Install Alice v0.6.0</a></h2>
+<p>On Windows, Alice v0.6.0 can be installed with <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">WinGet</a>:</p>
+<div class="code-with-copy-button code-with-prompt-windows">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">winget install OCaml.Alice --version 0.6.0
+</code></pre>
+</div>
+<p>On macOS and Linux, the latest version of Alice can be installed with <a href="https://brew.sh">Homebrew</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">brew install alicecaml&#x2F;homebrew-tap&#x2F;alice
+</code></pre>
+</div>
+<p>Alternatively, on macOS and Linux, Alice v0.6.0 can be installed by running the <a href="https://alicecaml.github.io/alicecaml.org/install/#install-script">install script</a>:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">curl -fsSL https:&#x2F;&#x2F;alicecaml.org&#x2F;install.sh | sh -s -- 0.6.0
+</code></pre>
+</div>
+<p>On NixOS, Alice v0.6.0 can be installed via the flake
+<code>github:alicecaml/alice#alice_0_6_0.default</code>, e.g.:</p>
+<div class="code-with-copy-button code-with-prompt">
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">nix shell github:alicecaml&#x2F;alice#alice_0_6_0.default
+</code></pre>
+</div>
+<p>Read more about installing Alice <a href="https://alicecaml.github.io/alicecaml.org/install/">here</a>.</p>
+<h2 id="release-notes"><a class="zola-anchor" href="#release-notes" aria-label="Anchor link for: release-notes">Release Notes</a></h2>
+<h3 id="added"><a class="zola-anchor" href="#added" aria-label="Anchor link for: added">Added</a></h3>
+<ul>
+<li>Add <code>--bin</code> flag as an alias for <code>--exe</code> in arguments to <code>alice new</code>.</li>
+<li>Build output includes duration.</li>
+<li>Add support for config scripts. If a package has a <code>config.ml</code> file at its
+top level, Alice will build and run that file before compiling the package
+and parse directives from its stdout that can affect how the package is
+built. Currently this mechanism can be used to print messages and to add c
+linker args.</li>
+<li>Add "--backend" argument to for choosing the compiler backend. Alice builds
+with the native backend by defdault, but now supports the bytecode backend
+too if <code>--backend bytecode</code> is passed.</li>
+<li>Add a <code>builtins</code> field to manifests for listing the modules from the standard
+library to make available to the project. By default new projects will
+specify <code>unix</code> and <code>str</code> here.</li>
+<li>Basic support for packages including C code. All .c files in the src
+directory will be compiled and linked into the  library or executable defined
+in the project.</li>
+</ul>
+
+</article>
+
+
+<div class="next-prev-nav-container">
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="nav-prev">
+	
+	<a href="https:&#x2F;&#x2F;alicecaml.github.io&#x2F;alicecaml.org&#x2F;blog&#x2F;alice-v0-5-0&#x2F;" aria-label="Previous">
+	  Previous: Alice v0.5.0
+	</a>
+	
+      </li>
+      <li class="nav-next">
+	
+	<span class="disabled-link">Next: (none)</span>
+	
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+
+			<footer>
+	<ul class="copyright">
+		<li>
+			© 2025-2026 <a href="https://www.alicecaml.org">alicecaml.org</a>
+		</li>
+	</ul>
+</footer>
+
+		</div>
+		<script>
+// Add a button that copies the contents of the associated code element to the clipboard.
+for (const codeDiv of document.querySelectorAll('.code-with-copy-button')) {
+	const codeText = codeDiv.querySelector('code').innerText.trimEnd();
+	const copyButton = document.createElement('button');
+	copyButton.classList.add('code-copy-button');
+	copyButton.onclick = () => {
+		navigator.clipboard.writeText(codeText);
+		console.log('Copied to clipboard: ', codeText);
+	};
+	codeDiv.appendChild(copyButton);
+}
+		</script>
+	</body>
+</html>
