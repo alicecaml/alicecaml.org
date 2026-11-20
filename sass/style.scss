@@ -373,7 +373,7 @@ blockquote {
     }
   }
   .os {
-    background-color: darken($install-background, 70%);
+    background-color: darken($install-background, 80%);
   }
   .os-picker {
     ul {
@@ -382,7 +382,7 @@ blockquote {
           color: $text-color-dark-mode;
         }
         button.selected {
-          background-color: darken($install-background, 70%);
+          background-color: darken($install-background, 80%);
         }
       }
     }
