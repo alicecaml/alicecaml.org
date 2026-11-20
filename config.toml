@@ -1,4 +1,4 @@
-# This assumes zola 0.21.1
+# This assumes zola 0.22
 base_url = "https://www.alicecaml.org"
 title = "Alice the Caml"
 author = "Stephen Sherratt"
@@ -10,9 +10,7 @@ taxonomies = [
 ]
 generate_robots_txt = true
 
-[markdown]
-highlight_code = true
-highlight_theme = "inspired-github"
-smart_punctuation = true
-extra_syntaxes_and_themes = ["syntaxes"]
-insert_anchor_links = "heading"
+[markdown.highlighting]
+light_theme = "catppuccin-latte"
+dark_theme = "catppuccin-frappe"
+error_on_missing_language = true

@@ -165,7 +165,7 @@ However I did so recently and that change hasn't made its way into Alice yet.
 Making that change to Alice was
 straightforward:
 
-```patch
+```diff
 diff --git a/dune-workspace b/dune-workspace
 index bc77561..8d8b9db 100644
 --- a/dune-workspace

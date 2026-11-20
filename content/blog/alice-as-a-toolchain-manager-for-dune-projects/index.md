@@ -217,7 +217,7 @@ behaviours, create a `dune-workspace` file in the project
 root with contents:
 <div class="code-with-copy-button">
 
-```dune
+```common-lisp
 (lang dune 3.20)
 
 (repository
@@ -263,7 +263,7 @@ adding it to the `depends` field in `dune-project`. After this change, the
 entire `dune-project` file looks like:
 <div class="code-with-copy-button">
 
-```dune
+```common-lisp
 (lang dune 3.20)
 
 (name foo)
@@ -307,7 +307,7 @@ To use the new dependency, add `climate` to the `libraries` field in
 `bin/dune`:
 <div class="code-with-copy-button">
 
-```dune
+```common-lisp
 (executable
  (public_name foo)
  (name main)

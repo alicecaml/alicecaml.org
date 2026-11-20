@@ -20,7 +20,7 @@ Alice's package format in [alice-ports](https://github.com/alicecaml/alice-ports
 Alice packages may now refer to modules from the standard library which are
 excluded from the prelude, such as `Unix` and `Str`. A new `builtins` section
 in `Alice.kdl` can be used to list the built-in modules a package can access:
-```alice-kdl
+```kdl
 package {
   name foo
   version "0.1.0"
@@ -51,7 +51,7 @@ directives are `alice:print_endline` which prints a message, and
 
 Config scripts can depend on other packages, and also access built-in modules
 from the standard library. This can be configured in `Alice.kdl`:
-```alice-kdl
+```kdl
 package {
   name bar
   version "0.1.0"

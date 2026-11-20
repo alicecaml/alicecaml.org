@@ -30,7 +30,7 @@ baz = { path = "../baz" }
 ```
 
 `Alice.kdl`:
-```alice-kdl
+```kdl
 package {
   name foo
   version "0.1.0"

@@ -290,7 +290,7 @@ several ways to install MELPA packages in Emacs.
 [Here](https://melpa.org/#/getting-started)'s a guide for getting started.
 <div class="code-with-copy-button">
 
-```
+```emacs-lisp
 (add-to-list 'exec-path "~/.local/bin")
 (setenv "PATH" (concat (expand-file-name "~/.local/bin") ":" (getenv "PATH")))
 

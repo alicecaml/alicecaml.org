@@ -94,7 +94,7 @@ Dune lacks both of the above
 hygiene
 properties. This can be demonstrated succinctly with a small project depending
 on the [core](https://github.com/janestreet/core) package:
-```dune
+```common-lisp
 (lang dune 3.20)
 ; dune-project
 
@@ -105,7 +105,7 @@ on the [core](https://github.com/janestreet/core) package:
   (core
    (= v0.17.1))))
 ```
-```dune
+```common-lisp
 ; dune
 
 (executable

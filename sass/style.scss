@@ -1,6 +1,5 @@
 @charset "utf-8";
 
-$code-background-color: seashell;
 $code-border-radius: 4px;
 $code-font-size: 11pt;
 $content-max-width: 800px;
@@ -8,6 +7,7 @@ $content-horizontal-padding: 40px;
 $link-color: steelblue;
 $link-color-visited: rebeccapurple;
 $text-color: black;
+$text-color-dark-mode: #dddddd;
 $quote-text-color: #444444;
 $quote-line-color: #444444;
 $post-meta-text-color: dimgrey;
@@ -186,7 +186,6 @@ article {
 code {
   font-size: $code-font-size; 
   font-family: Menlo, Monaco, Consolas, Courier New, monospace;
-  background-color: $code-background-color;
   padding-left: 4px;
   padding-right: 4px;
   padding-top: 1px;
@@ -207,7 +206,6 @@ pre {
 
 pre code {
   line-height: 120%;
-  background-color: $code-background-color;
   display: block;
   padding: 10px;
 }
@@ -243,7 +241,6 @@ blockquote {
   margin-left: 0;
   margin-right: 0;
   padding: 0;
-  background-color: $code-background-color;
   border-radius: $code-border-radius;
 
   & > pre {
@@ -331,6 +328,59 @@ blockquote {
   padding-top: $code-border-radius;
   background-color: $install-background;
   border-radius: $code-border-radius;
-  p {
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #222222;
+    color: $text-color-dark-mode;
+  }
+
+  /* This is copied from above and lightened. See comments on the original
+   * blocks for an explanation. */
+  a {
+    color: lighten($link-color, 15%);
+    &:visited {
+      color: lighten($link-color-visited, 25%);
+    }
+  }
+  h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, nav a {
+    color: lighten($link-color, 15%);
+    &:visited {
+      color: lighten($link-color, 15%);
+    }
+  }
+  p.post-meta {
+    color: lighten($post-meta-text-color, 15%);
+  }
+  span.post-link-date {
+    color: lighten($post-meta-text-color, 15%);
+  }
+  a.zola-anchor {
+    color: $text-color-dark-mode;
+    text-decoration: none;
+
+    &:visited {
+      color: $text-color-dark-mode;
+    }
+  }
+  .os {
+    background-color: darken($install-background, 70%);
+  }
+  .os-picker {
+    ul {
+      li {
+        button {
+          color: $text-color-dark-mode;
+        }
+        button.selected {
+          background-color: darken($install-background, 70%);
+        }
+      }
+    }
+  }
+  blockquote {
+    color: lighten($quote-text-color, 15%);
+    border-left: 4px solid lighten($quote-line-color, 15%);
   }
 }

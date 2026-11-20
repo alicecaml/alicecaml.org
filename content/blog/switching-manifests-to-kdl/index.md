@@ -71,7 +71,7 @@ files manually.
 
 Then somebody on the OCaml forum suggested trying out KDL and I really like it.
 Package metadata would look like:
-```alice-kdl
+```kdl
 package {
   name foo
   version "0.1.0"
