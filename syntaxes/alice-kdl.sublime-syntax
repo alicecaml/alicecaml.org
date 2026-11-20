@@ -26,6 +26,26 @@ contexts:
     - match: dependencies
       scope: entity.name.tag.alice-kdl
       push: dependencies
+    - match: builtins
+      scope: entity.name.tag.alice-kdl
+      push: builtins
+    - match: config_script
+      scope: entity.name.tag.alice-kdl
+      push: config_script
+  config_script:
+    - match: '{'
+      scope: punctuation.section.braces.begin.alice-kdl
+      set: config_script-children
+  config_script-children:
+    - match: '}' #######
+      scope: punctuation.section.braces.end.alice-kdl
+      pop: 1
+    - match: dependencies
+      scope: entity.name.tag.alice-kdl
+      push: dependencies
+    - match: builtins
+      scope: entity.name.tag.alice-kdl
+      push: builtins
   string-value:
     - match: '[^ ]+'
       scope: string.alice-kdl
@@ -42,6 +62,25 @@ contexts:
       scope: entity.name.tag.alice-kdl
       push: dependency
   dependency:
+    - match: \w+
+      scope: variable.parameter.alice-kdl
+    - match: =
+      scope: punctuation.separator.alice-kdl
+      push: string-value
+    - match: $
+      pop: 1
+  builtins:
+    - match: '{'
+      scope: punctuation.section.braces.begin.alice-kdl
+      set: builtins-children
+  builtins-children:
+    - match: '}' #######
+      scope: punctuation.section.braces.end.alice-kdl
+      pop: 1
+    - match: \w+
+      scope: entity.name.tag.alice-kdl
+      push: builtin
+  builtin:
     - match: \w+
       scope: variable.parameter.alice-kdl
     - match: =
