@@ -2,7 +2,6 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-
 		<meta property="og:locale" content="en_US">
 		<meta property="og:site_name" content="Alice the Caml">
 		<meta property="og:type" content="website">
@@ -12,7 +11,6 @@
 
 		{% if page %}
 			<meta property="og:type" content="article">
-			<meta property="og:title" content="{% block title %}{% endblock title %}">
 			<link rel="canonical" href="{{ page.permalink | safe }}">
 			<meta property="og:url" content="{{ page.permalink | safe }}">
 
@@ -33,7 +31,6 @@
 				<meta property="og:image" content="{{ config.base_url | safe }}/logo512x256.png">
 			{% endif %}
 		{% elif section %}
-			<meta property="og:title" content="{% block title %}{% endblock title %}">
 			{% if section.description %}
 				<meta name="description" content="{{ section.description }}">
 				<meta property="og:description" content="{{ section.description }}">
@@ -51,8 +48,13 @@
 		<link rel="alternate" type="application/atom+xml" title="Alice the Caml" href="{{ config.base_url | safe }}/atom.xml">
 
 		<link rel="stylesheet" href="{{ config.base_url | safe }}/style.css">
+		<link id="giallo-dark" rel="stylesheet" type="text/css" href="{{ config.base_url | safe }}/giallo-dark.css" media="(prefers-color-scheme: dark)" />
+		<link id="giallo-light" rel="stylesheet" type="text/css" href="{{ config.base_url | safe }}/giallo-light.css" media="(prefers-color-scheme: light)" />
 
-		<title>{% block title %} {% endblock title %}</title>
+		{% block title %}
+		<meta property="og:title" content="Alice the Caml">
+		<title>Alice the Caml</title>
+		{% endblock title %}
 	</head>
 	<body>
 		<div id="content">

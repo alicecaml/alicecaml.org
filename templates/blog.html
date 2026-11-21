@@ -1,8 +1,6 @@
 {# Index page for blog-like sections #}
 {% extends "section.html" %}
 
-{% import "macros.html" as macros %}
-
 {% block content %}
 <h1 class="title">Alice Blog</h1>
 
@@ -20,7 +18,7 @@ See the <a href="{{ config.base_url | safe }}/tags">Tags</a> page for a list of 
 
 <ul>
   {% for page in section.pages %}
-  <li>{{ macros::post_link(page=page) }}</li>
+  <li>{{ <post_link page/> }}</li>
   {% endfor %}
 </ul>
 {% endblock content %}

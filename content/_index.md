@@ -8,7 +8,7 @@ Alice is a radical, experimental [OCaml](https://ocaml.org/) build system and
 package manager. Its goal is to allow anyone to
 program in OCaml with as little friction as possible.
 
-{{ os_picker() }}
+{% include "os-picker.md" %}
 
 See more installation options [here](@/install.md).
 

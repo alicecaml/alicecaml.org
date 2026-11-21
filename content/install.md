@@ -5,7 +5,7 @@ template = "page.html"
 
 # Install Alice
 
-{{ os_picker() }}
+{% include "os-picker.md" %}
 
 ## Setup LSP
 

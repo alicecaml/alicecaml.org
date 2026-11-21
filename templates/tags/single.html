@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
-{% import "macros.html" as macros %}
-
 {% block title %}
-{{ config.title }}: {{ term.name }}
+<meta property="og:title" content="{{ "Alice: " ~ term.name }}">
+<title>{{ "Alice: " ~ term.name }}</title>
 {% endblock title %}
 
 {% block content %}
 <h1>{{ term.name }}</h1>
 <ul>
 {% for page in term.pages %}
-  <li>{{ macros::post_link(page=page) }}</li>
+<li>{{ <post_link page/> }}</li>
 {% endfor %}
 </ul>
 {% endblock content %}

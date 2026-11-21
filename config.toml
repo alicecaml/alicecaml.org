@@ -1,4 +1,4 @@
-# This assumes zola 0.22
+# This assumes zola 0.23
 base_url = "https://www.alicecaml.org"
 title = "Alice the Caml"
 author = "Stephen Sherratt"
@@ -10,11 +10,7 @@ taxonomies = [
 ]
 generate_robots_txt = true
 
-# Note that when changing the theme it might be necessary to delete the
-# "static" and "public" directories to force the generated css to be
-# regenerated.
 [markdown.highlighting]
-style = "class"
 light_theme = "catppuccin-latte"
 dark_theme = "catppuccin-frappe"
 error_on_missing_language = true

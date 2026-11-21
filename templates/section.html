@@ -1,4 +1,12 @@
 {# Used by all section index pages (e.g. the root page, the blog index) #}
 {% extends "base.html" %}
 
-{% block title %}{% if section.title == config.title %}{{ config.title }}{% else %}Alice: {{ section.title }}{% endif %}{% endblock title %}
+{% block title %}
+{% if section.title == config.title %}
+{% set title = config.title %}
+{% else %}
+{% set title = "Alice: " ~ section.title %}
+{% endif %}
+<meta property="og:title" content="{{ title }}">
+<title>{{ title }}</title>
+{% endblock title %}

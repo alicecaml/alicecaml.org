@@ -1,8 +1,8 @@
-{% macro post_link(page) %}
+{% component post_link(page: map) %}
 <a href="{{ page.permalink | safe }}">{{ page.title }}</a><span class="post-link-date"> — <time datetime="{{ page.date }}">{{ page.date | date(format = "%B %d, %Y") }}</time></span>
-{% endmacro post_link %}
+{% endcomponent post_link %}
 
-{% macro nav_links(page, reverse) %}
+{% component nav_links(page: map, reverse: bool) %}
 <div class="next-prev-nav-container">
   <nav>
     <ul>
@@ -34,4 +34,4 @@
     </ul>
   </nav>
 </div>
-{% endmacro nav_links %}
+{% endcomponent nav_links %}

@@ -1,17 +1,16 @@
 {# A single blog post #}
 {% extends "page.html" %}
 
-{% import "macros.html" as macros %}
-
 {% block title %}
-{{ page.title }}
+<meta property="og:title" content="{{ page.title }}">
+<title>{{ page.title}} </title>
 {% endblock title %}
 
 {% block content %}
 
 {% set section = get_section(path=page.ancestors | last) %}
 {% if section.extra.top_nav_links %}
-{{ macros::nav_links(page = page, reverse = false) }}
+{{ <nav_links page reverse={false}/> }}
 {% endif %}
 
 <article>
@@ -50,6 +49,6 @@
 {{ page.content | safe }}
 </article>
 
-{{ macros::nav_links(page = page, reverse = false) }}
+{{ <nav_links page reverse={false}/> }}
 
 {% endblock content %}

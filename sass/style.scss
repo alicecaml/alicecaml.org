@@ -392,6 +392,3 @@ blockquote {
     border-left: 4px solid lighten($quote-line-color, 15%);
   }
 }
-
-@import url("giallo-dark.css") (prefers-color-scheme: dark);
-@import url("giallo-light.css") (prefers-color-scheme: light);

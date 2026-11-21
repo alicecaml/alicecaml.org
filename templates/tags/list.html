@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
-{% import "macros.html" as macros %}
-
 {% block title %}
-{{ config.title }}: Tags
+<meta property="og:title" content="{{ "Alice: Tags" }}">
+<title>{{ "Alice: Tags" }}</title>
 {% endblock title %}
 
 {% block content %}
@@ -12,7 +11,7 @@
 <h2><a href="{{ term.permalink }}">{{ term.name }}</a></h2>
 <ul>
 {% for page in term.pages %}
-  <li>{{ macros::post_link(page=page) }}</li>
+<li>{{ <post_link  page/> }}</li>
 {% endfor %}
 </ul>
 {% endfor %}
