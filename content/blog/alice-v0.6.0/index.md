@@ -88,10 +88,18 @@ Commands that compile code (e.g. `alice build`, `alice run`) now take a
 
 ## Install Alice v0.6.0
 
+On all platforms that support [opam](https://github.com/ocaml/opam), install Alice v0.5.0 with:
+<div class="code-with-copy-button code-with-prompt">
+
+```bash
+opam update && opam install alice.0.6.0
+```
+</div>
+
 On Windows, Alice v0.6.0 can be installed with [WinGet](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
 <div class="code-with-copy-button code-with-prompt-windows">
 
-```bash
+```powershell
 winget install OCaml.Alice --version 0.6.0
 ```
 </div>
